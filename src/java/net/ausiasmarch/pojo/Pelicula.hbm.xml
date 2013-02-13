@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 13-feb-2013 11:28:07 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="peliculas" name="net.ausiasmarch.pojo.Pelicula" table="pelicula">
+    <id name="id" type="java.lang.Integer">
+      <column name="id"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="net.ausiasmarch.pojo.Director" fetch="select" name="director">
+      <column name="director" not-null="true">
+        <comment>Director</comment>
+      </column>
+    </many-to-one>
+    <many-to-one class="net.ausiasmarch.pojo.Genero" fetch="select" name="genero">
+      <column name="genero" not-null="true">
+        <comment>Género</comment>
+      </column>
+    </many-to-one>
+    <property name="titulo" type="string">
+      <column name="titulo" not-null="true">
+        <comment>Título</comment>
+      </column>
+    </property>
+    <property name="vo" type="string">
+      <column name="VO">
+        <comment>V.O.</comment>
+      </column>
+    </property>
+    <property name="descripcion" type="string">
+      <column name="descripcion">
+        <comment>Descripción</comment>
+      </column>
+    </property>
+    <property name="calificacion" type="java.lang.Integer">
+      <column name="calificacion">
+        <comment>Calificación</comment>
+      </column>
+    </property>
+    <property name="duracion" type="int">
+      <column name="duracion" not-null="true">
+        <comment>Duración</comment>
+      </column>
+    </property>
+    <property name="fecha" type="timestamp">
+      <column length="19" name="fecha" not-null="true">
+        <comment>Fecha de estreno</comment>
+      </column>
+    </property>
+    <set inverse="true" name="interpretas">
+      <key>
+        <column name="id_pelicula" not-null="true">
+          <comment>Película</comment>
+        </column>
+      </key>
+      <one-to-many class="net.ausiasmarch.pojo.Interpreta"/>
+    </set>
+  </class>
+</hibernate-mapping>

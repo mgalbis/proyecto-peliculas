@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 13-feb-2013 11:28:07 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="peliculas" name="net.ausiasmarch.pojo.Interpreta" table="interpreta">
+    <id name="id" type="java.lang.Integer">
+      <column name="id"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="net.ausiasmarch.pojo.Actor" fetch="select" name="actor">
+      <column name="id_actor" not-null="true">
+        <comment>Actor</comment>
+      </column>
+    </many-to-one>
+    <many-to-one class="net.ausiasmarch.pojo.Pelicula" fetch="select" name="pelicula">
+      <column name="id_pelicula" not-null="true">
+        <comment>Película</comment>
+      </column>
+    </many-to-one>
+  </class>
+</hibernate-mapping>
