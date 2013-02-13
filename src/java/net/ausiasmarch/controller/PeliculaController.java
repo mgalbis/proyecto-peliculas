@@ -25,9 +25,9 @@ public class PeliculaController {
     
     @RequestMapping({"/index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-       // Session session = HibernateUtil.getSessionFactory().openSession();
-       // Usuario u = (Usuario) session.get(Usuario.class, 1);
-       // System.out.println(u.getId());
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Usuario u = (Usuario) session.get(Usuario.class, 1);
+        System.out.println(u.getId()+" "+u.getLogin()+" "+u.getPassword());
         return new ModelAndView("index");
     }
     
