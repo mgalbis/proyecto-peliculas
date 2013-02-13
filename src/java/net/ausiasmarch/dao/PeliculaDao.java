@@ -99,7 +99,7 @@ public class PeliculaDao implements PeliculaDaoInterface {
         List<Pelicula> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            lista = sesion.createQuery("from pelicula").list();
+            lista = sesion.createQuery("from Pelicula").list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

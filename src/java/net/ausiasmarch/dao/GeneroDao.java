@@ -99,7 +99,7 @@ public class GeneroDao implements GeneroDaoInterface {
         List<Genero> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            lista = sesion.createQuery("from genero").list();
+            lista = sesion.createQuery("from Genero").list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

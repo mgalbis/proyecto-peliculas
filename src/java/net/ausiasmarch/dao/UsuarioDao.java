@@ -99,7 +99,7 @@ public class UsuarioDao implements UsuarioDaoInterface {
         List<Usuario> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            lista = sesion.createQuery("from usuario").list();
+            lista = sesion.createQuery("from Usuario").list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

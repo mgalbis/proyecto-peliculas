@@ -99,7 +99,7 @@ public class DirectorDao implements DirectorDaoInterface {
         List<Director> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            lista = sesion.createQuery("from director").list();
+            lista = sesion.createQuery("from Director").list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

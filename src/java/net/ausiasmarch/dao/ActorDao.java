@@ -99,7 +99,7 @@ public class ActorDao implements ActorDaoInterface {
         List<Actor> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            lista = sesion.createQuery("from actor").list();
+            lista = sesion.createQuery("from Actor").list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {
