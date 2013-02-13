@@ -25,10 +25,32 @@ public class PeliculaController {
     
     @RequestMapping({"/index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Usuario u = (Usuario) session.get(Usuario.class, 1);
-        System.out.println(u.getId()+" "+u.getLogin()+" "+u.getPassword());
+        //autenticación
         return new ModelAndView("index");
+    }
+    
+    @RequestMapping({"/peliculas.json"})
+    public ModelAndView peliculas(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        
+        return new ModelAndView();
+    }
+    
+    @RequestMapping({"pelicula.json"})
+    public ModelAndView pelicula(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        
+        return new ModelAndView();
+    }
+    
+    @RequestMapping({"actores.json"})
+    public ModelAndView actores(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        
+        return new ModelAndView();
+    }
+    
+    @RequestMapping({"actor.json"})
+    public ModelAndView actor(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        
+        return new ModelAndView();
     }
     
 }
