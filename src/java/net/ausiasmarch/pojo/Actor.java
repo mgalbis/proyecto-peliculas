@@ -13,7 +13,7 @@ public class Actor  implements java.io.Serializable {
 
      private Integer id;
      private String nombre;
-     private Set<Interpreta> interpretas = new HashSet<Interpreta>(0);
+     private Set<Pelicula> peliculas = new HashSet<Pelicula>(0);
 
     public Actor() {
     }
@@ -22,9 +22,9 @@ public class Actor  implements java.io.Serializable {
     public Actor(String nombre) {
         this.nombre = nombre;
     }
-    public Actor(String nombre, Set<Interpreta> interpretas) {
+    public Actor(String nombre, Set<Pelicula> peliculas) {
        this.nombre = nombre;
-       this.interpretas = interpretas;
+       this.peliculas = peliculas;
     }
    
     public Integer getId() {
@@ -41,12 +41,12 @@ public class Actor  implements java.io.Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public Set<Interpreta> getInterpretas() {
-        return this.interpretas;
+    public Set<Pelicula> getPeliculas() {
+        return this.peliculas;
     }
     
-    public void setInterpretas(Set<Interpreta> interpretas) {
-        this.interpretas = interpretas;
+    public void setPeliculas(Set<Pelicula> peliculas) {
+        this.peliculas = peliculas;
     }
 
 

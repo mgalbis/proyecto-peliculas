@@ -21,7 +21,7 @@ public class Pelicula  implements java.io.Serializable {
      private Integer calificacion;
      private int duracion;
      private Date fecha;
-     private Set<Interpreta> interpretas = new HashSet<Interpreta>(0);
+     private Set<Actor> actores = new HashSet<Actor>(0);
 
     public Pelicula() {
     }
@@ -34,7 +34,7 @@ public class Pelicula  implements java.io.Serializable {
         this.duracion = duracion;
         this.fecha = fecha;
     }
-    public Pelicula(Director director, Genero genero, String titulo, String vo, String descripcion, Integer calificacion, int duracion, Date fecha, Set<Interpreta> interpretas) {
+    public Pelicula(Director director, Genero genero, String titulo, String vo, String descripcion, Integer calificacion, int duracion, Date fecha, Set<Actor> actores) {
        this.director = director;
        this.genero = genero;
        this.titulo = titulo;
@@ -43,7 +43,7 @@ public class Pelicula  implements java.io.Serializable {
        this.calificacion = calificacion;
        this.duracion = duracion;
        this.fecha = fecha;
-       this.interpretas = interpretas;
+       this.actores = actores;
     }
    
     public Integer getId() {
@@ -109,12 +109,12 @@ public class Pelicula  implements java.io.Serializable {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    public Set<Interpreta> getInterpretas() {
-        return this.interpretas;
+    public Set<Actor> getActores() {
+        return this.actores;
     }
     
-    public void setInterpretas(Set<Interpreta> interpretas) {
-        this.interpretas = interpretas;
+    public void setActores(Set<Actor> actores) {
+        this.actores = actores;
     }
 
 

@@ -5,7 +5,7 @@
   <table-filter match-name="director"/>
   <table-filter match-name="actor"/>
   <table-filter match-name="usuario"/>
-  <table-filter match-name="interpreta"/>
+  <!-- table-filter match-name="interpreta"/-->
   <table-filter match-name="genero"/>
   <table-filter match-name="pelicula"/>
 </hibernate-reverse-engineering>

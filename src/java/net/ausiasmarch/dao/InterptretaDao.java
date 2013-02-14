@@ -13,7 +13,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import net.ausiasmarch.pojo.HibernateUtil;
-import net.ausiasmarch.pojo.Pelicula;
+import net.ausiasmarch.pojo.Interpreta;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -23,13 +23,13 @@ import org.hibernate.criterion.Projections;
  *
  * @author María Galbis
  */
-public class PeliculaDao implements PeliculaDaoInterface {
-
+public class InterptretaDao implements InterpretaDaoInterface {
+    
     private Session sesion;
     private Transaction tx;
 
     @Override
-    public long create(Pelicula entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    public long create(Interpreta entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         long id = 0;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
@@ -48,7 +48,7 @@ public class PeliculaDao implements PeliculaDaoInterface {
     }
 
     @Override
-    public void update(Pelicula entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    public void update(Interpreta entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             tx = (Transaction) sesion.beginTransaction();
@@ -65,7 +65,7 @@ public class PeliculaDao implements PeliculaDaoInterface {
     }
 
     @Override
-    public void delete(Pelicula entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    public void delete(Interpreta entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             tx = (Transaction) sesion.beginTransaction();
@@ -82,11 +82,10 @@ public class PeliculaDao implements PeliculaDaoInterface {
     }
 
     @Override
-    public Pelicula read(Pelicula entity) throws HibernateException {
+    public Interpreta read(Interpreta entity) throws HibernateException {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            entity = (Pelicula) sesion.get(Pelicula.class, entity.getId());
-            System.out.println(entity.getActores());
+            entity = (Interpreta) sesion.get(Interpreta.class, entity.getId());
         } catch (HibernateException he) {
             throw new HibernateException("Error en read DAO", he);
         } finally {
@@ -96,11 +95,11 @@ public class PeliculaDao implements PeliculaDaoInterface {
     }
 
     @Override
-    public List<Pelicula> readAll() throws HibernateException {
-        List<Pelicula> lista = null;
+    public List<Interpreta> readAll() throws HibernateException {
+        List<Interpreta> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            lista = sesion.createQuery("from Pelicula").list();
+            lista = sesion.createQuery("from Interpreta").list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {
@@ -114,7 +113,7 @@ public class PeliculaDao implements PeliculaDaoInterface {
         int cantidad;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            Criteria criteria = sesion.createCriteria(Pelicula.class);
+            Criteria criteria = sesion.createCriteria(Interpreta.class);
             criteria.setProjection(Projections.rowCount());
             cantidad = (Integer) criteria.list().get(0);
         } catch (HibernateException he) {
@@ -131,14 +130,14 @@ public class PeliculaDao implements PeliculaDaoInterface {
     }
 
     @Override
-    public List<Pelicula> getPage(int pageSize, int pageNumber) throws HibernateException {
-        List<Pelicula> clientes;
+    public List<Interpreta> getPage(int pageSize, int pageNumber) throws HibernateException {
+        List<Interpreta> clientes;
         sesion = HibernateUtil.getSessionFactory().openSession();
         try {           
-            Criteria criteria = sesion.createCriteria(Pelicula.class);
+            Criteria criteria = sesion.createCriteria(Interpreta.class);
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
-            clientes = (List<Pelicula>) criteria.list();
+            clientes = (List<Interpreta>) criteria.list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en getPage DAO", he);           
         } finally {

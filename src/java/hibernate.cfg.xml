@@ -7,8 +7,10 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/peliculas</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">myadmin</property>
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
     <mapping resource="net/ausiasmarch/pojo/Genero.hbm.xml"/>
-    <mapping resource="net/ausiasmarch/pojo/Interpreta.hbm.xml"/>
+    <!-- mapping resource="net/ausiasmarch/pojo/Interpreta.hbm.xml"/ -->
     <mapping resource="net/ausiasmarch/pojo/Director.hbm.xml"/>
     <mapping resource="net/ausiasmarch/pojo/Pelicula.hbm.xml"/>
     <mapping resource="net/ausiasmarch/pojo/Usuario.hbm.xml"/>
