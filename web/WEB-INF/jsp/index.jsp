@@ -5,6 +5,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- esta línea toma el nombre de la aplicación y la asigna como base de
+            todos los enlaces, de modo que en las rutas absolutas no será necesario
+            empezarlas desde el nombre de la aplicación, sino desde / -->
+        <base href="${pageContext.request.contextPath}">
         <title>Welcome to Spring Web MVC project</title>
     </head>
 
@@ -15,5 +19,6 @@
                 the redirection in</i> <tt>redirect.jsp</tt> <i>to point to the new
                 welcome page and also update the welcome-file setting in</i>
             <tt>web.xml</tt>.</p>
+        <p></p>
     </body>
 </html>

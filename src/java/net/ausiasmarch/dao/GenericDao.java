@@ -15,21 +15,21 @@ import org.hibernate.HibernateException;
  *
  * @author María Galbis
  */
-public interface GenericDao<objeto> {
+public interface GenericDao<T> {
     
-    public long create(objeto entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException ;
+    public long create(T entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
 
-    public void update(objeto entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
+    public void update(T entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
 
-    public void delete(objeto entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
+    public void delete(T entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
 
-    public objeto read(objeto entity) throws HibernateException;
+    public T read(T entity) throws HibernateException;
     
-    public List<objeto> readAll() throws HibernateException;
+    public List<T> readAll() throws HibernateException;
     
     public int count() throws HibernateException;
     
     public int getPages(int pageSize) throws HibernateException;
     
-    public List<objeto> getPage(int pageSize, int pageNumber) throws HibernateException;
+    public List<T> getPage(int pageSize, int pageNumber) throws HibernateException;
 }
