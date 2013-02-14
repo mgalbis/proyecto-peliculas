@@ -6,12 +6,13 @@ package net.ausiasmarch.utilities;
 
 import com.google.gson.*;
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Set;
 import net.ausiasmarch.pojo.Actor;
 import net.ausiasmarch.pojo.Pelicula;
 
 /**
- * Custom Serialize/Unserialize Pelicula
+ * Custom Serialize/Unserialize Pelicula to Json
  * @author María Galbis
  */
 public class PeliculaJsonAdapter implements JsonSerializer<Pelicula>, JsonDeserializer<Pelicula> {
@@ -22,13 +23,18 @@ public class PeliculaJsonAdapter implements JsonSerializer<Pelicula>, JsonDeseri
         return gson.toJson(p);
     }
     
+    public static String toJson(List<Pelicula> p){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Pelicula.class, new PeliculaJsonAdapter()).create();
+        return gson.toJson(p);
+    }
     
     
     @Override
     public JsonElement serialize(Pelicula src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("#", src.getId());
-        jsonObject.addProperty("Nombre", src.getTitulo());
+        jsonObject.addProperty("Título", src.getTitulo());
         jsonObject.addProperty("V.O.", src.getVo());
         jsonObject.addProperty("Descripción", src.getDescripcion());
         jsonObject.addProperty("Calificación", src.getCalificacion());

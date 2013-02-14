@@ -4,29 +4,26 @@
  */
 package net.ausiasmarch.utilities;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import net.ausiasmarch.pojo.Actor;
 import net.ausiasmarch.pojo.Pelicula;
 
 /**
- *
+ * Custom Serialize Actor to Json
  * @author María Galbis
  */
 public class ActorJsonAdapter implements JsonSerializer<Actor>, JsonDeserializer<Actor>{
 
     public static String toJson(Actor a){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
+        return gson.toJson(a);
+    }
+    
+    public static String toJson(List<Actor> a){
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
         return gson.toJson(a);

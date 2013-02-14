@@ -6,12 +6,6 @@ package net.ausiasmarch.controller;
 
 import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,12 +17,9 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import net.ausiasmarch.dao.ActorDaoInterface;
 import net.ausiasmarch.dao.DirectorDaoInterface;
-import net.ausiasmarch.dao.GenericDao;
 import net.ausiasmarch.dao.GeneroDaoInterface;
 import net.ausiasmarch.dao.PeliculaDaoInterface;
 import net.ausiasmarch.pojo.Actor;
-import net.ausiasmarch.pojo.Director;
-import net.ausiasmarch.pojo.Genero;
 import net.ausiasmarch.pojo.Pelicula;
 import net.ausiasmarch.utilities.Collections;
 import org.hibernate.HibernateException;
@@ -42,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author María Galbis
  */
 @Controller
+@RequestMapping({"/pelicula"})
 public class PeliculaController {
     
     @Autowired
@@ -57,13 +49,12 @@ public class PeliculaController {
     DirectorDaoInterface directorDao;
  
     
-    @RequestMapping({"/index.html"})
+    @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        
-        return new ModelAndView("index");
+        return new ModelAndView("index", "contenido", "peliculasList.jsp");
     }
     
-    @RequestMapping({"/peliculas.json"})
+    @RequestMapping({"list.json"})
     public ModelAndView peliculas(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 //        Pelicula p = new Pelicula();
 //        p.setId(4);
@@ -214,23 +205,46 @@ public class PeliculaController {
         return new ModelAndView("index");
     }
     
-    @RequestMapping({"pelicula.json"})
+    @RequestMapping({"single.json"})
     public ModelAndView pelicula(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Pelicula p = new Pelicula();
         p.setId(4);
         return new ModelAndView("peliculaJson", "pelicula", peliculaDao.read(p));
     }
     
-    @RequestMapping({"actores.json"})
-    public ModelAndView actores(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        
-        return new ModelAndView();
+    @RequestMapping({"form.html"})
+    public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        Pelicula p = new Pelicula();
+        p.setId(4);
+        return new ModelAndView("peliculaJson", "pelicula", peliculaDao.read(p));
     }
     
-    @RequestMapping({"actor.json"})
-    public ModelAndView actor(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        
-        return new ModelAndView();
+    @RequestMapping({"view.html"})
+    public ModelAndView view(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        Pelicula p = new Pelicula();
+        p.setId(4);
+        return new ModelAndView("peliculaJson", "pelicula", peliculaDao.read(p));
+    }
+    
+    @RequestMapping({"update.html"})
+    public ModelAndView update(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        Pelicula p = new Pelicula();
+        p.setId(4);
+        return new ModelAndView("peliculaJson", "pelicula", peliculaDao.read(p));
+    }
+    
+    @RequestMapping({"create.html"})
+    public ModelAndView create(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        Pelicula p = new Pelicula();
+        p.setId(4);
+        return new ModelAndView("peliculaJson", "pelicula", peliculaDao.read(p));
+    }
+    
+    @RequestMapping({"delete.html"})
+    public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        Pelicula p = new Pelicula();
+        p.setId(4);
+        return new ModelAndView("peliculaJson", "pelicula", peliculaDao.read(p));
     }
     
 }
