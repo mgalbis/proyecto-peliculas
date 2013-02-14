@@ -17,7 +17,7 @@ import org.hibernate.HibernateException;
  */
 public interface GenericDao<T> {
     
-    public long create(T entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
+    public Integer create(T entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
 
     public void update(T entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
 

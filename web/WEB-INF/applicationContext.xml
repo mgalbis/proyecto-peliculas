@@ -15,6 +15,9 @@
     <context:component-scan base-package="net.ausiasmarch" /> 
     
     <bean class="net.ausiasmarch.dao.PeliculaDao" />
+    <bean class="net.ausiasmarch.dao.ActorDao" />
+    <bean class="net.ausiasmarch.dao.GeneroDao" />
+    <bean class="net.ausiasmarch.dao.DirectorDao" />
     
     <!--bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"

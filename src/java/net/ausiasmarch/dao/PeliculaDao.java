@@ -4,19 +4,19 @@
  */
 package net.ausiasmarch.dao;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.Transaction;
 import net.ausiasmarch.pojo.HibernateUtil;
 import net.ausiasmarch.pojo.Pelicula;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.classic.Session;
 import org.hibernate.criterion.Projections;
 
 /**
@@ -29,33 +29,31 @@ public class PeliculaDao implements PeliculaDaoInterface {
     private Transaction tx;
 
     @Override
-    public long create(Pelicula entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
-        long id = 0;
+    public Integer create(Pelicula entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+        Serializable id = 0;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = (Transaction) sesion.beginTransaction();
-            id = (Long) sesion.save(entity);
-                tx.commit();
-        } catch (javax.transaction.RollbackException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
+            tx =  sesion.beginTransaction();
+            id = sesion.save(entity);
+            
+            tx.commit();
+
         } catch (HibernateException he) {
             tx.rollback();
             throw new HibernateException("Error en create DAO", he);
         } finally {
             sesion.close();
         }
-        return id;
+        return (Integer) id;
     }
 
     @Override
     public void update(Pelicula entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = (Transaction) sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             sesion.update(entity);
             tx.commit();
-        } catch (javax.transaction.RollbackException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HibernateException he) {
             tx.rollback();
             throw new HibernateException("Error en update DAO", he);
@@ -68,11 +66,9 @@ public class PeliculaDao implements PeliculaDaoInterface {
     public void delete(Pelicula entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = (Transaction) sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             sesion.delete(entity);
             tx.commit();
-        } catch (javax.transaction.RollbackException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HibernateException he) {
             tx.rollback();
             throw new HibernateException("Error en delete DAO", he);
@@ -86,6 +82,22 @@ public class PeliculaDao implements PeliculaDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             entity = (Pelicula) sesion.get(Pelicula.class, entity.getId());
+            Hibernate.initialize(entity.getActors());
+            Hibernate.initialize(entity.getGenero());
+            Hibernate.initialize(entity.getDirector());
+        } catch (HibernateException he) {
+            throw new HibernateException("Error en read DAO", he);
+        } finally {
+            sesion.close();
+        }
+        return entity;
+    }
+    
+    @Override
+    public Pelicula readInfo(Pelicula entity) throws HibernateException {
+        try {
+            sesion = HibernateUtil.getSessionFactory().openSession();
+            entity = (Pelicula) sesion.get(Pelicula.class, entity.getId());
         } catch (HibernateException he) {
             throw new HibernateException("Error en read DAO", he);
         } finally {
@@ -96,6 +108,20 @@ public class PeliculaDao implements PeliculaDaoInterface {
 
     @Override
     public List<Pelicula> readAll() throws HibernateException {
+        List<Pelicula> lista = null;
+        try {
+            sesion = HibernateUtil.getSessionFactory().openSession();
+            lista = sesion.createQuery("from Pelicula").list();
+        } catch (HibernateException he) {
+            throw new HibernateException("Error en readAll DAO", he);
+        } finally {
+            sesion.close();
+        }
+        return lista;
+    }
+    
+    @Override
+    public List<Pelicula> readAllInfo() throws HibernateException {
         List<Pelicula> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();

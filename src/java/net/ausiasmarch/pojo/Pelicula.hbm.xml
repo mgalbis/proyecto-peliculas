@@ -1,61 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 13-feb-2013 11:28:07 by Hibernate Tools 3.2.1.GA -->
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-feb-2013 15:47:47 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-  <class catalog="peliculas" name="net.ausiasmarch.pojo.Pelicula" table="pelicula">
-    <id name="id" type="java.lang.Integer">
-      <column name="id"/>
-      <generator class="identity"/>
-    </id>
-    <many-to-one class="net.ausiasmarch.pojo.Director" fetch="select" name="director">
-      <column name="director" not-null="true">
-        <comment>Director</comment>
-      </column>
-    </many-to-one>
-    <many-to-one class="net.ausiasmarch.pojo.Genero" fetch="select" name="genero">
-      <column name="genero" not-null="true">
-        <comment>Género</comment>
-      </column>
-    </many-to-one>
-    <property name="titulo" type="string">
-      <column name="titulo" not-null="true">
-        <comment>Título</comment>
-      </column>
-    </property>
-    <property name="vo" type="string">
-      <column name="VO">
-        <comment>V.O.</comment>
-      </column>
-    </property>
-    <property name="descripcion" type="string">
-      <column name="descripcion">
-        <comment>Descripción</comment>
-      </column>
-    </property>
-    <property name="calificacion" type="java.lang.Integer">
-      <column name="calificacion">
-        <comment>Calificación</comment>
-      </column>
-    </property>
-    <property name="duracion" type="int">
-      <column name="duracion" not-null="true">
-        <comment>Duración</comment>
-      </column>
-    </property>
-    <property name="fecha" type="timestamp">
-      <column length="19" name="fecha" not-null="true">
-        <comment>Fecha de estreno</comment>
-      </column>
-    </property>
-    <set inverse="true" name="actores" table="interpreta" cascade="all">
-      <key>
-        <column name="id_pelicula" not-null="true">
-          <comment>Película</comment>
-        </column>
-      </key>
-      <many-to-many class="net.ausiasmarch.pojo.Actor">
-           <column name="id" not-null="true" />
-      </many-to-many>
-    </set>
-  </class>
+    <class name="net.ausiasmarch.pojo.Pelicula" table="pelicula" catalog="peliculas">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="director" class="net.ausiasmarch.pojo.Director" fetch="select">
+            <column name="director" not-null="true">
+                <comment>Director</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="genero" class="net.ausiasmarch.pojo.Genero" fetch="select">
+            <column name="genero" not-null="true">
+                <comment>G&#233;nero</comment>
+            </column>
+        </many-to-one>
+        <property name="titulo" type="string">
+            <column name="titulo" not-null="true">
+                <comment>T&#237;tulo</comment>
+            </column>
+        </property>
+        <property name="vo" type="string">
+            <column name="VO">
+                <comment>V.O.</comment>
+            </column>
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion">
+                <comment>Descripci&#243;n</comment>
+            </column>
+        </property>
+        <property name="calificacion" type="java.lang.Integer">
+            <column name="calificacion">
+                <comment>Calificaci&#243;n</comment>
+            </column>
+        </property>
+        <property name="duracion" type="int">
+            <column name="duracion" not-null="true">
+                <comment>Duraci&#243;n</comment>
+            </column>
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" not-null="true">
+                <comment>Fecha de estreno</comment>
+            </column>
+        </property>
+        <set name="actors" inverse="false" table="interpreta">
+            <key>
+                <column name="id_pelicula" not-null="true">
+                    <comment>Pel&#237;cula</comment>
+                </column>
+            </key>
+            <many-to-many entity-name="net.ausiasmarch.pojo.Actor">
+                <column name="id_actor" not-null="true">
+                    <comment>Actor</comment>
+                </column>
+            </many-to-many>
+        </set>
+    </class>
 </hibernate-mapping>

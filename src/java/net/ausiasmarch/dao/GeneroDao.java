@@ -4,6 +4,7 @@
  */
 package net.ausiasmarch.dao;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,7 +12,7 @@ import javax.persistence.RollbackException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.Transaction;
+import org.hibernate.Transaction;
 import net.ausiasmarch.pojo.Genero;
 import net.ausiasmarch.pojo.HibernateUtil;
 import org.hibernate.Criteria;
@@ -29,33 +30,29 @@ public class GeneroDao implements GeneroDaoInterface {
     private Transaction tx;
 
     @Override
-    public long create(Genero entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
-        long id = 0;
+    public Integer create(Genero entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+        Serializable id = 0;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = (Transaction) sesion.beginTransaction();
-            id = (Long) sesion.save(entity);
+            tx = sesion.beginTransaction();
+            id = sesion.save(entity);
                 tx.commit();
-        } catch (javax.transaction.RollbackException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HibernateException he) {
             tx.rollback();
             throw new HibernateException("Error en create DAO", he);
         } finally {
             sesion.close();
         }
-        return id;
+        return (Integer) id;
     }
 
     @Override
     public void update(Genero entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = (Transaction) sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             sesion.update(entity);
             tx.commit();
-        } catch (javax.transaction.RollbackException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HibernateException he) {
             tx.rollback();
             throw new HibernateException("Error en update DAO", he);
@@ -68,11 +65,9 @@ public class GeneroDao implements GeneroDaoInterface {
     public void delete(Genero entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = (Transaction) sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             sesion.delete(entity);
             tx.commit();
-        } catch (javax.transaction.RollbackException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HibernateException he) {
             tx.rollback();
             throw new HibernateException("Error en delete DAO", he);
