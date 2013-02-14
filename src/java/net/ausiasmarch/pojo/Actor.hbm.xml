@@ -12,7 +12,7 @@
         <comment>Actor</comment>
       </column>
     </property>
-    <set inverse="true" name="peliculas">
+    <set inverse="true" name="peliculas" table="interpreta" cascade="all">
       <key>
         <column name="id_actor" not-null="true">
           <comment>Actor</comment>

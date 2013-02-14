@@ -86,7 +86,6 @@ public class PeliculaDao implements PeliculaDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             entity = (Pelicula) sesion.get(Pelicula.class, entity.getId());
-            System.out.println(entity.getActores());
         } catch (HibernateException he) {
             throw new HibernateException("Error en read DAO", he);
         } finally {

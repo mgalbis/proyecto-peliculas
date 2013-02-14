@@ -35,7 +35,7 @@ public class PeliculaController {
         
         Pelicula p = new Pelicula();
         p.setId(4);
-        System.out.println(peliculaDao.read(p).getTitulo());
+        System.out.println(peliculaDao.read(p).getActores());
         
         //List<Pelicula> lista = peliculaDao.readAll();
         //System.out.println(lista);
