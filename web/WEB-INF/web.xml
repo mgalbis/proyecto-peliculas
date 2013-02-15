@@ -4,7 +4,6 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
-    
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/employeedirectory</res-ref-name>

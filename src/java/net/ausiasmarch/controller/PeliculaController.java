@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
-import net.ausiasmarch.dao.PeliculaDaoInterface;
+import net.ausiasmarch.dao.PeliculaDao;
 import net.ausiasmarch.pojo.Pelicula;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class PeliculaController {
     
     @Autowired
-    PeliculaDaoInterface peliculaDao;
+    PeliculaDao dao;
  
     
     @RequestMapping({"index.html"})
@@ -43,7 +43,7 @@ public class PeliculaController {
     @RequestMapping({"list.json"})
     public ModelAndView peliculas(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         
-        List<Pelicula> peliculas = peliculaDao.readAll();
+        List<Pelicula> peliculas = dao.readAll();
         
         return new ModelAndView("peliculasJson", "peliculas", peliculas);
     }
@@ -54,7 +54,7 @@ public class PeliculaController {
         
         if(request.getParameter("id") != null){
             pelicula.setId(Integer.parseInt(request.getParameter("id")));
-            pelicula = peliculaDao.read(pelicula);
+            pelicula = dao.read(pelicula);
         }
         
         return new ModelAndView("peliculaJson", "pelicula", pelicula);
@@ -67,7 +67,7 @@ public class PeliculaController {
         if(request.getParameter("id") != null){
             Pelicula pelicula = new Pelicula();
             pelicula.setId(Integer.parseInt(request.getParameter("id")));
-            model.addObject("pelicula", peliculaDao.read(pelicula));
+            model.addObject("pelicula", dao.read(pelicula));
         }
         
         return model;
@@ -80,7 +80,7 @@ public class PeliculaController {
         if(request.getParameter("id") != null){
             Pelicula pelicula = new Pelicula();
             pelicula.setId(Integer.parseInt(request.getParameter("id")));
-            model.addObject("pelicula", peliculaDao.read(pelicula));
+            model.addObject("pelicula", dao.read(pelicula));
         }
         
         return model;
@@ -90,7 +90,7 @@ public class PeliculaController {
     public ModelAndView update(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         
         Pelicula pelicula = new Gson().fromJson(request.getParameter("form"), Pelicula.class);
-        peliculaDao.update(pelicula);
+        dao.update(pelicula);
         
         return new ModelAndView("index", "contenido", "peliculasList.jsp");
     }
@@ -99,7 +99,7 @@ public class PeliculaController {
     public ModelAndView create(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         
         Pelicula pelicula = new Gson().fromJson(request.getParameter("form"), Pelicula.class);
-        peliculaDao.create(pelicula);
+        dao.create(pelicula);
         
         return new ModelAndView("index", "contenido", "peliculaList.jsp");
     }
@@ -117,7 +117,7 @@ public class PeliculaController {
         }
         
         for(Pelicula p : peliculas){
-            peliculaDao.delete(p);
+            dao.delete(p);
         }
         
         return new ModelAndView("index", "contenido", "peliculasList.jsp");

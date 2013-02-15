@@ -28,7 +28,7 @@ public class Format {
         int mes = calendar.get(Calendar.MONTH) + 1; //mes, de 0 a 11 
         int anyo = calendar.get(Calendar.YEAR); //año 
 
-        return dia+"-"+toLength(mes, 2)+"-"+anyo;
+        return toLength(dia, 2)+"-"+toLength(mes, 2)+"-"+anyo;
     }
     
     public static String toLength(int num, int length){
