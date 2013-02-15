@@ -6,7 +6,7 @@ package net.ausiasmarch.utilities;
 
 import java.util.Iterator;
 import java.util.Set;
-import net.ausiasmarch.pojo.GenericPojo;
+import net.ausiasmarch.pojo.Generic;
 
 /**
  *
@@ -14,11 +14,11 @@ import net.ausiasmarch.pojo.GenericPojo;
  */
 public class Collections {
 
-    public static Set removeItem(Set set, GenericPojo o){
+    public static Set removeItem(Set set, Generic o){
         for(Iterator it = set.iterator(); it.hasNext();){
             Object element = it.next();
             
-            if (((GenericPojo) element).getId().intValue() == o.getId().intValue()) {
+            if (((Generic) element).getId().intValue() == o.getId().intValue()) {
                 it.remove();
             }
         }

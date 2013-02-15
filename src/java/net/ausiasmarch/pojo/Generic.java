@@ -8,7 +8,7 @@ package net.ausiasmarch.pojo;
  *
  * @author María Galbis
  */
-public interface GenericPojo {
+public interface Generic {
     public Integer getId();
     
     public void setId(Integer id);

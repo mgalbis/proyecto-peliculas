@@ -63,15 +63,45 @@ var getAll = function(table) {
 /*
  * Devuelve los datos del id
  */
-var get = function(id) {
+var get = function(table, id) {
     return $.ajax({
-        url : 'json/clientes?op=get&id='+id,
+        url : table+'/single.json?id='+id,
         type : 'GET',
         dataType : 'json',
         error : function(jqXHR, status, error) {
             alert('Error al procesar la solicitud: '+error);
         }
    
+    })
+}
+
+function eliminar(tabla, id){
+     $.ajax({
+        url : tabla+'/delete.html?id='+id,
+        type : 'GET',
+        success: function(d){
+            location.reload();
+        },
+        error : function(jqXHR, status, error) {
+            alert('Error al procesar la solicitud: '+error);
+        }
+        
+    })
+}
+
+function guardar(tabla, objeto){
+    return $.ajax({
+        url : tabla+'/save.html',
+        data : 'form='+objeto,
+        type : 'POST',
+        dataType : 'json', 
+        success: function(){
+           window.location = 'peliculas/index.html';
+        },
+        error : function(jqXHR, status, error) {
+            alert('Error al procesar la solicitud: '+error);
+        }
+        
     })
 }
 

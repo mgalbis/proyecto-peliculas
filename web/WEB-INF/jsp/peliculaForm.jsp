@@ -1,17 +1,102 @@
-<%-- 
-    Document   : PeliculasForm
-    Created on : 14-feb-2013, 22:38:33
-    Author     : MarÃ­a Galbis
---%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+
+<% Integer id = (Integer) request.getAttribute("id");%>
+<form class="form-horizontal">
+    <fieldset>
+        <legend><%=(id == 0 ? "Crear" : "Editar")%> Película</legend>
+        <div class="control-group">
+            <label class="control-label" for="Título">Título</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="Título">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="V.O.">V.O.</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="V.O.">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="Fecha">Fecha</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="Fecha">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="Descripción">Descripción</label>
+            <div class="controls">
+                <textarea class="input-xlarge" id="Descripción" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="Duración">Duración (min.)</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="Duración">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="Calificación">Calificación</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="Calificación">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="Género">Género</label>
+            <div class="controls">
+                <select id="Género">
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="Director">Director</label>
+            <div class="controls">
+                <select id="Director">
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="Actores">Actores</label>
+            <div class="controls">
+                <select multiple="multiple" id="Actores">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <a class="btn" href="peliculas/index.html">Cancelar</a>
+        </div>
+    </fieldset>
+</form>
+<script>
+    $(document).ready(function() { 
+        done++;
+        $.when(get('peliculas', <%=id%>)).done(function(d){
+            $('form').append(createInput('hidden', 'id', 'id', ''));
+            
+            $.each(d, function(index, value){ if(index == '#') index = 'id'; })
+            
+            /*    
+            $.each($("input, select, textarea"), function(i,v) {
+                var theTag = v.tagName;
+                var theElement = $(v);
+                var theValue = theElement.val();
+                
+                alert($(this).attr('id'));
+            });
+         */
+        
+            $('#id').val(d['id']);
+            $('#Título').val(d['Título']);
+            $('#V.O.').val(d['V.O.']);
+            $('#Descripción').text(d['Descripción']);
+            $('#Duración').val(d['Duración']);
+            $('#Calificación').val(d['Calificación']);
+          
+
+       
+            done--;
+        })
+    })
+</script>

@@ -17,6 +17,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import net.ausiasmarch.dao.PeliculaDao;
 import net.ausiasmarch.pojo.Pelicula;
+import net.ausiasmarch.utilities.PeliculaJsonAdapter;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,32 +45,37 @@ public class PeliculaController {
     public ModelAndView peliculas(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         
         List<Pelicula> peliculas = dao.readAll();
+        String data = PeliculaJsonAdapter.toJson(peliculas);
         
-        return new ModelAndView("peliculasJson", "peliculas", peliculas);
+        return new ModelAndView("listJson", "data", data);
     }
     
     @RequestMapping({"single.json"})
     public ModelAndView pelicula(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Pelicula pelicula = new Pelicula();
+        String data = "";
         
         if(request.getParameter("id") != null){
             pelicula.setId(Integer.parseInt(request.getParameter("id")));
             pelicula = dao.read(pelicula);
+            
+            data = PeliculaJsonAdapter.toJson(pelicula);
         }
         
-        return new ModelAndView("peliculaJson", "pelicula", pelicula);
+        return new ModelAndView("singleJson", "data", data);
     }
     
     @RequestMapping({"form.html"})
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "peliculaForm.jsp");
         
-        if(request.getParameter("id") != null){
-            Pelicula pelicula = new Pelicula();
-            pelicula.setId(Integer.parseInt(request.getParameter("id")));
-            model.addObject("pelicula", dao.read(pelicula));
+        int id = 0;
+
+        if(request.getParameter("id") != null){    
+            id = Integer.parseInt(request.getParameter("id"));
         }
         
+         model.addObject("id", id);
         return model;
     }
     
@@ -86,11 +92,16 @@ public class PeliculaController {
         return model;
     }
     
-    @RequestMapping({"update.html"})
-    public ModelAndView update(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    @RequestMapping({"save.html"})
+    public ModelAndView save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         
         Pelicula pelicula = new Gson().fromJson(request.getParameter("form"), Pelicula.class);
-        dao.update(pelicula);
+        
+        if(pelicula.getId() == null){
+            dao.create(pelicula);
+        } else {
+            dao.update(pelicula);
+        }
         
         return new ModelAndView("index", "contenido", "peliculasList.jsp");
     }
@@ -106,19 +117,14 @@ public class PeliculaController {
     
     @RequestMapping({"delete.html"})
     public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
-        List<Pelicula> peliculas = null;
-        
-        if(request.getParameter("form").contains("[")){
-            Type listaPelicula = new TypeToken<List<Pelicula>>() {}.getType();
-            peliculas = new Gson().fromJson(request.getParameter("form"), listaPelicula);
-        } else {
-            Pelicula pelicula = new Gson().fromJson(request.getParameter("form"), Pelicula.class);
-            peliculas.add(pelicula);
+
+  
+            if(request.getParameter("id") != null){
+            Pelicula pelicula = new Pelicula();
+            pelicula.setId(Integer.parseInt(request.getParameter("id")));
+            dao.delete(pelicula);
         }
-        
-        for(Pelicula p : peliculas){
-            dao.delete(p);
-        }
+  
         
         return new ModelAndView("index", "contenido", "peliculasList.jsp");
     }

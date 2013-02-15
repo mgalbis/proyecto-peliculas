@@ -1,33 +1,11 @@
 
-
-
-
 <h1>Películas</h1>
 <div id="datos"></div>
-<div id="spinner"></div>
-
-<!-- Modal -->
-<div id="mod" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <a class="close ok" data-dismiss="modal" aria-hidden="true">×</a>
-        <h3 id="myModalLabel">Ventana Modal</h3>
-    </div>
-    <div class="modal-body">
-        <p>One fine body?</p>
-    </div>
-    <div class="modal-footer">
-        <button class="btn ok" data-dismiss="modal" aria-hidden="true">Cerrar</button> 
-        <div id="result"></div>
-    </div>
-</div>
 
 <script>
-    var done = 0; //estado de carga del spinner (contador)
-    
     $(document).ready(function() {      
-        setInterval(spinner, 300); //comprueba el estado de carga cada 500 milisegundos
         
-        done++;
+       done++;
        $.when(getAll('peliculas')).done(function(d){
                 
 
@@ -45,28 +23,32 @@
                     delete value['Duración'];
                     delete value['Calificación'];
                     delete value['Actores'];
-                    delete value['Director'];
+                    delete value['V.O.'];
+                    
+                    value['Director'] = value['Director']['nombre'];
+                    value['Género'] = value['Género']['nombre'];
                 });
                 
                 //params: id, class, contenido(array[{}]) 
                 var table = createTable('peliculas', '', d['list']);
                 $('#datos').append(table);
   
-                $('.ver').click(function(){});
-                $('.editar').click(showSearch);
-                $('.eliminar').click(function(){
-                    
+  
+                $('.ver').click(function(){
+                    window.location = 'peliculas/view.html?id='+$(this).attr('id');
                 });
+                $('.editar').click(function(){
+                    window.location = 'peliculas/form.html?id='+$(this).attr('id');
+                });
+                $('.eliminar').click(function(){
+                    confirmDelete('peliculas', $(this).attr('id'));
+                });
+                
                 done--;
            
         });
         
-        $('form').submit(function(){
-            var data = $(this).serializeObject();
-            enviar(JSON.stringify(data));
         
-        return false;
-    });
     });
 </script>
 

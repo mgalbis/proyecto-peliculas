@@ -41,8 +41,18 @@ public class PeliculaJsonAdapter implements JsonSerializer<Pelicula>, JsonDeseri
             jsonObject.addProperty("Calificación", src.getCalificacion());
             jsonObject.addProperty("Duración", src.getDuracion());
             jsonObject.addProperty("Fecha", Format.fromMySql(src.getFecha()));
-            jsonObject.addProperty("Género", src.getGenero().getNombre());
-            jsonObject.addProperty("Director", src.getDirector().getNombre());
+            
+            JsonObject genero = new JsonObject();
+            genero.addProperty("id", src.getGenero().getId());
+            genero.addProperty("nombre", src.getGenero().getNombre());
+            
+            jsonObject.add("Género", genero);
+            
+            JsonObject director = new JsonObject();
+            director.addProperty("id", src.getDirector().getId());
+            director.addProperty("nombre", src.getDirector().getNombre());
+            
+            jsonObject.add("Director", director);
 
             JsonArray intArr = new JsonArray();
 

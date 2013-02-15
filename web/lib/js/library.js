@@ -8,6 +8,10 @@ function createBtn(id, clas, content){
     return '<button type="button" id="'+id+'" class="btn '+clas+'" title="'+clas+'">'+content+'</button>';
 }
 
+function createLink(clas, href, content){
+    return '<a class="'+clas+'" href="'+href+'">'+content+'</a>'
+}
+
 /**
  * Crea una tabla html. Tomará como cabecera los nombres de los indices de los objetos
  * params id (String), clase o clases (String), body (array[{}])
@@ -22,7 +26,7 @@ function createTable(id, clas, content){
     
     $.each(thead, function(i, v){
 
-            txt += '<th>'+v+'</th>';
+        txt += '<th>'+v+'</th>';
  
     })
     txt += '</tr></thead><tbody>';
@@ -41,33 +45,66 @@ function createTable(id, clas, content){
     return txt;
 }
 
-function createForm(name, content){
-    return '<form name="'+name+'">'+content+'</form>';
+function createForm(id, name, content){
+    return '<form id="'+id+'" name="'+name+'">'+content+'</form>';
 }
 
-function createInput(type, name, value){
-    return '<input type="'+type+'" name="'+name+'" value="'+value+'" />';
+function createInput(type, id, name, value){
+    return '<input type="'+type+'" id="'+id+'" name="'+name+'" value="'+value+'" />';
 }
 
-function confirm(){
-     $('#mod .modal-body').html(d);
-        $('#myModal .modal-body').find('h1').remove();
-        $('#myModal').find('button.ok').after($('#myModal').find('.btn-primary'));
+function createModal(id){
+    return '<div id="'+id+'" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modLabel" aria-hidden="true">'
+    +'<div class="modal-header">'
+    +'<a class="close ok" data-dismiss="modal" aria-hidden="true">×</a>'
+    +'<h3 id="modLabel">Ventana Modal</h3>'
+    +'</div>'
+    +'<div class="modal-body">'
+    +'<p>One fine body…</p>'
+    +'</div>'
+    +'<div class="modal-footer">'
+    +'<button class="btn ok" data-dismiss="modal" aria-hidden="true">Cerrar</button> '
+    +'<div id="result"></div>'
+    +'</div>'
+    +'</div>';
+}
+
+function confirmDelete(table, id){
+    $('#datos').append(createModal('mod'));
+    
+    $('#mod').modal({
+        backdrop: 'static', 
+        keyboard: false
+    });
+    
+    var mensaje = '<p>¿Está seguro que quiere eliminar el elmento seleccionado?</p>';
+    var input = createInput('hidden', '', 'id', id);
+    var form = createForm('eliminar','eliminar', mensaje+input);
+     
+    $('#mod .modal-body').html(form);
+    $('#mod').find('h3').html('Eliminar película');
+    $('#mod').find('button.ok').after(createBtn('', 'btn-primary', 'Aceptar'));
         
-        $('#myModal').find('.ok').click(function(){
-            $('#myModal').modal('hide');
-            setTimeout(function(){
-                $('#myModal .modal-footer').find('.btn-primary').remove();
-            }, 300);
-        });
+    $('#mod').find('.ok').click(function(){
+        $('#mod').modal('hide');
+        setTimeout(function(){
+            $('#mod .modal-footer').find('.btn-primary').remove();
+            $('#mod').remove();
+        }, 300);
+    });
         
-        $('#myModal').find('.btn-primary').click(function(){
-            alert('Cliente actualizado correctamente.');
-            $('#myModal').modal('hide');
-            setTimeout(function(){
-                $('#myModal .modal-footer').find('.btn-primary').remove();
-            }, 300);
-        });
+    $('#mod').find('.btn-primary').click(function(){
+            
+        eliminar(table, id);
+            
+        $('#myModal').modal('hide');
+        setTimeout(function(){
+            $('#mod .modal-footer').find('.btn-primary').remove();
+            $('#mod').remove();
+        }, 300);
+    });
+        
+    $('#mod').modal('show');
 }
 
 $.fn.serializeObject = function(){
@@ -93,8 +130,6 @@ $.fn.serializeObject = function(){
 }
 
 
-
-
 /*
  * Muestra u oculta el spinner según el estado de carga de
  * los datos
@@ -102,8 +137,8 @@ $.fn.serializeObject = function(){
 var spinner = function(){
     //si contador es 0, no está cargando nada
     if(done == 0){
-        $('#spinner').hide();
+        $('#spinner').fadeOut(100);
     } else {
-        $('#spinner').show(0);
+        $('#spinner').fadeIn(100);
     }
 }

@@ -9,17 +9,17 @@
             <generator class="identity" />
         </id>
         <many-to-one name="director" class="net.ausiasmarch.pojo.Director" fetch="select">
-            <column name="director" not-null="true">
+            <column name="director" not-null="false">
                 <comment>Director</comment>
             </column>
         </many-to-one>
         <many-to-one name="genero" class="net.ausiasmarch.pojo.Genero" fetch="select">
-            <column name="genero" not-null="true">
+            <column name="genero" not-null="false">
                 <comment>G&#233;nero</comment>
             </column>
         </many-to-one>
         <property name="titulo" type="string">
-            <column name="titulo" not-null="true">
+            <column name="titulo" not-null="false">
                 <comment>T&#237;tulo</comment>
             </column>
         </property>
@@ -39,12 +39,12 @@
             </column>
         </property>
         <property name="duracion" type="int">
-            <column name="duracion" not-null="true">
+            <column name="duracion" not-null="false">
                 <comment>Duraci&#243;n</comment>
             </column>
         </property>
         <property name="fecha" type="timestamp">
-            <column name="fecha" length="19" not-null="true">
+            <column name="fecha" length="19" not-null="false">
                 <comment>Fecha de estreno</comment>
             </column>
         </property>

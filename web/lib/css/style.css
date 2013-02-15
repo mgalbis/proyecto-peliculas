@@ -17,7 +17,8 @@ p { text-align: justify }
 
 #contenido {
     width: 85%;
-    margin: 50px auto;
+    margin: 45px auto 0 auto;
+    position: relative;
 }
 
 #spinner {
@@ -25,7 +26,7 @@ p { text-align: justify }
     height: 35px;
     width: 35px;
     position: absolute;
-    top: 0;
+    top: -40px;
     left: 47%;
     z-index: 6;
 }
@@ -61,7 +62,7 @@ legend {
     margin-bottom: 0;
 }
 
-.btn-group .btn, .form-actions .btn {
+.form-actions .btn {
     margin-left: 5px;
 }
 
@@ -102,6 +103,11 @@ legend {
     height: auto;
     margin-bottom: 15px;
     padding: 7px 9px;
+}
+
+form {
+    margin: 0;
+    padding: 0;
 }
 
 #login p {

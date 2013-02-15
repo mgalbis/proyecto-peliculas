@@ -47,7 +47,7 @@
         </div>
 
         <div id="contenido" class="container-fluid">
-
+            <div id="spinner"></div>
 
             <jsp:include page='<%=(String) request.getAttribute("contenido")%>' />
 
@@ -63,7 +63,10 @@
             </span>
         </div>
         <script type="text/javascript">
-            
+            var done = 0; //estado de carga del spinner (contador)
+               
+            setInterval(spinner, 300); //comprueba el estado de carga cada 500 milisegundos
+
         </script>
     </body>
 </body>
