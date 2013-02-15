@@ -19,13 +19,13 @@ public class ActorJsonAdapter implements JsonSerializer<Actor>, JsonDeserializer
 
     public static String toJson(Actor a){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
+        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).serializeNulls().create();
         return gson.toJson(a);
     }
     
     public static String toJson(List<Actor> a){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
+        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).serializeNulls().create();
         return gson.toJson(a);
     }
      

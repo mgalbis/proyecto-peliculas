@@ -94,47 +94,14 @@ public class ActorDao implements ActorDaoInterface {
         }
         return entity;
     }
-    
-    @Override
-    public Actor readInfo(Actor entity) throws HibernateException {
-        try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            Actor aux = (Actor) sesion.get(Actor.class, entity.getId());
-            
-            
-            
-        } catch (HibernateException he) {
-            throw new HibernateException("Error en read DAO", he);
-        } finally {
-            sesion.close();
-        }
-        return entity;
-    }
 
     @Override
     public List<Actor> readAll() throws HibernateException {
         List<Actor> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            List<Actor> aux = sesion.createQuery("from Actor").list();
-            
-            
-        } catch (HibernateException he) {
-            throw new HibernateException("Error en readAll DAO", he);
-        } finally {
-            sesion.close();
-        }
-        return lista;
-    }
-    
-    @Override
-    public List<Actor> readAllInfo() throws HibernateException {
-        List<Actor> lista = null;
-        try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            List<Actor> aux = sesion.createQuery("from Actor").list();
-            
-            
+            lista = sesion.createQuery("from Actor").list();
+            Hibernate.initialize(lista);
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

@@ -92,19 +92,6 @@ public class PeliculaDao implements PeliculaDaoInterface {
         }
         return entity;
     }
-    
-    @Override
-    public Pelicula readInfo(Pelicula entity) throws HibernateException {
-        try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            entity = (Pelicula) sesion.get(Pelicula.class, entity.getId());
-        } catch (HibernateException he) {
-            throw new HibernateException("Error en read DAO", he);
-        } finally {
-            sesion.close();
-        }
-        return entity;
-    }
 
     @Override
     public List<Pelicula> readAll() throws HibernateException {
@@ -112,20 +99,13 @@ public class PeliculaDao implements PeliculaDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             lista = sesion.createQuery("from Pelicula").list();
-        } catch (HibernateException he) {
-            throw new HibernateException("Error en readAll DAO", he);
-        } finally {
-            sesion.close();
-        }
-        return lista;
-    }
-    
-    @Override
-    public List<Pelicula> readAllInfo() throws HibernateException {
-        List<Pelicula> lista = null;
-        try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            lista = sesion.createQuery("from Pelicula").list();
+            
+            for(Pelicula p : lista){
+                Hibernate.initialize(p.getActors());
+                Hibernate.initialize(p.getGenero());
+                Hibernate.initialize(p.getDirector());
+            }
+            
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

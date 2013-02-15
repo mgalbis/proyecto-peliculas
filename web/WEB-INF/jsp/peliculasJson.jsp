@@ -4,7 +4,7 @@
 <%@page contentType="application/json" pageEncoding="UTF-8"%>
 <%@page import="com.google.gson.Gson"%>
 <%
-    List<Pelicula> pelicula = (List<Pelicula>) request.getAttribute("peliculas");
-    String data = PeliculaJsonAdapter.toJson(pelicula);
+    List<Pelicula> peliculas = (List<Pelicula>) request.getAttribute("peliculas");
+    String data = PeliculaJsonAdapter.toJson(peliculas);
     out.print("{\"list\":" + data + "}");
 %>
