@@ -6,25 +6,23 @@ package net.ausiasmarch.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
-import org.hibernate.Transaction;
 import net.ausiasmarch.pojo.HibernateUtil;
 import net.ausiasmarch.pojo.Usuario;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 
 /**
  *
  * @author María Galbis
  */
-public class UsuarioDao implements UsuarioDaoInterface {
+public class UsuarioDao implements GenericDao<Usuario> {
 
     private Session sesion;
     private Transaction tx;

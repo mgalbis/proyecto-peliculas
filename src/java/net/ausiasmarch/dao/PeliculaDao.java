@@ -23,7 +23,7 @@ import org.hibernate.criterion.Projections;
  *
  * @author María Galbis
  */
-public class PeliculaDao implements PeliculaDaoInterface {
+public class PeliculaDao implements GenericDao<Pelicula> {
 
     private Session sesion;
     private Transaction tx;

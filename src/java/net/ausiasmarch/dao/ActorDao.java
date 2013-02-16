@@ -5,32 +5,25 @@
 package net.ausiasmarch.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
-import org.hibernate.Transaction;
 import net.ausiasmarch.pojo.Actor;
-import net.ausiasmarch.pojo.Director;
 import net.ausiasmarch.pojo.HibernateUtil;
-import net.ausiasmarch.pojo.Pelicula;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 
 /**
  *
  * @author María Galbis
  */
-public class ActorDao implements ActorDaoInterface {
+public class ActorDao implements GenericDao<Actor> {
     
     private Session sesion;
     private Transaction tx;
