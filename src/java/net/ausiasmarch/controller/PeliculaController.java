@@ -15,7 +15,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import net.ausiasmarch.dao.PeliculaDao;
 import net.ausiasmarch.pojo.Pelicula;
-import net.ausiasmarch.utilities.PeliculaJsonAdapter;
+import net.ausiasmarch.json.PeliculaJsonAdapter;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

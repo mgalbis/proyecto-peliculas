@@ -15,7 +15,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import net.ausiasmarch.dao.GeneroDao;
 import net.ausiasmarch.pojo.Genero;
-import net.ausiasmarch.utilities.GeneroJsonAdapter;
+import net.ausiasmarch.json.GeneroJsonAdapter;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
