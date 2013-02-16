@@ -143,8 +143,8 @@ $.fn.serializeObject = function(){
 var spinner = function(){
     //si contador es 0, no está cargando nada
     if(done == 0){
-        $('#spinner').fadeOut(100);
+        $('#spinner').fadeOut(200);
     } else {
-        $('#spinner').fadeIn(100);
+        $('#spinner').fadeIn(200);
     }
 }
