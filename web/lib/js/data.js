@@ -7,7 +7,7 @@
 /*
  * Devuelve un array con los registros de la página
  */
-var getPage = function(table, limit, pagactual){
+function getPage(table, limit, pagactual){
     return $.ajax({
         url : table+'/?op=getPage&limit='+limit+'&page='+pagactual,
         type : 'GET',
@@ -21,7 +21,7 @@ var getPage = function(table, limit, pagactual){
 /*
  * Devuelve la página en la que se encuentra el id introducido
  */
-var getPageId = function(table, limit, id){
+function getPageId(table, limit, id){
     return $.ajax({
         url : 'json/clientes?op=getPageId&limit='+limit+'&id='+id,
         type : 'GET',
@@ -35,7 +35,7 @@ var getPageId = function(table, limit, id){
 /*
  * Devuelve el número de páginas
  */
-var getPages = function(table, limit) {
+function getPages(table, limit) {
     return $.ajax({
         url : 'json/clientes?op=getPages&limit='+limit,
         type : 'GET',
@@ -49,7 +49,7 @@ var getPages = function(table, limit) {
 /*
  * Devuelve todos los registros
  */
-var getAll = function(table) {
+function getAll(table) {
     return $.ajax({
         url : table+'/list.json',
         type : 'GET',
@@ -63,10 +63,10 @@ var getAll = function(table) {
 /*
  * Devuelve los datos del id
  */
-var get = function(table, id) {
+function get(table, id) {
     if(id == 0) return false;
     return $.ajax({
-        url : table+'/single.json?id='+id,
+        url : table+'/'+id+'/single.json',
         type : 'GET',
         dataType : 'json',
         error : function(jqXHR, status, error) {

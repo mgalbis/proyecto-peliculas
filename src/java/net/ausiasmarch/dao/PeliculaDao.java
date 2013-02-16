@@ -33,9 +33,9 @@ public class PeliculaDao implements PeliculaDaoInterface {
         Serializable id = 0;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx =  sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             id = sesion.save(entity);
-            
+
             tx.commit();
 
         } catch (HibernateException he) {
@@ -82,9 +82,11 @@ public class PeliculaDao implements PeliculaDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             entity = (Pelicula) sesion.get(Pelicula.class, entity.getId());
-            Hibernate.initialize(entity.getActors());
-            Hibernate.initialize(entity.getGenero());
-            Hibernate.initialize(entity.getDirector());
+            if (entity != null) {
+                Hibernate.initialize(entity.getActors());
+                Hibernate.initialize(entity.getGenero());
+                Hibernate.initialize(entity.getDirector());
+            }
         } catch (HibernateException he) {
             throw new HibernateException("Error en read DAO", he);
         } finally {
@@ -99,13 +101,13 @@ public class PeliculaDao implements PeliculaDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             lista = sesion.createQuery("from Pelicula").list();
-            
-            for(Pelicula p : lista){
+
+            for (Pelicula p : lista) {
                 Hibernate.initialize(p.getActors());
                 Hibernate.initialize(p.getGenero());
                 Hibernate.initialize(p.getDirector());
             }
-            
+
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {
@@ -139,17 +141,16 @@ public class PeliculaDao implements PeliculaDaoInterface {
     public List<Pelicula> getPage(int pageSize, int pageNumber) throws HibernateException {
         List<Pelicula> clientes;
         sesion = HibernateUtil.getSessionFactory().openSession();
-        try {           
+        try {
             Criteria criteria = sesion.createCriteria(Pelicula.class);
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
             clientes = (List<Pelicula>) criteria.list();
         } catch (HibernateException he) {
-            throw new HibernateException("Error en getPage DAO", he);           
+            throw new HibernateException("Error en getPage DAO", he);
         } finally {
             sesion.close();
         }
         return clientes;
     }
-    
 }

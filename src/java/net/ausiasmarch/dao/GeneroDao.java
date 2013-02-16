@@ -82,7 +82,9 @@ public class GeneroDao implements GeneroDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             entity = (Genero) sesion.get(Genero.class, entity.getId());
-            Hibernate.initialize(entity.getPeliculas());
+            if(entity != null){
+                Hibernate.initialize(entity.getPeliculas());
+            }
         } catch (HibernateException he) {
             throw new HibernateException("Error en read DAO", he);
         } finally {

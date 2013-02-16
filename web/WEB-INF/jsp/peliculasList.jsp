@@ -38,7 +38,7 @@
                     window.location = 'peliculas/view.html?id='+$(this).attr('id');
                 });
                 $('.editar').click(function(){
-                    window.location = 'peliculas/form.html?id='+$(this).attr('id');
+                    window.location = 'peliculas/'+$(this).attr('id')+'/form.html';
                 });
                 $('.eliminar').click(function(){
                     confirmDelete('peliculas', $(this).attr('id'));
