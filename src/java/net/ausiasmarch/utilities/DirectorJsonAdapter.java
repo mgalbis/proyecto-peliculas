@@ -4,33 +4,39 @@
  */
 package net.ausiasmarch.utilities;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Set;
-import net.ausiasmarch.pojo.Actor;
+import net.ausiasmarch.pojo.Director;
 import net.ausiasmarch.pojo.Pelicula;
 
 /**
- * Custom Serialize Actor to Json
+ *
  * @author María Galbis
  */
-public class ActorJsonAdapter implements JsonSerializer<Actor>{
+public class DirectorJsonAdapter implements JsonSerializer<Director> {
 
-    public static String toJson(Actor a){
+    public static String toJson(Director d){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
-        return gson.toJson(a);
+        Gson gson = gsonBuilder.registerTypeAdapter(Director.class, new DirectorJsonAdapter()).create();
+        return gson.toJson(d);
     }
     
-    public static String toJson(List<Actor> a){
+    public static String toJson(List<Director> d){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
-        return gson.toJson(a);
+        Gson gson = gsonBuilder.registerTypeAdapter(Director.class, new DirectorJsonAdapter()).create();
+        return gson.toJson(d);
     }
-     
+
     @Override
-    public JsonElement serialize(Actor src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(Director src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("#", src.getId());
         jsonObject.addProperty("Nombre", src.getNombre());
@@ -48,7 +54,7 @@ public class ActorJsonAdapter implements JsonSerializer<Actor>{
         jsonObject.add("peliculas", intArr);
         
         
-        return jsonObject;     
+        return jsonObject; 
     }
     
 }

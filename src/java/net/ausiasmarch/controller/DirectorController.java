@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.ausiasmarch.dao.DirectorDao;
 import net.ausiasmarch.pojo.Director;
+import net.ausiasmarch.utilities.DirectorJsonAdapter;
 import net.ausiasmarch.utilities.PeliculaJsonAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,23 +36,23 @@ public class DirectorController {
     }
     
     @RequestMapping({"list.json"})
-    public ModelAndView peliculas(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public ModelAndView directores(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         
         List<Director> directores = dao.readAll();
-        String data = new Gson().toJson(directores);
+        String data = DirectorJsonAdapter.toJson(directores);
         
         return new ModelAndView("listJson", "data", data);
     }
     
     @RequestMapping({"single.json"})
-    public ModelAndView pelicula(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        Director director = new Director();;
+    public ModelAndView director(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        Director director = new Director();
         String data = "";
         if(request.getParameter("id") != null){
             director.setId(Integer.parseInt(request.getParameter("id")));
             director = dao.read(director);
            
-            data = new Gson().toJson(director);
+            data = DirectorJsonAdapter.toJson(director);
         }
         
         return new ModelAndView("singleJson", "data", data);

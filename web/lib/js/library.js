@@ -107,6 +107,12 @@ function confirmDelete(table, id){
     $('#mod').modal('show');
 }
 
+function cargaCombo(id, list){
+    $.each(list, function(i, v){
+        $('#'+id).append('<option value="'+v['#']+'">'+v['Nombre']+'</option>')
+    })
+}
+
 $.fn.serializeObject = function(){
     var o = {};
     var a = this.serializeArray();

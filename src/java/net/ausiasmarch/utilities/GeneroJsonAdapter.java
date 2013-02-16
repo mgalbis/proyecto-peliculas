@@ -4,33 +4,39 @@
  */
 package net.ausiasmarch.utilities;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Set;
-import net.ausiasmarch.pojo.Actor;
+import net.ausiasmarch.pojo.Genero;
 import net.ausiasmarch.pojo.Pelicula;
 
 /**
- * Custom Serialize Actor to Json
+ *
  * @author María Galbis
  */
-public class ActorJsonAdapter implements JsonSerializer<Actor>{
-
-    public static String toJson(Actor a){
+public class GeneroJsonAdapter implements JsonSerializer<Genero> {
+    
+    public static String toJson(Genero g){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
-        return gson.toJson(a);
+        Gson gson = gsonBuilder.registerTypeAdapter(Genero.class, new GeneroJsonAdapter()).create();
+        return gson.toJson(g);
     }
     
-    public static String toJson(List<Actor> a){
+    public static String toJson(List<Genero> g){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
-        return gson.toJson(a);
+        Gson gson = gsonBuilder.registerTypeAdapter(Genero.class, new GeneroJsonAdapter()).create();
+        return gson.toJson(g);
     }
-     
+
     @Override
-    public JsonElement serialize(Actor src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(Genero src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("#", src.getId());
         jsonObject.addProperty("Nombre", src.getNombre());
@@ -48,7 +54,7 @@ public class ActorJsonAdapter implements JsonSerializer<Actor>{
         jsonObject.add("peliculas", intArr);
         
         
-        return jsonObject;     
+        return jsonObject; 
     }
     
 }

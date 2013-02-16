@@ -13,7 +13,7 @@
         <div class="control-group">
             <label class="control-label" for="V.O.">V.O.</label>
             <div class="controls">
-                <input type="text" class="input-xlarge" id="V.O.">
+                <input type="text" class="input-xlarge" id="VO">
             </div>
         </div>
         <div class="control-group">
@@ -77,23 +77,30 @@
             
             $.each(d, function(index, value){ if(index == '#') index = 'id'; })
             
-            /*    
-            $.each($("input, select, textarea"), function(i,v) {
-                var theTag = v.tagName;
-                var theElement = $(v);
-                var theValue = theElement.val();
-                
-                alert($(this).attr('id'));
-            });
-         */
-        
-            $('#id').val(d['id']);
-            $('#Título').val(d['Título']);
-            $('#V.O.').val(d['V.O.']);
             $('#Descripción').text(d['Descripción']);
+            $('#Título').val(d['Título']);
+            $('#VO').val(d['VO']);
+            $('#Fecha').val(d['Fecha']);
             $('#Duración').val(d['Duración']);
             $('#Calificación').val(d['Calificación']);
-          
+            $('#id').val(d['id']);
+        
+           
+           
+           //carga combo Genero
+           $.when(getAll('generos')).done(function(a){
+               cargaCombo('Género', a['list']);
+           })
+           
+           //carga combo Director
+           $.when(getAll('directores')).done(function(a){
+               cargaCombo('Director', a['list']);
+           })
+           
+           //carga lista actores
+          $.when(getAll('actores')).done(function(a){
+               cargaCombo('Actores', a['list']);
+           })
 
        
             done--;

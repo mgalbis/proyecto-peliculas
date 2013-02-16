@@ -9,7 +9,7 @@ import java.util.Set;
 import net.ausiasmarch.pojo.Generic;
 
 /**
- *
+ * Funciones para colecciones
  * @author María Galbis
  */
 public class Collections {

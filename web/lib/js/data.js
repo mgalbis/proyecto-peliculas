@@ -64,6 +64,7 @@ var getAll = function(table) {
  * Devuelve los datos del id
  */
 var get = function(table, id) {
+    if(id == 0) return false;
     return $.ajax({
         url : table+'/single.json?id='+id,
         type : 'GET',

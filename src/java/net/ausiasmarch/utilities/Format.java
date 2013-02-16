@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
- *
+ * Conversiones de formato
  * @author María Galbis
  */
 public class Format {

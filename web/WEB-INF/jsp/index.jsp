@@ -40,6 +40,7 @@
                             </ul>
                         </li>
                         <li><a href="actores/index.html">Actores</a></li>
+                        <li><a href="generos/index.html">Géneros</a></li>
                     </ul>
  
                 </div>

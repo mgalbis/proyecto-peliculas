@@ -36,7 +36,7 @@ public class PeliculaJsonAdapter implements JsonSerializer<Pelicula>, JsonDeseri
         if (src != null) {
             jsonObject.addProperty("#", src.getId());
             jsonObject.addProperty("Título", src.getTitulo());
-            jsonObject.addProperty("V.O.", (src.getVo()==null?"":src.getVo()));
+            jsonObject.addProperty("VO", (src.getVo()==null?"":src.getVo()));
             jsonObject.addProperty("Descripción", (src.getDescripcion()==null?"":src.getDescripcion()));
             jsonObject.addProperty("Calificación", src.getCalificacion());
             jsonObject.addProperty("Duración", src.getDuracion());

@@ -15,7 +15,9 @@ import javax.transaction.SystemException;
 import org.hibernate.Transaction;
 import net.ausiasmarch.pojo.Director;
 import net.ausiasmarch.pojo.HibernateUtil;
+import net.ausiasmarch.pojo.Pelicula;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
@@ -81,6 +83,7 @@ public class DirectorDao implements DirectorDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             entity = (Director) sesion.get(Director.class, entity.getId());
+            Hibernate.initialize(entity.getPeliculas());
         } catch (HibernateException he) {
             throw new HibernateException("Error en read DAO", he);
         } finally {
@@ -95,6 +98,10 @@ public class DirectorDao implements DirectorDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             lista = sesion.createQuery("from Director").list();
+            for(Director d : lista){
+                Hibernate.initialize(d.getPeliculas());
+            }
+            
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

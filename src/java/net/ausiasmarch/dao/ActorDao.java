@@ -17,6 +17,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import org.hibernate.Transaction;
 import net.ausiasmarch.pojo.Actor;
+import net.ausiasmarch.pojo.Director;
 import net.ausiasmarch.pojo.HibernateUtil;
 import net.ausiasmarch.pojo.Pelicula;
 import org.hibernate.Criteria;
@@ -101,7 +102,9 @@ public class ActorDao implements ActorDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             lista = sesion.createQuery("from Actor").list();
-            Hibernate.initialize(lista);
+            for(Actor d : lista){
+                Hibernate.initialize(d.getPeliculas());
+            }
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {
