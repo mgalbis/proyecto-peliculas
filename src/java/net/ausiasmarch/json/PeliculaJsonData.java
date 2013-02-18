@@ -17,17 +17,17 @@ import net.ausiasmarch.utilities.Format;
  *
  * @author María Galbis
  */
-public class PeliculaJsonAdapter implements JsonSerializer<Pelicula>, JsonDeserializer<Pelicula> {
+public class PeliculaJsonData implements JsonSerializer<Pelicula>, JsonDeserializer<Pelicula> {
 
     public static String toJson(Pelicula p) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Pelicula.class, new PeliculaJsonAdapter()).create();
+        Gson gson = gsonBuilder.registerTypeAdapter(Pelicula.class, new PeliculaJsonData()).create();
         return gson.toJson(p);
     }
 
     public static String toJson(List<Pelicula> p) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Pelicula.class, new PeliculaJsonAdapter()).create();
+        Gson gson = gsonBuilder.registerTypeAdapter(Pelicula.class, new PeliculaJsonData()).create();
         return gson.toJson(p);
     }
 
@@ -35,7 +35,7 @@ public class PeliculaJsonAdapter implements JsonSerializer<Pelicula>, JsonDeseri
     public JsonElement serialize(Pelicula src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
         if (src != null) {
-            jsonObject.addProperty("#", src.getId());
+            jsonObject.addProperty("Id", src.getId());
             jsonObject.addProperty("Título", src.getTitulo());
             jsonObject.addProperty("VO", (src.getVo()==null?"":src.getVo()));
             jsonObject.addProperty("Descripción", (src.getDescripcion()==null?"":src.getDescripcion()));

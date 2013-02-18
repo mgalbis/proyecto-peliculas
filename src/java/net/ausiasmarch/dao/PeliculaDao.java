@@ -101,7 +101,7 @@ public class PeliculaDao implements PeliculaDaoInterface {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             lista = sesion.createQuery("from Pelicula").list();
-
+            
             for (Pelicula p : lista) {
                 Hibernate.initialize(p.getActors());
                 Hibernate.initialize(p.getGenero());

@@ -17,7 +17,7 @@ p { text-align: justify }
 
 #contenido {
     width: 85%;
-    margin: 45px auto 0 auto;
+    margin: 25px auto 45px auto;
     position: relative;
 }
 
@@ -146,6 +146,9 @@ th.sorted a, th.sortable a {
     background-repeat: no-repeat;
     display: block;
 }
+
+.table th:last-child{ width: 100px }
+.table th:first-child{ width: 20px }
 
 div.exportlinks a {
     text-decoration: none;
