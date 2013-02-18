@@ -14,7 +14,8 @@ import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import net.ausiasmarch.dao.PeliculaDao;
-import net.ausiasmarch.json.PeliculaJsonAdapter;
+import net.ausiasmarch.json.PeliculaJsonData;
+import net.ausiasmarch.json.PeliculaJsonForm;
 import net.ausiasmarch.pojo.Pelicula;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,16 @@ public class PeliculaController {
 
     @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        return new ModelAndView("index", "contenido", "peliculasList.jsp");
+        ModelAndView mod = new ModelAndView("index", "contenido", "list.jsp");
+        mod.addObject("table", "Películas");
+        return mod;
     }
 
     @RequestMapping({"list.json"})
     public ModelAndView peliculas(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
         List<Pelicula> peliculas = dao.readAll();
-        String data = PeliculaJsonAdapter.toJson(peliculas);
+        String data = PeliculaJsonData.toJson(peliculas);
 
         return new ModelAndView("listJson", "data", data);
     }
@@ -54,22 +57,25 @@ public class PeliculaController {
         pelicula.setId(id);
         pelicula = dao.read(pelicula);
 
-        String data = PeliculaJsonAdapter.toJson(pelicula);
+        String data = PeliculaJsonData.toJson(pelicula);
 
         return new ModelAndView("singleJson", "data", data);
     }
 
     @RequestMapping(value = "{id}/form.html")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView model = new ModelAndView("index", "contenido", "peliculaForm.jsp");
+        ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("id", id);
+        model.addObject("table", "Peliculas");
+        model.addObject("form", PeliculaJsonForm.toJson(new Pelicula()));
         return model;
     }
     
     @RequestMapping(value = "form.html")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView model = new ModelAndView("index", "contenido", "peliculaForm.jsp");
-        model.addObject("id", 0);
+        ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
+        model.addObject("table", "Peliculas");
+        model.addObject("form", PeliculaJsonForm.toJson(new Pelicula()));
         return model;
     }
 

@@ -15,10 +15,11 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import net.ausiasmarch.dao.GeneroDao;
 import net.ausiasmarch.pojo.Genero;
-import net.ausiasmarch.json.GeneroJsonAdapter;
+import net.ausiasmarch.json.GeneroJsonData;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,29 +37,28 @@ public class GeneroController {
     
     @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
-        return new ModelAndView("index", "contenido", "generosList.jsp");
+        ModelAndView mod = new ModelAndView("index", "contenido", "list.jsp");
+        mod.addObject("table", "Géneros");
+        return mod;
     }
     
     @RequestMapping({"list.json"})
     public ModelAndView generos(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         
         List<Genero> generos = dao.readAll();
-        String data = GeneroJsonAdapter.toJson(generos);
+        String data = GeneroJsonData.toJson(generos);
         
         return new ModelAndView("listJson", "data", data);
     }
     
-    @RequestMapping({"single.json"})
-    public ModelAndView genero(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        Genero genero = new Genero();;
-        String data = "";
-        if(request.getParameter("id") != null){
-            genero.setId(Integer.parseInt(request.getParameter("id")));
-            genero = dao.read(genero);
+    @RequestMapping(value = "{id}/single.json")
+    public ModelAndView genero(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        Genero genero = new Genero();
+        genero.setId(id);
+        genero = dao.read(genero);
            
-            data = GeneroJsonAdapter.toJson(genero);
-        }
-        
+        String data = GeneroJsonData.toJson(genero);
+
         return new ModelAndView("singleJson", "data", data);
     }
     
