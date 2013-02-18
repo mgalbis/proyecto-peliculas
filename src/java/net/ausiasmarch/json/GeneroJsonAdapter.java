@@ -14,29 +14,29 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Set;
-import net.ausiasmarch.pojo.Director;
+import net.ausiasmarch.pojo.Genero;
 import net.ausiasmarch.pojo.Pelicula;
 
 /**
  *
  * @author María Galbis
  */
-public class DirectorJsonData implements JsonSerializer<Director> {
-
-    public static String toJson(Director d){
+public class GeneroJsonAdapter implements JsonSerializer<Genero> {
+    
+    public static String toJson(Genero g){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Director.class, new DirectorJsonData()).create();
-        return gson.toJson(d);
+        Gson gson = gsonBuilder.registerTypeAdapter(Genero.class, new GeneroJsonAdapter()).create();
+        return gson.toJson(g);
     }
     
-    public static String toJson(List<Director> d){
+    public static String toJson(List<Genero> g){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Director.class, new DirectorJsonData()).create();
-        return gson.toJson(d);
+        Gson gson = gsonBuilder.registerTypeAdapter(Genero.class, new GeneroJsonAdapter()).create();
+        return gson.toJson(g);
     }
 
     @Override
-    public JsonElement serialize(Director src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(Genero src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("#", src.getId());
         jsonObject.addProperty("Nombre", src.getNombre());

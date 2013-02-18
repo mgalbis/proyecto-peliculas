@@ -4,16 +4,17 @@
  */
 package net.ausiasmarch.controller;
 
+import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.ausiasmarch.dao.DirectorDao;
-import net.ausiasmarch.json.DirectorJsonData;
 import net.ausiasmarch.pojo.Director;
+import net.ausiasmarch.json.DirectorJsonAdapter;
+import net.ausiasmarch.json.PeliculaJsonAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,29 +32,28 @@ public class DirectorController {
     
     @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
-        ModelAndView mod = new ModelAndView("index", "contenido", "list.jsp");
-        mod.addObject("table", "Directores");
-        return mod;
+        return new ModelAndView("index", "contenido", "directoresList.jsp");
     }
     
     @RequestMapping({"list.json"})
     public ModelAndView directores(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView mod = new ModelAndView("listJson");
         
         List<Director> directores = dao.readAll();
-        String data = DirectorJsonData.toJson(directores);
-        mod.addObject("data", data);
+        String data = DirectorJsonAdapter.toJson(directores);
         
-        return mod;
+        return new ModelAndView("listJson", "data", data);
     }
     
-    @RequestMapping(value = "{id}/single.json")
-    public ModelAndView director(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    @RequestMapping({"single.json"})
+    public ModelAndView director(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Director director = new Director();
-        director.setId(id);
-        director = dao.read(director);
+        String data = "";
+        if(request.getParameter("id") != null){
+            director.setId(Integer.parseInt(request.getParameter("id")));
+            director = dao.read(director);
            
-        String data = DirectorJsonData.toJson(director);
+            data = DirectorJsonAdapter.toJson(director);
+        }
         
         return new ModelAndView("singleJson", "data", data);
     }

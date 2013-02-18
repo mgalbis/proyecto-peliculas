@@ -4,39 +4,33 @@
  */
 package net.ausiasmarch.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Set;
-import net.ausiasmarch.pojo.Genero;
+import net.ausiasmarch.pojo.Actor;
 import net.ausiasmarch.pojo.Pelicula;
 
 /**
- *
+ * Custom Serialize Actor to Json
  * @author María Galbis
  */
-public class GeneroJsonData implements JsonSerializer<Genero> {
-    
-    public static String toJson(Genero g){
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Genero.class, new GeneroJsonData()).create();
-        return gson.toJson(g);
-    }
-    
-    public static String toJson(List<Genero> g){
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Genero.class, new GeneroJsonData()).create();
-        return gson.toJson(g);
-    }
+public class ActorJsonAdapter implements JsonSerializer<Actor>{
 
+    public static String toJson(Actor a){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
+        return gson.toJson(a);
+    }
+    
+    public static String toJson(List<Actor> a){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonAdapter()).create();
+        return gson.toJson(a);
+    }
+     
     @Override
-    public JsonElement serialize(Genero src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(Actor src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("#", src.getId());
         jsonObject.addProperty("Nombre", src.getNombre());
@@ -54,7 +48,7 @@ public class GeneroJsonData implements JsonSerializer<Genero> {
         jsonObject.add("peliculas", intArr);
         
         
-        return jsonObject; 
+        return jsonObject;     
     }
     
 }
