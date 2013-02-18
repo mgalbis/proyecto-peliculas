@@ -20,7 +20,8 @@ public class JsonForm implements JsonSerializer {
     
     public static String toJson(Object a){
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Object.class, new ActorJsonData()).create();
+        Gson gson = gsonBuilder.registerTypeAdapter(Object.class, new JsonForm()).create();
+        System.out.println(gson.toJson(a));
         return gson.toJson(a);
     }
      

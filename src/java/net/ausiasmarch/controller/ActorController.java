@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.ausiasmarch.dao.ActorDao;
 import net.ausiasmarch.json.ActorJsonData;
+import net.ausiasmarch.json.JsonForm;
 import net.ausiasmarch.pojo.Actor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,5 +54,22 @@ public class ActorController {
         String data = ActorJsonData.toJson(actor);
        
         return new ModelAndView("singleJson", "data", data);
+    }
+    
+    @RequestMapping(value = "{id}/form.html")
+    public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
+        model.addObject("id", id);
+        model.addObject("table", "Actores");
+        model.addObject("form", JsonForm.toJson(new Actor()));
+        return model;
+    }
+    
+    @RequestMapping(value = "form.html")
+    public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
+        model.addObject("table", "Actores");
+        model.addObject("form", JsonForm.toJson(new Actor()));
+        return model;
     }
 }

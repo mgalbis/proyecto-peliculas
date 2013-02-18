@@ -32,7 +32,7 @@ public class ActorJsonData implements JsonSerializer<Actor>{
     @Override
     public JsonElement serialize(Actor src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("#", src.getId());
+        jsonObject.addProperty("Id", src.getId());
         jsonObject.addProperty("Nombre", src.getNombre());
         
         JsonArray intArr = new JsonArray();
