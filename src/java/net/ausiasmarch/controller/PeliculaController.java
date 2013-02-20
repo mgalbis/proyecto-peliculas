@@ -14,9 +14,11 @@ import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import net.ausiasmarch.dao.PeliculaDao;
+import net.ausiasmarch.json.JsonData;
 import net.ausiasmarch.json.PeliculaJsonData;
 import net.ausiasmarch.json.PeliculaJsonForm;
 import net.ausiasmarch.pojo.Pelicula;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,7 +58,6 @@ public class PeliculaController {
         Pelicula pelicula = new Pelicula();
         pelicula.setId(id);
         pelicula = dao.read(pelicula);
-
         String data = PeliculaJsonData.toJson(pelicula);
 
         return new ModelAndView("singleJson", "data", data);
