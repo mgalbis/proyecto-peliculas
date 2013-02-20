@@ -13,7 +13,6 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Set;
 import net.ausiasmarch.dao.ActorDao;
 import net.ausiasmarch.dao.DirectorDao;
 import net.ausiasmarch.dao.GeneroDao;
@@ -21,8 +20,6 @@ import net.ausiasmarch.pojo.Actor;
 import net.ausiasmarch.pojo.Director;
 import net.ausiasmarch.pojo.Genero;
 import net.ausiasmarch.pojo.Pelicula;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
