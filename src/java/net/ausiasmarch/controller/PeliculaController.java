@@ -18,7 +18,6 @@ import net.ausiasmarch.json.JsonData;
 import net.ausiasmarch.json.PeliculaJsonData;
 import net.ausiasmarch.json.PeliculaJsonForm;
 import net.ausiasmarch.pojo.Pelicula;
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +38,7 @@ public class PeliculaController {
 
     @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView mod = new ModelAndView("index", "contenido", "list.jsp");
+        ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Películas");
         return mod;
     }
@@ -62,21 +61,24 @@ public class PeliculaController {
 
         return new ModelAndView("singleJson", "data", data);
     }
+    
+    @RequestMapping(value = "form.json")
+    public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+        return new ModelAndView("singleJson", "data",  PeliculaJsonForm.toJson(new Pelicula()));
+    }
 
     @RequestMapping(value = "{id}/form.html")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("id", id);
-        model.addObject("table", "Peliculas");
-        model.addObject("form", PeliculaJsonForm.toJson(new Pelicula()));
+        model.addObject("table", "Películas");
         return model;
     }
     
     @RequestMapping(value = "form.html")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
-        model.addObject("table", "Peliculas");
-        model.addObject("form", PeliculaJsonForm.toJson(new Pelicula()));
+        model.addObject("table", "Películas");
         return model;
     }
 

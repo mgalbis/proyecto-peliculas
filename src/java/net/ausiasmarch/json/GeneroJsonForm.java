@@ -26,7 +26,7 @@ public class GeneroJsonForm implements JsonSerializer<Genero> {
     
     public static String toJson(Genero p) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Genero.class, new PeliculaJsonForm()).create();
+        Gson gson = gsonBuilder.registerTypeAdapter(Genero.class, new GeneroJsonForm()).create();
         return gson.toJson(p);
     }
 
@@ -34,8 +34,8 @@ public class GeneroJsonForm implements JsonSerializer<Genero> {
     public JsonElement serialize(Genero src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
       
-            jsonObject.addProperty("Id", "int");
-            jsonObject.addProperty("Nombre", "string");
+            jsonObject.addProperty("Id", "hidden");
+            jsonObject.addProperty("Nombre", "text");
             
             JsonArray peliculas = new JsonArray();
 
@@ -46,8 +46,9 @@ public class GeneroJsonForm implements JsonSerializer<Genero> {
 
                 peliculas.add(aux);
             }
-            
-            jsonObject.add("Películas", peliculas);
+            JsonObject aux2 = new JsonObject();
+            aux2.add("multiple", peliculas);
+            jsonObject.add("Películas", aux2);
             
            
         return jsonObject;

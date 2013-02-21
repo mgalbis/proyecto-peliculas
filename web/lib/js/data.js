@@ -76,6 +76,18 @@ function get(table, id) {
     })
 }
 
+function getFormJ(table) {
+    return $.ajax({
+        url : table+'/form.json',
+        type : 'GET',
+        dataType : 'json',
+        error : function(jqXHR, status, error) {
+            alert('Error al procesar la solicitud: '+error);
+        }
+   
+    })
+}
+
 function eliminar(tabla, id){
      $.ajax({
         url : tabla+'/delete.html?id='+id,

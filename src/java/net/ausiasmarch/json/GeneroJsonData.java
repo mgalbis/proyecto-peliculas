@@ -38,7 +38,7 @@ public class GeneroJsonData implements JsonSerializer<Genero> {
     @Override
     public JsonElement serialize(Genero src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("#", src.getId());
+        jsonObject.addProperty("Id", src.getId());
         jsonObject.addProperty("Nombre", src.getNombre());
         
         JsonArray intArr = new JsonArray();

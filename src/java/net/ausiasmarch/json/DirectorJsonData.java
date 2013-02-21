@@ -38,7 +38,7 @@ public class DirectorJsonData implements JsonSerializer<Director> {
     @Override
     public JsonElement serialize(Director src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("#", src.getId());
+        jsonObject.addProperty("Id", src.getId());
         jsonObject.addProperty("Nombre", src.getNombre());
         
         JsonArray intArr = new JsonArray();

@@ -26,7 +26,7 @@ public class ActorJsonForm implements JsonSerializer<Actor> {
     
     public static String toJson(Actor p) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new PeliculaJsonForm()).create();
+        Gson gson = gsonBuilder.registerTypeAdapter(Actor.class, new ActorJsonForm()).create();
         return gson.toJson(p);
     }
 
@@ -34,8 +34,8 @@ public class ActorJsonForm implements JsonSerializer<Actor> {
     public JsonElement serialize(Actor src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
       
-            jsonObject.addProperty("Id", "int");
-            jsonObject.addProperty("Nombre", "string");
+            jsonObject.addProperty("Id", "hidden");
+            jsonObject.addProperty("Nombre", "text");
             
             JsonArray peliculas = new JsonArray();
 
@@ -47,7 +47,9 @@ public class ActorJsonForm implements JsonSerializer<Actor> {
                 peliculas.add(aux);
             }
             
-            jsonObject.add("Películas", peliculas);
+            JsonObject aux2 = new JsonObject();
+            aux2.add("multiple", peliculas);
+            jsonObject.add("Películas", aux2);
             
            
         return jsonObject;

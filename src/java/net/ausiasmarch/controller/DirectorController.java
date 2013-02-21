@@ -9,7 +9,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.ausiasmarch.dao.DirectorDao;
+import net.ausiasmarch.json.ActorJsonForm;
 import net.ausiasmarch.json.DirectorJsonData;
+import net.ausiasmarch.json.DirectorJsonForm;
+import net.ausiasmarch.pojo.Actor;
 import net.ausiasmarch.pojo.Director;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +34,7 @@ public class DirectorController {
     
     @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
-        ModelAndView mod = new ModelAndView("index", "contenido", "list.jsp");
+        ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Directores");
         return mod;
     }
@@ -56,5 +59,17 @@ public class DirectorController {
         String data = DirectorJsonData.toJson(director);
         
         return new ModelAndView("singleJson", "data", data);
+    }
+    
+    @RequestMapping(value = "form.json")
+    public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+        return new ModelAndView("singleJson", "data",  DirectorJsonForm.toJson(new Director()));
+    }
+    
+    @RequestMapping(value = "form.html")
+    public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
+        model.addObject("table", "Directores");
+        return model;
     }
 }

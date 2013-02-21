@@ -22,38 +22,35 @@
     methods = {
         
         init: function () {
-            var object = methods.filter(settings.data),
-            btn,
-            txt = '<table class="table "><thead><tr>';
+            var object = methods.filter(settings.data),  //aplicamos filtro
+            btn,     //botones crud
+            txt = '<table class="table "><thead><tr>';  //creamos tabla y cabecera
          
-            var thead = $.map (object[0], function(n, i) {
+          //mapeamos el objeto json y creamos un array sólo con los índices
+            var thead = $.map (object[0], function(n, i) {  
                 return i;
             });
     
-            $.each (thead, function (i, v) {
-
-                if(!$.isArray(v)){
-                    txt += '<th>'+v+'</th>';
-                }
- 
+            $.each (thead, function (i, v) { //los colocamos en la cabecera
+               
+                    txt += '<th>'+(v=='Id'|v=='id'?'#':v)+'</th>';
             })
             
             if(settings.crud) {
                 txt += '<th></th>';
             }
             
-            txt += '</tr></thead><tbody>';
+            txt += '</tr></thead><tbody>'; //abrimos el cuerpo de la tabla
             
-            $.each(object, function (i,v) {
+            $.each(object, function (i,v) {  //por cada fila
                 txt += '<tr>';
-                for(var c=0;c<thead.length;c++) {
-                    if(!$.isArray(v[thead[c]])) {
-                        txt += '<td>'+v[thead[c]]+'</td>';
-                    }
+                for(var c=0;c<thead.length;c++) { //recorremos campos
+                    
+                        txt += '<td>'+v[thead[c]]+'</td>';  //creamos celda
                 }
                 
                 
-                if(settings.crud){
+                if(settings.crud){  //si están activados los botones
                     txt += '<td><div class="btn-group">'
                         + $().Button({ 
                             id: v[thead[0]], 
@@ -74,12 +71,13 @@
                 } 
 
             })
-            txt += '</tbody></table>';
+            txt += '</tbody></table>'; // cerramos tabla
     
             return txt;
            
         },
         
+        //filtra columnas según la configuración elegida
         filter: function (object) {
 
             if(!settings.lists) {
@@ -203,11 +201,18 @@
     methods = {
         
         init: function () {
-            return methods[settings.type]();
+            return methods[settings.type=='simple'|settings.type=='multiple'?'list':settings.type]();
         },
         
         text: function () {
             var txt = '<input type="text"';
+            txt += methods.attributes();
+            txt += ' value="'+settings.value+'" />';
+            return txt;
+        },
+        
+        hidden: function(){
+            var txt = '<input type="hidden"';
             txt += methods.attributes();
             txt += ' value="'+settings.value+'" />';
             return txt;
@@ -221,9 +226,11 @@
         },
         
         date: function () {
-            var txt = '<input type="text"';
+            var txt = '<div class="input-append date" id="dp3" data-date-format="dd-mm-yyyy">'
+                +'<input type="text" ';
             txt += methods.attributes();
-            txt += ' value="'+settings.value+'" />';
+            txt += ' value="'+settings.value+'" disabled/>'
+                + '<span class="add-on"><i class="icon-calendar"></i></span></div>';
             return txt;
         },
         
@@ -258,9 +265,16 @@
         },
         
         list: function () {
-            var txt = '<input type="text" ';
-            txt += methods.attributes();
-            txt += '>';
+            var txt = '<ul ';
+            txt += methods.attributes() + '>';
+            txt += methods.li();
+            txt += '</ul>';
+            txt += $().Button({
+                html: true,
+                class: settings.type,
+                content: '<i class="icon-list"></i>'
+            });
+            
             return txt;
         },
         
@@ -269,6 +283,17 @@
 
             $.each(settings.content, function(){
                 txt += '<option value="'+this.id+'">'+this.nombre+'</option>';
+            })
+            
+            return txt;
+        },
+        
+        li: function(){
+            var txt = '';
+
+            $.each(settings.content, function(){
+                var val = this.nombre == undefined ? this.titulo : this.nombre;
+                txt += '<li value="'+this.id+'">'+val+'</li>';
             })
             
             return txt;
@@ -335,27 +360,32 @@
         },
         
         control: function (label, content) {
-
-            var txt = '<div class="control-group">'
-                +'<label class="control-label" for="'+label+'">'+label+'</label>'
-                +'<div class="controls">';
+            
+            var txt = '<div class="control-group">';
+            if(content != 'hidden'){
+              txt += '<label class="control-label" for="'+label+'">'+label+'</label>';
+            }
+              txt += '<div class="controls">';
                 //alert(label+' '+content);
             txt += methods.typeValidation(label,content);
             
             txt += '</div></div>';
            
             return txt;
+            
         },
         
         typeValidation: function (label,content) {
             var txt = '';
-            
+            var index;
+            $.each(content, function(i,v){ index = i });
+            //alert(index);
             if($.isPlainObject(content)){
-                if(content['list'].length > 10){
+                if(index == 'simple' | index == 'multiple'){
                     txt = $().Field({
-                        type: 'typeahead', 
+                        type: index, 
                         id: label, 
-                        content: content['list'], 
+                        content: content[index], 
                         html: true,
                         class: 'input-xlarge'
                     });
@@ -363,7 +393,7 @@
                     txt = $().Field({
                         type: 'select', 
                         id: label, 
-                        content: content['list'], 
+                        content: content[index], 
                         html: true,
                         class: 'input-xlarge'
                     });
@@ -372,13 +402,14 @@
             } else if($.isArray(content)){
                 
                 txt = $().Field({
-                    type: 'text', 
+                    type: 'select', 
                     id: label, 
-                    html: true,
-                    class: 'input-xlarge multiple'
+                    class: 'input-xlarge',
+                    content: content,
+                    html: true
                 });
                 
-                specialData = content;
+                //specialData = content;
             }
             
             else {
@@ -399,6 +430,13 @@
                         class: 'input-xlarge'
                     });
                 
+                } else if(content == 'hidden'){
+                    txt = $().Field({
+                       type: 'hidden',
+                       id: label,
+                       html: true,
+                       class: 'input-xlarge'
+                    });
                 } else {
                     txt = $().Field({
                         type: 'text', 
@@ -426,10 +464,11 @@
         if(settings.html) return form;
         else this.append(form);
         
-        $(".multiple").tokenInput(specialData, {
-                theme: "facebook"
+        $('.date').datepicker({
+            language: 'es',
+            autoclose: true
             });
-        //alert($('.hola').html())
+        //alert($('#form').html())
         if(callback) callback();
     };
     
@@ -452,29 +491,9 @@
             $.each(fields, function() {
                 if($(this).parent().html().search('<input') != -1){
                     
-                    if($(this).parent().html().search('multiple') != -1){
-                        var input = $(this).parent().parent().find('input:last');
-                        
-                        if($(this).html() != ''){
-                            
-                        var li = $(this).children('li');
-
-                        var ul = $(this);
-                        $.each(settings.data[input.attr('id')], function(i, v) {
-                            
-                            var txt = '<li class="token-input-token-facebook">'
-		                          +'<p>'+v['nombre']+'</p>'
-		                          +'<span class="token-input-delete-token-facebook">×</span>'
-	                              +'</li>';
-                            
-                            ul.append(txt);
-                            ul.find('li:last').after(li);
-                        });
-                        
-                        }
-                    } else {
+                    
                         $(this).val(settings.data[$(this).attr('id')]);
-                    }
+                  
                     
                 } else if($(this).parent().html().search('<textarea') != -1){ 
                     

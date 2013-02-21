@@ -14,8 +14,11 @@ import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.SystemException;
 import net.ausiasmarch.dao.GeneroDao;
+import net.ausiasmarch.json.ActorJsonForm;
 import net.ausiasmarch.pojo.Genero;
 import net.ausiasmarch.json.GeneroJsonData;
+import net.ausiasmarch.json.GeneroJsonForm;
+import net.ausiasmarch.pojo.Actor;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +40,7 @@ public class GeneroController {
     
     @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
-        ModelAndView mod = new ModelAndView("index", "contenido", "list.jsp");
+        ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Géneros");
         return mod;
     }
@@ -62,18 +65,16 @@ public class GeneroController {
         return new ModelAndView("singleJson", "data", data);
     }
     
+    @RequestMapping(value = "form.json")
+    public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+        return new ModelAndView("singleJson", "data",  GeneroJsonForm.toJson(new Genero()));
+    }
     
-    @RequestMapping({"form.html"})
+    
+    @RequestMapping(value = "form.html")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView model = new ModelAndView("index", "contenido", "generosForm.jsp");
-        
-        int id = 0;
-
-        if(request.getParameter("id") != null){    
-            id = Integer.parseInt(request.getParameter("id"));
-        }
-        
-         model.addObject("id", id);
+        ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
+        model.addObject("table", "Géneros");
         return model;
     }
     

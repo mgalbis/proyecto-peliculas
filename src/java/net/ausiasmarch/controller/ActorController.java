@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.ausiasmarch.dao.ActorDao;
 import net.ausiasmarch.json.ActorJsonData;
+import net.ausiasmarch.json.ActorJsonForm;
 import net.ausiasmarch.json.JsonForm;
 import net.ausiasmarch.pojo.Actor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ActorController {
     
     @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
-        ModelAndView mod = new ModelAndView("index", "contenido", "list.jsp");
+        ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Actores");
         return mod;
     }
@@ -56,12 +57,16 @@ public class ActorController {
         return new ModelAndView("singleJson", "data", data);
     }
     
+    @RequestMapping(value = "form.json")
+    public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+        return new ModelAndView("singleJson", "data",  ActorJsonForm.toJson(new Actor()));
+    }
+    
     @RequestMapping(value = "{id}/form.html")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("id", id);
         model.addObject("table", "Actores");
-        model.addObject("form", JsonForm.toJson(new Actor()));
         return model;
     }
     
@@ -69,7 +74,7 @@ public class ActorController {
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("table", "Actores");
-        model.addObject("form", JsonForm.toJson(new Actor()));
+        model.addObject("form", ActorJsonForm.toJson(new Actor()));
         return model;
     }
 }
