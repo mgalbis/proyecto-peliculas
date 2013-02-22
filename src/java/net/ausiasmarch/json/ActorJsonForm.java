@@ -12,10 +12,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
-import java.util.List;
 import net.ausiasmarch.dao.PeliculaDao;
 import net.ausiasmarch.pojo.Actor;
-import net.ausiasmarch.pojo.Pelicula;
 
 /**
  *
@@ -37,19 +35,19 @@ public class ActorJsonForm implements JsonSerializer<Actor> {
             jsonObject.addProperty("Id", "hidden");
             jsonObject.addProperty("Nombre", "text");
             
-            JsonArray peliculas = new JsonArray();
-
-            for (Pelicula p : (List<Pelicula>) peliculaDao.readAll()) {
-                JsonObject aux = new JsonObject();
-                aux.addProperty("id", p.getId());
-                aux.addProperty("titulo", p.getTitulo());
-
-                peliculas.add(aux);
-            }
-            
-            JsonObject aux2 = new JsonObject();
-            aux2.add("multiple", peliculas);
-            jsonObject.add("Películas", aux2);
+//            JsonArray peliculas = new JsonArray();
+//
+//            for (Pelicula p : (List<Pelicula>) peliculaDao.readAll()) {
+//                JsonObject aux = new JsonObject();
+//                aux.addProperty("id", p.getId());
+//                aux.addProperty("titulo", p.getTitulo());
+//
+//                peliculas.add(aux);
+//            }
+//            
+//            JsonObject aux2 = new JsonObject();
+//            aux2.add("multiple", peliculas);
+//            jsonObject.add("Películas", aux2);
             
            
         return jsonObject;

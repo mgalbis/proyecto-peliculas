@@ -26,14 +26,14 @@
             btn,     //botones crud
             txt = '<table class="table "><thead><tr>';  //creamos tabla y cabecera
          
-          //mapeamos el objeto json y creamos un array sólo con los índices
+            //mapeamos el objeto json y creamos un array sólo con los índices
             var thead = $.map (object[0], function(n, i) {  
                 return i;
             });
     
             $.each (thead, function (i, v) { //los colocamos en la cabecera
                
-                    txt += '<th>'+(v=='Id'|v=='id'?'#':v)+'</th>';
+                txt += '<th>'+(v=='Id'|v=='id'?'#':v)+'</th>';
             })
             
             if(settings.crud) {
@@ -46,28 +46,31 @@
                 txt += '<tr>';
                 for(var c=0;c<thead.length;c++) { //recorremos campos
                     
-                        txt += '<td>'+v[thead[c]]+'</td>';  //creamos celda
+                    txt += '<td>'+v[thead[c]]+'</td>';  //creamos celda
                 }
                 
                 
                 if(settings.crud){  //si están activados los botones
                     txt += '<td><div class="btn-group">'
-                        + $().Button({ 
-                            id: v[thead[0]], 
-                            class: 'ver btn', 
-                            content: '<i class="icon-eye-open"></i>',
-                            html: true })
-                        + $().Button({ 
-                            id: v[thead[0]], 
-                            class: 'editar btn', 
-                            content: '<i class="icon-pencil"></i>', 
-                            html: true })
-                        + $().Button({ 
-                            id: v[thead[0]], 
-                            class: 'borrar btn', 
-                            content: '<i class="icon-trash"></i>', 
-                            html: true })
-                        + '</div></td>';
+                    + $().Button({ 
+                        id: v[thead[0]], 
+                        class: 'ver btn', 
+                        content: '<i class="icon-eye-open"></i>',
+                        html: true
+                    })
+                    + $().Button({ 
+                        id: v[thead[0]], 
+                        class: 'editar btn', 
+                        content: '<i class="icon-pencil"></i>', 
+                        html: true
+                    })
+                    + $().Button({ 
+                        id: v[thead[0]], 
+                        class: 'borrar btn', 
+                        content: '<i class="icon-trash"></i>', 
+                        html: true
+                    })
+                    + '</div></td>';
                 } 
 
             })
@@ -147,6 +150,79 @@
 
 //************************************************//
 
+//******* CREATE MODAL-LIST **********************//
+
+(function ($) {
+    "use strict";
+    
+    var defaults = {
+        data : {}
+    }, settings,
+        
+    methods = {
+        
+        init: function () {
+            var object = methods.filter(settings.data),  //aplicamos filtro
+            btn,     //botones crud
+            txt = '<ul class="modal-list">';  //creamos tabla y cabecera
+         
+            //mapeamos el objeto json y creamos un array sólo con los índices
+            var thead = $.map (object[0], function(n, i) {  
+                return i;
+            });
+
+            
+            $.each(object, function (i,v) {  //por cada fila
+ 
+                txt += '<li value="'+v[thead[0]]+'">'
+                +v[thead[1]]+'<i class="icon-plus"></i></li>';  //creamos celda
+
+            })
+            txt += '</ul>'; // cerramos tabla
+    
+            return txt;
+           
+        },
+        
+        filter: function (object) {
+
+            $.each(object, function (i,v) {
+                $.each(v, function (i2, v2) {
+
+                    if($.isArray(v2)) delete v[i2];
+                });
+            })
+           
+            
+            $.each(object, function (i,v) {
+                $.each(v, function (i2, v2) {
+
+                    if($.isPlainObject(v2)) {
+                        
+                        delete v[i2];
+     
+                        
+                    }
+                })
+            })
+
+            return object;
+        }
+        
+        
+    };
+    
+    $.fn.ModalList = function (options) {
+        settings = $.extend ({}, defaults, options);
+
+        var table = methods.init();
+        return this.html(table);
+    };
+    
+})(jQuery);
+
+//************************************************//
+
 
 //******* CREATE BUTTON **************************//
 
@@ -218,6 +294,13 @@
             return txt;
         },
         
+        number: function () {
+            var txt = '<input type="number"';
+            txt += methods.attributes();
+            txt += ' value="'+settings.value+'" />';
+            return txt;
+        },
+        
         typeahead: function () {
             var txt = '<input type="text"';
             txt += methods.attributes();
@@ -226,11 +309,11 @@
         },
         
         date: function () {
-            var txt = '<div class="input-append date" id="dp3" data-date-format="dd-mm-yyyy">'
-                +'<input type="text" ';
+            var txt = '<div class="input-append date" data-date-format="dd-mm-yyyy">'
+            +'<input type="text" ';
             txt += methods.attributes();
             txt += ' value="'+settings.value+'" disabled/>'
-                + '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+            + '<span class="add-on"><i class="icon-calendar"></i></span></div>';
             return txt;
         },
         
@@ -338,7 +421,7 @@
         class: false,
         html: false,
         legend: ''
-    }, settings, specialData,
+    }, settings,
         
     methods = {
      
@@ -348,12 +431,15 @@
             if(settings.class != false) txt += 'class="'+settings.class+'" ';
             if(settings.name != false) txt += 'name="'+settings.name+'" ';
             txt += '>'
-                + '<fieldset><legend>'+settings.legend+'</legend>';
+            + '<fieldset><legend>'+settings.legend+'</legend>';
             
             $.each(settings.data, function (i,v) {
-                    txt += methods.control(i,v);
+                txt += methods.control(i,v);
             })
             
+            txt += '<div class="control-group"><div class="controls">'
+            +'<button type="submit" id="submitFormCliente" class="btn btn-primary">Guardar</button>'
+            +'</div></div>';
             txt += '</form>';
             
             return txt;
@@ -363,10 +449,10 @@
             
             var txt = '<div class="control-group">';
             if(content != 'hidden'){
-              txt += '<label class="control-label" for="'+label+'">'+label+'</label>';
+                txt += '<label class="control-label" for="'+label+'">'+label+'</label>';
             }
-              txt += '<div class="controls">';
-                //alert(label+' '+content);
+            txt += '<div class="controls">';
+            //alert(label+' '+content);
             txt += methods.typeValidation(label,content);
             
             txt += '</div></div>';
@@ -378,13 +464,15 @@
         typeValidation: function (label,content) {
             var txt = '';
             var index;
-            $.each(content, function(i,v){ index = i });
+            $.each(content, function(i,v){
+                index = i
+            });
             //alert(index);
             if($.isPlainObject(content)){
                 if(index == 'simple' | index == 'multiple'){
                     txt = $().Field({
                         type: index, 
-                        id: label, 
+                        id: stripVowelAccent(label.toLowerCase()), 
                         content: content[index], 
                         html: true,
                         class: 'input-xlarge'
@@ -392,7 +480,7 @@
                 } else {
                     txt = $().Field({
                         type: 'select', 
-                        id: label, 
+                        id: stripVowelAccent(label.toLowerCase()), 
                         content: content[index], 
                         html: true,
                         class: 'input-xlarge'
@@ -403,50 +491,21 @@
                 
                 txt = $().Field({
                     type: 'select', 
-                    id: label, 
+                    id: stripVowelAccent(label.toLowerCase()), 
                     class: 'input-xlarge',
                     content: content,
                     html: true
                 });
                 
-                //specialData = content;
-            }
-            
-            else {
+            //specialData = content;
+            } else {
                 
-                if(content == 'long'){
-                    txt = $().Field({
-                        type: 'textarea', 
-                        id: label,  
-                        html: true,
-                        class: 'input-xlarge'
-                    });
-                    
-                } else if(content == 'date'){
-                    txt = $().Field({
-                        type: 'date', 
-                        id: label, 
-                        html: true,
-                        class: 'input-xlarge'
-                    });
-                
-                } else if(content == 'hidden'){
-                    txt = $().Field({
-                       type: 'hidden',
-                       id: label,
-                       html: true,
-                       class: 'input-xlarge'
-                    });
-                } else {
-                    txt = $().Field({
-                        type: 'text', 
-                        id: label, 
-                        html: true,
-                        class: 'input-xlarge'
-                    });
-                }
-                
-                
+                txt = $().Field({
+                    type: content, 
+                    id: stripVowelAccent(label.toLowerCase()),  
+                    html: true,
+                    class: 'input-xlarge'
+                });
                 
             }
             
@@ -467,7 +526,9 @@
         $('.date').datepicker({
             language: 'es',
             autoclose: true
-            });
+        });
+        
+        
         //alert($('#form').html())
         if(callback) callback();
     };
@@ -476,8 +537,8 @@
 
 //************************************************//
 
-//******** FILL FORM *****************************//
-
+//******** VIEW *****************************//
+/*
 (function ($) {
     
     var defaults = {
@@ -492,7 +553,7 @@
                 if($(this).parent().html().search('<input') != -1){
                     
                     
-                        $(this).val(settings.data[$(this).attr('id')]);
+                    $(this).val(settings.data[$(this).attr('id')]);
                   
                     
                 } else if($(this).parent().html().search('<textarea') != -1){ 
@@ -502,7 +563,7 @@
                 } else if($(this).parent().html().search('<select') != -1){
   
                 
-                        $(this).find('option[value='+settings.data[$(this).attr('id')]['id']+']').attr('selected',true);
+                    $(this).find('option[value='+settings.data[$(this).attr('id')]['id']+']').attr('selected',true);
 
                 }
             })
@@ -524,36 +585,130 @@
     };
     
 })(jQuery);
-
+*/
 
 //************************************************//
 
-//******** CREATE VIEW ****************************//
+//******** CREATE FILL-FORM ****************************//
 
 (function($){
     "use strict";
     
-   $.fn.Form = function(options){
-       
-       
-   };
+    $.fn.Fill = function(options){
+        settings = $.extend({}, defaults, options);
+        form = this;
+        methods.init();
+    };
     
     var defaults = {
         data: {}
-    }, settings,
+    }, settings, form,
+        
+    methods = {
+        init: function(){
+            var aux = {}
+            $.each(settings.data, function(i,v){
+                aux[stripVowelAccent(i.toLowerCase())] = v;
+            })
+            settings.data = aux;
+            
+            
+            form.find('.controls input, .controls textarea').each(function() {
+                $(this).val(settings.data[$(this).attr('id')])
+            })
+                
+            $.each(settings.data, function(i,v){
+                
+            
+                form.find('.controls select').each(function() {
+                     
+                    if(i == $(this).attr('id')){
+                    $(this).find('option').each(function(){
+                            if($(this).val() == v['id']) $(this).attr('selected', 'selected')
+                        });
+                    }
+                })
+            
+                form.find('.controls ul').each(function() {
+                    
+                    if(i == $(this).attr('id')){
+                      
+                      var ul = $(this);
+                        if($.isArray(v)){
+                            $.each(v, function(ind, val){
+                                
+                                var li = '<li value="'+val['id']+'">'+(val['nombre']==undefined?val['titulo']:val['nombre'])+'</li>';
+                            ul.append(li);
+                            })
+                        } else {
+                            var li = '<li value="'+v['id']+'">'+v['nombre']+'</li>';
+                            ul.append(li);
+                        }
+                    }
+                })
+            });
+        }
+
+        
+    }
+    
+})(jQuery);
+
+//************************************************//
+
+(function($){
+    "use strict";
+    
+    $.fn.Serialize = function(){
+        //settings = $.extend({}, defaults, options);
+        //alert('hola');
+        methods.init.apply(this);
+        return fields;
+    };
+    
+    var fields = {},
         
     methods = {
      
         init: function(){
             
-        },
-        
-        control: function(label){
-
+            this.find('.controls input, .controls textarea').each(function() {
+                fields[$(this).attr('id')] = $(this).val();
+            })
+            
+            this.find('.controls select').each(function() {
+                var aux = {};
+                aux['id'] = $(this).find('option:selected').val();
+                aux['nombre'] = $(this).find('option:selected').text();
+                fields[$(this).attr('id')] = aux;
+            })
+            
+            this.find('.controls ul').each(function() {
+                var aux;
+                if($(this).find('li').length == 1){
+                    aux = {}
+                    aux['id'] = $(this).find('li').val();
+                    aux['nombre'] = $(this).find('li').html();
+                   
+                } else {
+                    aux = new Array();
+                    $(this).find('li').each(function(){
+                        var aux2 = {};
+                        aux2['id'] = $(this).val();
+                        if(aux2['nombre'] == undefined){
+                            aux2['titulo'] = $(this).html();
+                        } else {
+                            aux2['nombre'] = $(this).html();
+                        }
+                        aux.push(aux2);
+                    })
+                }
+                
+                fields[$(this).attr('id')] = aux;
+            })
+            
         }
         
-    }
+    };
     
-});
-
-//************************************************//
+})(jQuery);

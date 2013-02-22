@@ -36,7 +36,7 @@ public class GeneroJsonForm implements JsonSerializer<Genero> {
       
             jsonObject.addProperty("Id", "hidden");
             jsonObject.addProperty("Nombre", "text");
-            
+            /*
             JsonArray peliculas = new JsonArray();
 
             for (Pelicula p : (List<Pelicula>) peliculaDao.readAll()) {
@@ -49,7 +49,7 @@ public class GeneroJsonForm implements JsonSerializer<Genero> {
             JsonObject aux2 = new JsonObject();
             aux2.add("multiple", peliculas);
             jsonObject.add("Películas", aux2);
-            
+            */
            
         return jsonObject;
     }

@@ -22,7 +22,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
      private Integer calificacion;
      private int duracion;
      private Date fecha;
-     private Set actors = new HashSet(0);
+     private Set actores = new HashSet(0);
 
     public Pelicula() {
     }
@@ -44,7 +44,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
        this.calificacion = calificacion;
        this.duracion = duracion;
        this.fecha = fecha;
-       this.actors = actors;
+       this.actores = actors;
     }
    
     @Override
@@ -112,12 +112,12 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    public Set getActors() {
-        return this.actors;
+    public Set getActores() {
+        return this.actores;
     }
     
-    public void setActors(Set actors) {
-        this.actors = actors;
+    public void setActores(Set actores) {
+        this.actores = actores;
     }
 
     @Override

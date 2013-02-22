@@ -20,6 +20,21 @@ public class Format {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(fecha);
     }
+    
+    public static int year(String fecha){
+        fecha = fecha.substring(6, 10);
+        return Integer.parseInt(fecha);
+    }
+    
+    public static int month(String fecha){
+        fecha = fecha.substring(3, 5);
+        return Integer.parseInt(fecha);
+    }
+    
+    public static int day(String fecha){
+        fecha = fecha.substring(0, 2);
+        return Integer.parseInt(fecha);
+    }
 
     public static String fromMySql(Date fecha) {
         GregorianCalendar calendar = new GregorianCalendar();

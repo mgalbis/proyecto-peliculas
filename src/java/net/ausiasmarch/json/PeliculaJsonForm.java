@@ -44,7 +44,7 @@ public class PeliculaJsonForm implements JsonSerializer<Pelicula> {
             jsonObject.addProperty("Id", "hidden");
             jsonObject.addProperty("Título", "text");
             jsonObject.addProperty("VO", "text");
-            jsonObject.addProperty("Descripción", "long");
+            jsonObject.addProperty("Descripción", "textarea");
             jsonObject.addProperty("Calificación", "number");
             jsonObject.addProperty("Duración", "number");
             jsonObject.addProperty("Fecha", "date");

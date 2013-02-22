@@ -75,6 +75,26 @@ ul.input-xlarge{
     border:1px solid #ccc;
 }
 
+ul.input-xlarge li:hover{
+    opacity: 0.5;
+    cursor: pointer
+}
+
+.modal ul{
+    list-style: none;
+    display: block;
+}
+
+.modal ul li { position: relative; border-bottom: 1px solid #ccc; margin-right: 50px }
+
+.modal ul i{
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+
+.modal ul i:hover{ opacity: 0.5 }
+
 select { width: 270px }
 
 input[disabled]{
@@ -93,7 +113,7 @@ textarea { resize:vertical }
     margin-left: 5px;
 }
 
-button, .simple { position: absolute; top: 0; margin-left: 2px; height: 30px; }
+ul button, .simple, .multiple { position: absolute; top: 0; margin-left: 2px; height: 30px; }
 .controls { position: relative }
 #search {
     float: right;

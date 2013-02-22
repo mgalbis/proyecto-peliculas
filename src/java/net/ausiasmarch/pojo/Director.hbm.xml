@@ -9,13 +9,13 @@
             <generator class="identity" />
         </id>
         <property name="nombre" type="string">
-            <column name="nombre" not-null="true" unique="true">
+            <column name="nombre" not-null="false" unique="true">
                 <comment>Director</comment>
             </column>
         </property>
         <set name="peliculas" inverse="true">
             <key>
-                <column name="director" not-null="true">
+                <column name="director" not-null="false">
                     <comment>Director</comment>
                 </column>
             </key>

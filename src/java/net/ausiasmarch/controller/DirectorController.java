@@ -6,14 +6,19 @@ package net.ausiasmarch.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import javax.persistence.RollbackException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.SystemException;
 import net.ausiasmarch.dao.DirectorDao;
 import net.ausiasmarch.json.ActorJsonForm;
 import net.ausiasmarch.json.DirectorJsonData;
 import net.ausiasmarch.json.DirectorJsonForm;
 import net.ausiasmarch.pojo.Actor;
 import net.ausiasmarch.pojo.Director;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,10 +71,54 @@ public class DirectorController {
         return new ModelAndView("singleJson", "data",  DirectorJsonForm.toJson(new Director()));
     }
     
+    @RequestMapping(value = "{id}/form.html")
+    public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
+        model.addObject("id", id);
+        model.addObject("table", "Directores");
+        return model;
+    }
+    
     @RequestMapping(value = "form.html")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("table", "Directores");
         return model;
+    }
+    
+    @RequestMapping(value = "{type}/modalList.html")
+    public ModelAndView modalList(@PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("list");
+        model.addObject("table", "directores");
+        model.addObject("type", type);
+        return model;
+    }
+    
+    @RequestMapping(value = "{id}/view.html")
+    public ModelAndView view(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("index", "contenido", "view.jsp");
+        model.addObject("id", id);
+        model.addObject("table", "Directores");
+        return model;
+    }
+    
+    @RequestMapping({"save.html"})
+    public void save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+
+        Director director = DirectorJsonData.fromJson(request.getParameter("form"));
+        
+        if (director.getId() == null) {
+            dao.create(director);
+        } else {
+            dao.update(director);
+        }
+    }
+    
+    @RequestMapping({"{id}/delete.html"})
+    public void delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+
+            Director director = new Director();
+            director.setId(id);
+            dao.delete(director);
     }
 }

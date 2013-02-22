@@ -78,23 +78,35 @@ public class GeneroController {
         return model;
     }
     
-    @RequestMapping({"view.html"})
-    public ModelAndView view(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView model = new ModelAndView("index", "contenido", "generoView.jsp");
-        
-        if(request.getParameter("id") != null){
-            Genero genero = new Genero();
-            genero.setId(Integer.parseInt(request.getParameter("id")));
-            model.addObject("genero", dao.read(genero));
-        }
-        
+    @RequestMapping(value = "{id}/form.html")
+    public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
+        model.addObject("id", id);
+        model.addObject("table", "Géneros");
+        return model;
+    }
+    
+    
+    @RequestMapping(value = "{type}/modalList.html")
+    public ModelAndView modalList(@PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("list");
+        model.addObject("table", "generos");
+        model.addObject("type", type);
+        return model;
+    }
+    
+    @RequestMapping(value = "{id}/view.html")
+    public ModelAndView view(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("index", "contenido", "view.jsp");
+        model.addObject("id", id);
+        model.addObject("table", "Géneros");
         return model;
     }
     
     @RequestMapping({"save.html"})
-    public ModelAndView save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    public void save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         
-        Genero genero = new Gson().fromJson(request.getParameter("form"), Genero.class);
+        Genero genero = GeneroJsonData.fromJson(request.getParameter("form"));
         
         if(genero.getId() == null){
             dao.create(genero);
@@ -102,29 +114,14 @@ public class GeneroController {
             dao.update(genero);
         }
         
-        return new ModelAndView("index", "contenido", "generosList.jsp");
     }
     
-    @RequestMapping({"create.html"})
-    public ModelAndView create(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
-        
-        Genero genero = new Gson().fromJson(request.getParameter("form"), Genero.class);
-        dao.create(genero);
-        
-        return new ModelAndView("index", "contenido", "generoList.jsp");
-    }
-    
-    @RequestMapping({"delete.html"})
-    public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    @RequestMapping({"{id}/delete.html"})
+    public void delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
-  
-            if(request.getParameter("id") != null){
             Genero genero = new Genero();
-            genero.setId(Integer.parseInt(request.getParameter("id")));
+            genero.setId(id);
             dao.delete(genero);
-        }
   
-        
-        return new ModelAndView("index", "contenido", "generosList.jsp");
     }
 }

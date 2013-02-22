@@ -53,7 +53,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Directores</a>
                             <ul class="dropdown-menu">
                                 <li><a href="directores/index.html">Ver directores</a></li>
-                                <li><a href="directores/form.html">Nuevo actor</a></li>
+                                <li><a href="directores/form.html">Nuevo director</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

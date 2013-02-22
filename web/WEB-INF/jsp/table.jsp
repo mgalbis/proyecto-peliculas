@@ -21,7 +21,7 @@
                 $('.editar').click(function(){
                     window.location = table+'/'+$(this).attr('id')+'/form.html';
                 });
-                $('.eliminar').click(function(){
+                $('.borrar').click(function(){
                     confirmDelete(table, $(this).attr('id'));
                 });
                 

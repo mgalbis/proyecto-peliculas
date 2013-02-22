@@ -36,20 +36,20 @@ public class DirectorJsonForm implements JsonSerializer<Director> {
       
             jsonObject.addProperty("Id", "hidden");
             jsonObject.addProperty("Nombre", "text");
-            
-            JsonArray peliculas = new JsonArray();
-
-            for (Pelicula p : (List<Pelicula>) peliculaDao.readAll()) {
-                JsonObject aux = new JsonObject();
-                aux.addProperty("id", p.getId());
-                aux.addProperty("titulo", p.getTitulo());
-
-                peliculas.add(aux);
-            }
-            
-            JsonObject aux2 = new JsonObject();
-            aux2.add("multiple", peliculas);
-            jsonObject.add("Películas", aux2);
+           
+//            JsonArray peliculas = new JsonArray();
+//
+//            for (Pelicula p : (List<Pelicula>) peliculaDao.readAll()) {
+//                JsonObject aux = new JsonObject();
+//                aux.addProperty("id", p.getId());
+//                aux.addProperty("titulo", p.getTitulo());
+//
+//                peliculas.add(aux);
+//            }
+//            
+//            JsonObject aux2 = new JsonObject();
+//            aux2.add("multiple", peliculas);
+//            jsonObject.add("Películas", aux2);
             
            
         return jsonObject;
