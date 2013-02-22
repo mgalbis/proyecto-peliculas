@@ -26,7 +26,7 @@ p { text-align: justify }
     height: 35px;
     width: 35px;
     position: absolute;
-    top: -40px;
+    top: 0;
     left: 47%;
     z-index: 6;
 }

@@ -51,6 +51,7 @@
         });
 
         if(id != null){
+            $('form').css('opacity', '0');
             done++;
             setTimeout(function(){
                 $.when(get(stripVowelAccent(table.toLowerCase()), id)).done(function(d){
@@ -62,6 +63,7 @@
                  $('ul.input-xlarge li').click(function(){
                         $(this).remove()
                     })
+                    $('form').css('opacity', '1');
                     done--;
                 })
             }, 700)
