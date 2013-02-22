@@ -97,7 +97,7 @@ function confirmDelete(table, id){
             
         eliminar(table, id);
             
-        $('#myModal').modal('hide');
+        $('#mod').modal('hide');
         setTimeout(function(){
             $('#mod .modal-footer').find('.btn-primary').remove();
             $('#mod').remove();
@@ -113,27 +113,6 @@ function cargaCombo(id, list){
     })
 }
 
-$.fn.serializeObject = function(){
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if(this.name == 'id'){
-            if(/^0/.test(this.value)) { //quita ceros a la izquierda
-                while(/^0/.test(this.value)) this.value = (this.value).substr(1, (this.value).length);
-            }
-            if(isNaN(parseInt(this.value))) this.value = '0';
-        }
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push($.trim(this.value) || null);
-        } else {
-            o[this.name] = $.trim(this.value) || null;
-        }
-    });
-    return o;
-}
 
 
 /*

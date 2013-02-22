@@ -9,19 +9,19 @@
             <generator class="identity" />
         </id>
         <property name="nombre" type="string">
-            <column name="nombre" not-null="true" unique="true">
+            <column name="nombre" not-null="false" unique="true">
                 <comment>Actor</comment>
             </column>
         </property>
         <set name="peliculas" inverse="false" table="interpreta">
             <key>
-                <column name="id_actor" not-null="true">
+                <column name="id_actor" not-null="false">
                     <comment>Actor</comment>
                 </column>
             </key>
             <many-to-many entity-name="net.ausiasmarch.pojo.Pelicula">
-                <column name="id_pelicula" not-null="true">
-                    <comment>Pel&#237;cula</comment>
+                <column name="id_pelicula" not-null="false">
+                    <comment>Película</comment>
                 </column>
             </many-to-many>
         </set>

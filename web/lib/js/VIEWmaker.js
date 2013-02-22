@@ -22,64 +22,65 @@
     methods = {
         
         init: function () {
-            var object = methods.filter(settings.data),
-            btn,
-            txt = '<table class="table "><thead><tr>';
+            var object = methods.filter(settings.data),  //aplicamos filtro
+            btn,     //botones crud
+            txt = '<table class="table "><thead><tr>';  //creamos tabla y cabecera
          
-            var thead = $.map (object[0], function(n, i) {
+            //mapeamos el objeto json y creamos un array sólo con los índices
+            var thead = $.map (object[0], function(n, i) {  
                 return i;
             });
     
-            $.each (thead, function (i, v) {
-
-                if(!$.isArray(v)){
-                    txt += '<th>'+v+'</th>';
-                }
- 
+            $.each (thead, function (i, v) { //los colocamos en la cabecera
+               
+                txt += '<th>'+(v=='Id'|v=='id'?'#':v)+'</th>';
             })
             
             if(settings.crud) {
                 txt += '<th></th>';
             }
             
-            txt += '</tr></thead><tbody>';
+            txt += '</tr></thead><tbody>'; //abrimos el cuerpo de la tabla
             
-            $.each(object, function (i,v) {
+            $.each(object, function (i,v) {  //por cada fila
                 txt += '<tr>';
-                for(var c=0;c<thead.length;c++) {
-                    if(!$.isArray(v[thead[c]])) {
-                        txt += '<td>'+v[thead[c]]+'</td>';
-                    }
+                for(var c=0;c<thead.length;c++) { //recorremos campos
+                    
+                    txt += '<td>'+v[thead[c]]+'</td>';  //creamos celda
                 }
                 
                 
-                if(settings.crud){
+                if(settings.crud){  //si están activados los botones
                     txt += '<td><div class="btn-group">'
-                        + $().Button({ 
-                            id: v[thead[0]], 
-                            class: 'ver btn', 
-                            content: '<i class="icon-eye-open"></i>',
-                            html: true })
-                        + $().Button({ 
-                            id: v[thead[0]], 
-                            class: 'editar btn', 
-                            content: '<i class="icon-pencil"></i>', 
-                            html: true })
-                        + $().Button({ 
-                            id: v[thead[0]], 
-                            class: 'borrar btn', 
-                            content: '<i class="icon-trash"></i>', 
-                            html: true })
-                        + '</div></td>';
+                    + $().Button({ 
+                        id: v[thead[0]], 
+                        class: 'ver btn', 
+                        content: '<i class="icon-eye-open"></i>',
+                        html: true
+                    })
+                    + $().Button({ 
+                        id: v[thead[0]], 
+                        class: 'editar btn', 
+                        content: '<i class="icon-pencil"></i>', 
+                        html: true
+                    })
+                    + $().Button({ 
+                        id: v[thead[0]], 
+                        class: 'borrar btn', 
+                        content: '<i class="icon-trash"></i>', 
+                        html: true
+                    })
+                    + '</div></td>';
                 } 
 
             })
-            txt += '</tbody></table>';
+            txt += '</tbody></table>'; // cerramos tabla
     
             return txt;
            
         },
         
+        //filtra columnas según la configuración elegida
         filter: function (object) {
 
             if(!settings.lists) {
@@ -149,6 +150,79 @@
 
 //************************************************//
 
+//******* CREATE MODAL-LIST **********************//
+
+(function ($) {
+    "use strict";
+    
+    var defaults = {
+        data : {}
+    }, settings,
+        
+    methods = {
+        
+        init: function () {
+            var object = methods.filter(settings.data),  //aplicamos filtro
+            btn,     //botones crud
+            txt = '<ul class="modal-list">';  //creamos tabla y cabecera
+         
+            //mapeamos el objeto json y creamos un array sólo con los índices
+            var thead = $.map (object[0], function(n, i) {  
+                return i;
+            });
+
+            
+            $.each(object, function (i,v) {  //por cada fila
+ 
+                txt += '<li value="'+v[thead[0]]+'">'
+                +v[thead[1]]+'<i class="icon-plus"></i></li>';  //creamos celda
+
+            })
+            txt += '</ul>'; // cerramos tabla
+    
+            return txt;
+           
+        },
+        
+        filter: function (object) {
+
+            $.each(object, function (i,v) {
+                $.each(v, function (i2, v2) {
+
+                    if($.isArray(v2)) delete v[i2];
+                });
+            })
+           
+            
+            $.each(object, function (i,v) {
+                $.each(v, function (i2, v2) {
+
+                    if($.isPlainObject(v2)) {
+                        
+                        delete v[i2];
+     
+                        
+                    }
+                })
+            })
+
+            return object;
+        }
+        
+        
+    };
+    
+    $.fn.ModalList = function (options) {
+        settings = $.extend ({}, defaults, options);
+
+        var table = methods.init();
+        return this.html(table);
+    };
+    
+})(jQuery);
+
+//************************************************//
+
 
 //******* CREATE BUTTON **************************//
 
@@ -203,11 +277,25 @@
     methods = {
         
         init: function () {
-            return methods[settings.type]();
+            return methods[settings.type=='simple'|settings.type=='multiple'?'list':settings.type]();
         },
         
         text: function () {
             var txt = '<input type="text"';
+            txt += methods.attributes();
+            txt += ' value="'+settings.value+'" />';
+            return txt;
+        },
+        
+        hidden: function(){
+            var txt = '<input type="hidden"';
+            txt += methods.attributes();
+            txt += ' value="'+settings.value+'" />';
+            return txt;
+        },
+        
+        number: function () {
+            var txt = '<input type="number"';
             txt += methods.attributes();
             txt += ' value="'+settings.value+'" />';
             return txt;
@@ -221,9 +309,11 @@
         },
         
         date: function () {
-            var txt = '<input type="text"';
+            var txt = '<div class="input-append date" data-date-format="dd-mm-yyyy">'
+            +'<input type="text" ';
             txt += methods.attributes();
-            txt += ' value="'+settings.value+'" />';
+            txt += ' value="'+settings.value+'" disabled/>'
+            + '<span class="add-on"><i class="icon-calendar"></i></span></div>';
             return txt;
         },
         
@@ -258,9 +348,16 @@
         },
         
         list: function () {
-            var txt = '<input type="text" ';
-            txt += methods.attributes();
-            txt += '>';
+            var txt = '<ul ';
+            txt += methods.attributes() + '>';
+            txt += methods.li();
+            txt += '</ul>';
+            txt += $().Button({
+                html: true,
+                class: settings.type,
+                content: '<i class="icon-list"></i>'
+            });
+            
             return txt;
         },
         
@@ -269,6 +366,17 @@
 
             $.each(settings.content, function(){
                 txt += '<option value="'+this.id+'">'+this.nombre+'</option>';
+            })
+            
+            return txt;
+        },
+        
+        li: function(){
+            var txt = '';
+
+            $.each(settings.content, function(){
+                var val = this.nombre == undefined ? this.titulo : this.nombre;
+                txt += '<li value="'+this.id+'">'+val+'</li>';
             })
             
             return txt;
@@ -313,7 +421,7 @@
         class: false,
         html: false,
         legend: ''
-    }, settings, specialData,
+    }, settings,
         
     methods = {
      
@@ -323,47 +431,57 @@
             if(settings.class != false) txt += 'class="'+settings.class+'" ';
             if(settings.name != false) txt += 'name="'+settings.name+'" ';
             txt += '>'
-                + '<fieldset><legend>'+settings.legend+'</legend>';
+            + '<fieldset><legend>'+settings.legend+'</legend>';
             
             $.each(settings.data, function (i,v) {
-                    txt += methods.control(i,v);
+                txt += methods.control(i,v);
             })
             
+            txt += '<div class="control-group"><div class="controls">'
+            +'<button type="submit" id="submitFormCliente" class="btn btn-primary">Guardar</button>'
+            +'</div></div>';
             txt += '</form>';
             
             return txt;
         },
         
         control: function (label, content) {
-
-            var txt = '<div class="control-group">'
-                +'<label class="control-label" for="'+label+'">'+label+'</label>'
-                +'<div class="controls">';
-                //alert(label+' '+content);
+            
+            var txt = '<div class="control-group">';
+            if(content != 'hidden'){
+                txt += '<label class="control-label" for="'+label+'">'+label+'</label>';
+            }
+            txt += '<div class="controls">';
+            //alert(label+' '+content);
             txt += methods.typeValidation(label,content);
             
             txt += '</div></div>';
            
             return txt;
+            
         },
         
         typeValidation: function (label,content) {
             var txt = '';
-            
+            var index;
+            $.each(content, function(i,v){
+                index = i
+            });
+            //alert(index);
             if($.isPlainObject(content)){
-                if(content['list'].length > 10){
+                if(index == 'simple' | index == 'multiple'){
                     txt = $().Field({
-                        type: 'typeahead', 
-                        id: label, 
-                        content: content['list'], 
+                        type: index, 
+                        id: stripVowelAccent(label.toLowerCase()), 
+                        content: content[index], 
                         html: true,
                         class: 'input-xlarge'
                     });
                 } else {
                     txt = $().Field({
                         type: 'select', 
-                        id: label, 
-                        content: content['list'], 
+                        id: stripVowelAccent(label.toLowerCase()), 
+                        content: content[index], 
                         html: true,
                         class: 'input-xlarge'
                     });
@@ -372,43 +490,22 @@
             } else if($.isArray(content)){
                 
                 txt = $().Field({
-                    type: 'text', 
-                    id: label, 
-                    html: true,
-                    class: 'input-xlarge multiple'
+                    type: 'select', 
+                    id: stripVowelAccent(label.toLowerCase()), 
+                    class: 'input-xlarge',
+                    content: content,
+                    html: true
                 });
                 
-                specialData = content;
-            }
-            
-            else {
+            //specialData = content;
+            } else {
                 
-                if(content == 'long'){
-                    txt = $().Field({
-                        type: 'textarea', 
-                        id: label,  
-                        html: true,
-                        class: 'input-xlarge'
-                    });
-                    
-                } else if(content == 'date'){
-                    txt = $().Field({
-                        type: 'date', 
-                        id: label, 
-                        html: true,
-                        class: 'input-xlarge'
-                    });
-                
-                } else {
-                    txt = $().Field({
-                        type: 'text', 
-                        id: label, 
-                        html: true,
-                        class: 'input-xlarge'
-                    });
-                }
-                
-                
+                txt = $().Field({
+                    type: content, 
+                    id: stripVowelAccent(label.toLowerCase()),  
+                    html: true,
+                    class: 'input-xlarge'
+                });
                 
             }
             
@@ -426,10 +523,13 @@
         if(settings.html) return form;
         else this.append(form);
         
-        $(".multiple").tokenInput(specialData, {
-                theme: "facebook"
-            });
-        //alert($('.hola').html())
+        $('.date').datepicker({
+            language: 'es',
+            autoclose: true
+        });
+        
+        
+        //alert($('#form').html())
         if(callback) callback();
     };
     
@@ -437,8 +537,8 @@
 
 //************************************************//
 
-//******** FILL FORM *****************************//
-
+//******** VIEW *****************************//
+/*
 (function ($) {
     
     var defaults = {
@@ -452,29 +552,9 @@
             $.each(fields, function() {
                 if($(this).parent().html().search('<input') != -1){
                     
-                    if($(this).parent().html().search('multiple') != -1){
-                        var input = $(this).parent().parent().find('input:last');
-                        
-                        if($(this).html() != ''){
-                            
-                        var li = $(this).children('li');
-
-                        var ul = $(this);
-                        $.each(settings.data[input.attr('id')], function(i, v) {
-                            
-                            var txt = '<li class="token-input-token-facebook">'
-		                          +'<p>'+v['nombre']+'</p>'
-		                          +'<span class="token-input-delete-token-facebook">×</span>'
-	                              +'</li>';
-                            
-                            ul.append(txt);
-                            ul.find('li:last').after(li);
-                        });
-                        
-                        }
-                    } else {
-                        $(this).val(settings.data[$(this).attr('id')]);
-                    }
+                    
+                    $(this).val(settings.data[$(this).attr('id')]);
+                  
                     
                 } else if($(this).parent().html().search('<textarea') != -1){ 
                     
@@ -483,7 +563,7 @@
                 } else if($(this).parent().html().search('<select') != -1){
   
                 
-                        $(this).find('option[value='+settings.data[$(this).attr('id')]['id']+']').attr('selected',true);
+                    $(this).find('option[value='+settings.data[$(this).attr('id')]['id']+']').attr('selected',true);
 
                 }
             })
@@ -505,36 +585,130 @@
     };
     
 })(jQuery);
-
+*/
 
 //************************************************//
 
-//******** CREATE VIEW ****************************//
+//******** CREATE FILL-FORM ****************************//
 
 (function($){
     "use strict";
     
-   $.fn.Form = function(options){
-       
-       
-   };
+    $.fn.Fill = function(options){
+        settings = $.extend({}, defaults, options);
+        form = this;
+        methods.init();
+    };
     
     var defaults = {
         data: {}
-    }, settings,
+    }, settings, form,
+        
+    methods = {
+        init: function(){
+            var aux = {}
+            $.each(settings.data, function(i,v){
+                aux[stripVowelAccent(i.toLowerCase())] = v;
+            })
+            settings.data = aux;
+            
+            
+            form.find('.controls input, .controls textarea').each(function() {
+                $(this).val(settings.data[$(this).attr('id')])
+            })
+                
+            $.each(settings.data, function(i,v){
+                
+            
+                form.find('.controls select').each(function() {
+                     
+                    if(i == $(this).attr('id')){
+                    $(this).find('option').each(function(){
+                            if($(this).val() == v['id']) $(this).attr('selected', 'selected')
+                        });
+                    }
+                })
+            
+                form.find('.controls ul').each(function() {
+                    
+                    if(i == $(this).attr('id')){
+                      
+                      var ul = $(this);
+                        if($.isArray(v)){
+                            $.each(v, function(ind, val){
+                                
+                                var li = '<li value="'+val['id']+'">'+(val['nombre']==undefined?val['titulo']:val['nombre'])+'</li>';
+                            ul.append(li);
+                            })
+                        } else {
+                            var li = '<li value="'+v['id']+'">'+v['nombre']+'</li>';
+                            ul.append(li);
+                        }
+                    }
+                })
+            });
+        }
+
+        
+    }
+    
+})(jQuery);
+
+//************************************************//
+
+(function($){
+    "use strict";
+    
+    $.fn.Serialize = function(){
+        //settings = $.extend({}, defaults, options);
+        //alert('hola');
+        methods.init.apply(this);
+        return fields;
+    };
+    
+    var fields = {},
         
     methods = {
      
         init: function(){
             
-        },
-        
-        control: function(label){
-
+            this.find('.controls input, .controls textarea').each(function() {
+                fields[$(this).attr('id')] = $(this).val();
+            })
+            
+            this.find('.controls select').each(function() {
+                var aux = {};
+                aux['id'] = $(this).find('option:selected').val();
+                aux['nombre'] = $(this).find('option:selected').text();
+                fields[$(this).attr('id')] = aux;
+            })
+            
+            this.find('.controls ul').each(function() {
+                var aux;
+                if($(this).find('li').length == 1){
+                    aux = {}
+                    aux['id'] = $(this).find('li').val();
+                    aux['nombre'] = $(this).find('li').html();
+                   
+                } else {
+                    aux = new Array();
+                    $(this).find('li').each(function(){
+                        var aux2 = {};
+                        aux2['id'] = $(this).val();
+                        if(aux2['nombre'] == undefined){
+                            aux2['titulo'] = $(this).html();
+                        } else {
+                            aux2['nombre'] = $(this).html();
+                        }
+                        aux.push(aux2);
+                    })
+                }
+                
+                fields[$(this).attr('id')] = aux;
+            })
+            
         }
         
-    }
+    };
     
-});
-
-//************************************************//
+})(jQuery);

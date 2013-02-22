@@ -14,14 +14,14 @@
         <title>Proyecto Películas</title>
 
         <link rel="stylesheet" type="text/css" media="all" href="lib/css/bootstrap-2.2.1.min.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="lib/css/token-input-facebook.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="lib/css/datepicker.css" />
         <link rel="stylesheet" type="text/css" media="all" href="lib/css/style.css" />
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="lib/js/jquery-1.8.3.min.js"><\/script>')</script>
         <script type="text/javascript" src="lib/js/bootstrap-2.2.1.min.js"></script>
         <script src="lib/js/data.js"></script><script src="lib/js/library.js"></script>
-        <script src="lib/js/jquery.tokeninput.js"></script>
+        <script src="lib/js/bootstrap-datepicker.js"></script>
         <script src="lib/js/VIEWmaker.js"></script>
         
     </head>
@@ -53,7 +53,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Directores</a>
                             <ul class="dropdown-menu">
                                 <li><a href="directores/index.html">Ver directores</a></li>
-                                <li><a href="directores/form.html">Nuevo actor</a></li>
+                                <li><a href="directores/form.html">Nuevo director</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

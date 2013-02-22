@@ -76,15 +76,27 @@ function get(table, id) {
     })
 }
 
+function getFormJ(table) {
+    return $.ajax({
+        url : table+'/form.json',
+        type : 'GET',
+        dataType : 'json',
+        error : function(jqXHR, status, error) {
+            alert('Error al procesar la solicitud: '+error);
+        }
+   
+    })
+}
+
 function eliminar(tabla, id){
      $.ajax({
-        url : tabla+'/delete.html?id='+id,
+        url : tabla+'/'+id+'/delete.html',
         type : 'GET',
         success: function(d){
             location.reload();
         },
         error : function(jqXHR, status, error) {
-            alert('Error al procesar la solicitud: '+error);
+            location.reload();
         }
         
     })
@@ -97,8 +109,21 @@ function guardar(tabla, objeto){
         type : 'POST',
         dataType : 'json', 
         success: function(){
-           window.location = 'peliculas/index.html';
+           window.location = tabla+'/index.html';
         },
+        error : function(jqXHR, status, error) {
+            window.location = tabla+'/index.html';
+        }
+        
+    })
+}
+
+function getModalList(table, type){
+    
+    return $.ajax({
+        url : table+'/'+type+'/modalList.html',
+        type : 'POST',
+        dataType : 'text', 
         error : function(jqXHR, status, error) {
             alert('Error al procesar la solicitud: '+error);
         }
@@ -121,3 +146,4 @@ var getForm = function(type){
    
     })
 }
+

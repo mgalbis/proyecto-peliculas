@@ -4,7 +4,6 @@
  */
 package net.ausiasmarch.controller;
 
-import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.persistence.RollbackException;
@@ -37,7 +36,7 @@ public class PeliculaController {
 
     @RequestMapping({"index.html"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView mod = new ModelAndView("index", "contenido", "list.jsp");
+        ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Películas");
         return mod;
     }
@@ -56,75 +55,64 @@ public class PeliculaController {
         Pelicula pelicula = new Pelicula();
         pelicula.setId(id);
         pelicula = dao.read(pelicula);
-
         String data = PeliculaJsonData.toJson(pelicula);
 
         return new ModelAndView("singleJson", "data", data);
+    }
+    
+    @RequestMapping(value = "form.json")
+    public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+        return new ModelAndView("singleJson", "data",  PeliculaJsonForm.toJson(new Pelicula()));
     }
 
     @RequestMapping(value = "{id}/form.html")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("id", id);
-        model.addObject("table", "Peliculas");
-        model.addObject("form", PeliculaJsonForm.toJson(new Pelicula()));
+        model.addObject("table", "Películas");
         return model;
     }
     
     @RequestMapping(value = "form.html")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
-        model.addObject("table", "Peliculas");
-        model.addObject("form", PeliculaJsonForm.toJson(new Pelicula()));
+        model.addObject("table", "Películas");
+        return model;
+    }
+    
+    @RequestMapping(value = "{type}/modalList.html")
+    public ModelAndView modalList(@PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        ModelAndView model = new ModelAndView("list");
+        model.addObject("table", "peliculas");
+        model.addObject("type", type);
         return model;
     }
 
     @RequestMapping(value = "{id}/view.html")
     public ModelAndView view(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView model = new ModelAndView("index", "contenido", "peliculaView.jsp");
-
-        Pelicula pelicula = new Pelicula();
-        pelicula.setId(Integer.parseInt(request.getParameter("id")));
-        model.addObject("pelicula", dao.read(pelicula));
-
-
+        ModelAndView model = new ModelAndView("index", "contenido", "view.jsp");
+        model.addObject("id", id);
+        model.addObject("table", "Películas");
         return model;
     }
 
     @RequestMapping({"save.html"})
-    public ModelAndView save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    public void save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
-        Pelicula pelicula = new Gson().fromJson(request.getParameter("form"), Pelicula.class);
-
+        Pelicula pelicula = PeliculaJsonData.fromJson(request.getParameter("form"));
+        
         if (pelicula.getId() == null) {
             dao.create(pelicula);
         } else {
             dao.update(pelicula);
         }
-
-        return new ModelAndView("index", "contenido", "peliculasList.jsp");
     }
 
-    @RequestMapping({"create.html"})
-    public ModelAndView create(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    @RequestMapping({"{id}/delete.html"})
+    public void delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
-        Pelicula pelicula = new Gson().fromJson(request.getParameter("form"), Pelicula.class);
-        dao.create(pelicula);
-
-        return new ModelAndView("index", "contenido", "peliculaList.jsp");
-    }
-
-    @RequestMapping({"delete.html"})
-    public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
-
-
-        if (request.getParameter("id") != null) {
             Pelicula pelicula = new Pelicula();
-            pelicula.setId(Integer.parseInt(request.getParameter("id")));
+            pelicula.setId(id);
             dao.delete(pelicula);
-        }
-
-
-        return new ModelAndView("index", "contenido", "peliculasList.jsp");
     }
 }

@@ -18,6 +18,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Projections;
+import org.hibernate.mapping.Column;
 
 /**
  *
@@ -83,7 +84,7 @@ public class PeliculaDao implements PeliculaDaoInterface {
             sesion = HibernateUtil.getSessionFactory().openSession();
             entity = (Pelicula) sesion.get(Pelicula.class, entity.getId());
             if (entity != null) {
-                Hibernate.initialize(entity.getActors());
+                Hibernate.initialize(entity.getActores());
                 Hibernate.initialize(entity.getGenero());
                 Hibernate.initialize(entity.getDirector());
             }
@@ -103,11 +104,10 @@ public class PeliculaDao implements PeliculaDaoInterface {
             lista = sesion.createQuery("from Pelicula").list();
             
             for (Pelicula p : lista) {
-                Hibernate.initialize(p.getActors());
+                Hibernate.initialize(p.getActores());
                 Hibernate.initialize(p.getGenero());
                 Hibernate.initialize(p.getDirector());
             }
-
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

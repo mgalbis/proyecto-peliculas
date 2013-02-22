@@ -4,8 +4,7 @@
  */
 package net.ausiasmarch.utilities;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * Funciones para colecciones
@@ -13,14 +12,21 @@ import java.util.Set;
  */
 public class Collections {
 
-//    public static Set removeItem(Set set, Generic o){
+//    public static Collection removeItem(Collection set, GenericPojo o){
 //        for(Iterator it = set.iterator(); it.hasNext();){
 //            Object element = it.next();
 //            
-//            if (((Generic) element).getId().intValue() == o.getId().intValue()) {
+//            if (((GenericPojo) element).getId().intValue() == o.getId().intValue()) {
 //                it.remove();
 //            }
 //        }
 //        return set;
 //    }
+    
+    public static Class toCollectionClass(Class c) {
+        if(Collection.class.isAssignableFrom(c)){
+            return Collection.class;
+        }
+         return c;
+    }
 }

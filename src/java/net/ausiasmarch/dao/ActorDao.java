@@ -33,7 +33,7 @@ public class ActorDao implements ActorDaoInterface {
         Serializable id = 0;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = sesion.beginTransaction();
+            tx =  sesion.beginTransaction();
             id =  sesion.save(entity);
                 tx.commit();
         } catch (HibernateException he) {

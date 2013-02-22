@@ -41,27 +41,27 @@ public class PeliculaJsonForm implements JsonSerializer<Pelicula> {
     public JsonElement serialize(Pelicula src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
       
-            jsonObject.addProperty("id", "");
-            jsonObject.addProperty("titulo", "");
-            jsonObject.addProperty("vo", "");
-            jsonObject.addProperty("descripcion", "long");
-            jsonObject.addProperty("calificacion", "");
-            jsonObject.addProperty("duracion", "");
-            jsonObject.addProperty("fecha", "date");
+            jsonObject.addProperty("Id", "hidden");
+            jsonObject.addProperty("Título", "text");
+            jsonObject.addProperty("VO", "text");
+            jsonObject.addProperty("Descripción", "textarea");
+            jsonObject.addProperty("Calificación", "number");
+            jsonObject.addProperty("Duración", "number");
+            jsonObject.addProperty("Fecha", "date");
             
             JsonArray directores = new JsonArray();
 
-            for (Director d : (List<Director>) directorDao.readAll()) {
-                JsonObject aux = new JsonObject();
-                aux.addProperty("id", d.getId());
-                aux.addProperty("nombre", d.getNombre());
-
-                directores.add(aux);
-            }
+//            for (Director d : (List<Director>) directorDao.readAll()) {
+//                JsonObject aux = new JsonObject();
+//                aux.addProperty("id", d.getId());
+//                aux.addProperty("nombre", d.getNombre());
+//
+//                directores.add(aux);
+//            }
             
             JsonObject aux2 = new JsonObject();
-            aux2.add("list", directores);
-            jsonObject.add("director", aux2);
+            aux2.add("simple", directores);
+            jsonObject.add("Director", aux2);
             
             
             JsonArray generos = new JsonArray();
@@ -72,21 +72,22 @@ public class PeliculaJsonForm implements JsonSerializer<Pelicula> {
 
                 generos.add(aux);
             }
+            
+            jsonObject.add("Género", generos);
+
+            JsonArray actores = new JsonArray();
+
+//            for (Actor a : (List<Actor>) actorDao.readAll()) {
+//                JsonObject aux = new JsonObject();
+//                aux.addProperty("id", a.getId());
+//                aux.addProperty("nombre", a.getNombre());
+//
+//                actores.add(aux);
+//            }
+
             JsonObject aux3 = new JsonObject();
-            aux3.add("list", generos);
-            jsonObject.add("genero", aux3);
-
-            JsonArray intArr = new JsonArray();
-
-            for (Actor a : (List<Actor>) actorDao.readAll()) {
-                JsonObject aux = new JsonObject();
-                aux.addProperty("id", a.getId());
-                aux.addProperty("nombre", a.getNombre());
-
-                intArr.add(aux);
-            }
-
-            jsonObject.add("Actores", intArr);
+            aux3.add("multiple", actores);
+            jsonObject.add("Actores", aux3);
       
         
         return jsonObject;
