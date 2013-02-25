@@ -27,12 +27,12 @@
     </head>
 
     <body>
-
+        
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
 
-                    <a class="brand" href="index.html">Películas CRUD</a>
+                    <a class="brand" href="">Películas CRUD</a>
 
                     <ul class="nav">
                         <li class="dropdown">
@@ -72,7 +72,7 @@
         <div id="contenido" class="container-fluid">
             <div id="spinner"></div>
 
-            <jsp:include page='<%=(String) request.getAttribute("contenido")%>' />
+            <jsp:include page="${contenido}" />
 
 
         </div>

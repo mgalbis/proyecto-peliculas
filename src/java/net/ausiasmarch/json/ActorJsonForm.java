@@ -35,7 +35,7 @@ public class ActorJsonForm implements JsonSerializer<Actor> {
             jsonObject.addProperty("Id", "hidden");
             jsonObject.addProperty("Nombre", "text");
             
-//            JsonArray peliculas = new JsonArray();
+            JsonArray peliculas = new JsonArray();
 //
 //            for (Pelicula p : (List<Pelicula>) peliculaDao.readAll()) {
 //                JsonObject aux = new JsonObject();
@@ -45,9 +45,9 @@ public class ActorJsonForm implements JsonSerializer<Actor> {
 //                peliculas.add(aux);
 //            }
 //            
-//            JsonObject aux2 = new JsonObject();
-//            aux2.add("multiple", peliculas);
-//            jsonObject.add("Películas", aux2);
+            JsonObject aux2 = new JsonObject();
+            aux2.add("multiple", peliculas);
+            jsonObject.add("Películas", aux2);
             
            
         return jsonObject;

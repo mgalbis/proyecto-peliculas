@@ -108,6 +108,8 @@ public class PeliculaDao implements PeliculaDaoInterface {
                 Hibernate.initialize(p.getGenero());
                 Hibernate.initialize(p.getDirector());
             }
+            
+            sesion.flush();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {
