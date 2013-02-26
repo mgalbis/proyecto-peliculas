@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class InitController {
     
-    @RequestMapping({"/index.html"})
+    @RequestMapping({"/"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         return new ModelAndView("index", "contenido", "inicio.jsp");
     }

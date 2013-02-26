@@ -12,6 +12,8 @@
 
     
     <context:annotation-config />
+    
+    
     <context:component-scan base-package="net.ausiasmarch" /> 
     
     <bean class="net.ausiasmarch.dao.PeliculaDao" />

@@ -14,6 +14,9 @@
 
     <mvc:annotation-driven /> 
     <context:component-scan base-package="net.ausiasmarch.controller" />
+    
+    <mvc:resources mapping="/lib/**" location="/lib/" />
+    
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
         <property name="prefix" value="/WEB-INF/jsp/" /> 
         <property name="suffix" value=".jsp" /> 
