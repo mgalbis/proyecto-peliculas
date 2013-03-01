@@ -115,9 +115,11 @@ public abstract class GenericDaoImp<T extends Serializable> implements GenericDa
     @Override
     public int count() throws HibernateException {
         int cantidad;
+        
+        Class<T> tipo = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            Criteria criteria = sesion.createCriteria(Pelicula.class);
+            Criteria criteria = sesion.createCriteria(tipo);
             criteria.setProjection(Projections.rowCount());
             cantidad = (Integer) criteria.list().get(0);
         } catch (HibernateException he) {
@@ -130,15 +132,17 @@ public abstract class GenericDaoImp<T extends Serializable> implements GenericDa
 
     @Override
     public int getPages(int pageSize) throws HibernateException {
-        return (int) Math.ceil(this.count() / pageSize);
+        return (int) Math.ceil(this.count() / pageSize) + 1;
     }
 
     @Override
     public List<T> getPage(int pageSize, int pageNumber) throws HibernateException {
         List<T> clientes;
         sesion = HibernateUtil.getSessionFactory().openSession();
+        
+        Class<T> tipo = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         try {
-            Criteria criteria = sesion.createCriteria(Pelicula.class);
+            Criteria criteria = sesion.createCriteria(tipo);
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
             clientes = (List<T>) criteria.list();

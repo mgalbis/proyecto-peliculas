@@ -7,6 +7,7 @@ package net.ausiasmarch.dao;
 import java.util.List;
 import net.ausiasmarch.pojo.HibernateUtil;
 import net.ausiasmarch.pojo.Pelicula;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
@@ -51,6 +52,29 @@ public class PeliculaDao extends GenericDaoImp<Pelicula> {
             sesion.flush();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
+        } finally {
+            sesion.close();
+        }
+        return lista;
+    }
+    
+    @Override
+    public List<Pelicula> getPage(int pageSize, int pageNumber) throws HibernateException {
+        List<Pelicula> lista;
+        sesion = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Criteria criteria = sesion.createCriteria(Pelicula.class);
+            criteria.setFirstResult((pageNumber - 1) * pageSize);
+            criteria.setMaxResults(pageSize);
+            lista = (List<Pelicula>) criteria.list();
+            
+            for (Pelicula p : lista) {
+                Hibernate.initialize(p.getActores());
+                Hibernate.initialize(p.getGenero());
+                Hibernate.initialize(p.getDirector());
+            }
+        } catch (HibernateException he) {
+            throw new HibernateException("Error en getPage DAO", he);
         } finally {
             sesion.close();
         }

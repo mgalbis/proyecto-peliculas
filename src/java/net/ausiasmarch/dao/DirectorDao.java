@@ -7,6 +7,8 @@ package net.ausiasmarch.dao;
 import java.util.List;
 import net.ausiasmarch.pojo.Director;
 import net.ausiasmarch.pojo.HibernateUtil;
+import net.ausiasmarch.pojo.Pelicula;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
@@ -52,4 +54,24 @@ public class DirectorDao extends GenericDaoImp<Director> {
         return lista;
     }
 
+    @Override
+    public List<Director> getPage(int pageSize, int pageNumber) throws HibernateException {
+        List<Director> lista;
+        sesion = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Criteria criteria = sesion.createCriteria(Director.class);
+            criteria.setFirstResult((pageNumber - 1) * pageSize);
+            criteria.setMaxResults(pageSize);
+            lista = (List<Director>) criteria.list();
+            
+            for(Director d : lista){
+                Hibernate.initialize(d.getPeliculas());
+            }
+        } catch (HibernateException he) {
+            throw new HibernateException("Error en getPage DAO", he);
+        } finally {
+            sesion.close();
+        }
+        return lista;
+    }
 }

@@ -4,6 +4,7 @@
  */
 package net.ausiasmarch.controller;
 
+import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.persistence.RollbackException;
@@ -34,6 +35,9 @@ public class PeliculaController {
     @Autowired
     PeliculaDao dao;
 
+    /**
+     * Página de inicio de las películas
+     */
     @RequestMapping({""})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
@@ -41,6 +45,9 @@ public class PeliculaController {
         return mod;
     }
 
+    /**
+     * Devuelve un json con todas las películas
+     */
     @RequestMapping({"all/json"})
     public ModelAndView peliculas(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
@@ -50,6 +57,29 @@ public class PeliculaController {
         return new ModelAndView("listJson", "data", data);
     }
 
+    @RequestMapping({"{limit}/{page}/json"})
+    public ModelAndView getPage(@PathVariable Integer limit, @PathVariable Integer page, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        List<Pelicula> peliculas = dao.getPage(limit, page);
+        String data = PeliculaJsonData.toJson(peliculas);
+
+        return new ModelAndView("listJson", "data", data);
+    }
+    
+    @RequestMapping({"pages/{limit}"})
+    public ModelAndView getPages(@PathVariable Integer limit, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        int pages = dao.getPages(limit);
+        
+        String data = "{\"pages\":"+pages+"}";
+
+        return new ModelAndView("singleJson", "data", data);
+    }
+    
+    /**
+     * Devuelve un json de la película indicada
+     * @param id Id de la película
+     */
     @RequestMapping(value = "{id}/json")
     public ModelAndView pelicula(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Pelicula pelicula = dao.read(id);
@@ -58,11 +88,18 @@ public class PeliculaController {
         return new ModelAndView("singleJson", "data", data);
     }
     
+    /**
+     * Devuelve un json con los campos del formulario y el tipo de campo
+     */
     @RequestMapping(value = "form/json")
     public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
         return new ModelAndView("singleJson", "data",  PeliculaJsonForm.toJson(new Pelicula()));
     }
 
+    /**
+     * Crea un formulario para editar la película indicada
+     * @param id Id de la película
+     */
     @RequestMapping(value = "{id}/form")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
@@ -71,6 +108,9 @@ public class PeliculaController {
         return model;
     }
     
+    /**
+     * Crea un formulario para un nuevo registro
+     */
     @RequestMapping(value = "new/form")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
@@ -78,6 +118,10 @@ public class PeliculaController {
         return model;
     }
     
+    /**
+     * Carga un modal con la lista de películas
+     * @param type Tipo de lista (simple/multiple)
+     */
     @RequestMapping(value = "{type}/modalList")
     public ModelAndView modalList(@PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("list");
@@ -86,6 +130,10 @@ public class PeliculaController {
         return model;
     }
 
+    /**
+     * Crea una vista para la película indicada
+     * @param id Id de la película
+     */
     @RequestMapping(value = "{id}/view")
     public ModelAndView view(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "view.jsp");
@@ -94,6 +142,10 @@ public class PeliculaController {
         return model;
     }
 
+    /**
+     * Crea o edita un registro
+     * @param form Datos de la película
+     */
     @RequestMapping({"{form}/save"})
     public void save(@PathVariable String form, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
@@ -106,6 +158,10 @@ public class PeliculaController {
         }
     }
 
+    /**
+     * Elimina la película indicada
+     * @param id Id de la película
+     */
     @RequestMapping({"{id}/delete"})
     public void delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 

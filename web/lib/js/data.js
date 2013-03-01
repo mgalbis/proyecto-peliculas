@@ -7,11 +7,10 @@
 /*
  * Devuelve un array con los registros de la página
  */
-function getPage(table, limit, pagactual){
+function getPage(tabla, limit, pagactual){
     return $.ajax({
-        url : table+'/?op=getPage&limit='+limit+'&page='+pagactual,
+        url : tabla+'/'+limit+'/'+pagactual+'/json',
         type : 'GET',
-        dataType : 'json',
         error : function(jqXHR, status, error) {
             alert('Error al procesar la solicitud: '+error);
         }
@@ -37,7 +36,7 @@ function getPageId(table, limit, id){
  */
 function getPages(table, limit) {
     return $.ajax({
-        url : 'json/clientes?op=getPages&limit='+limit,
+        url : table+'/pages/'+limit,
         type : 'GET',
         dataType : 'json',
         error : function(jqXHR, status, error) {

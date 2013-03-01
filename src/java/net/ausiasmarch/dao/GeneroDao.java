@@ -7,6 +7,7 @@ package net.ausiasmarch.dao;
 import java.util.List;
 import net.ausiasmarch.pojo.Genero;
 import net.ausiasmarch.pojo.HibernateUtil;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
@@ -51,4 +52,24 @@ public class GeneroDao extends GenericDaoImp<Genero> {
         return lista;
     }
 
+    @Override
+    public List<Genero> getPage(int pageSize, int pageNumber) throws HibernateException {
+        List<Genero> lista;
+        sesion = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Criteria criteria = sesion.createCriteria(Genero.class);
+            criteria.setFirstResult((pageNumber - 1) * pageSize);
+            criteria.setMaxResults(pageSize);
+            lista = (List<Genero>) criteria.list();
+            
+            for(Genero d : lista){
+                Hibernate.initialize(d.getPeliculas());
+            }
+        } catch (HibernateException he) {
+            throw new HibernateException("Error en getPage DAO", he);
+        } finally {
+            sesion.close();
+        }
+        return lista;
+    }
 }
