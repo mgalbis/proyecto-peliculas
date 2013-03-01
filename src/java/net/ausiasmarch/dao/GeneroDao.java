@@ -25,63 +25,14 @@ import org.hibernate.criterion.Projections;
  *
  * @author María Galbis
  */
-public class GeneroDao implements GeneroDaoInterface {
+public class GeneroDao extends GenericDaoImp<Genero> {
     
-    private Session sesion;
-    private Transaction tx;
-
     @Override
-    public Integer create(Genero entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
-        Serializable id = 0;
+    public Genero read(Integer id) throws HibernateException {
+        Genero entity = new Genero();
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = sesion.beginTransaction();
-            id = sesion.save(entity);
-                tx.commit();
-        } catch (HibernateException he) {
-            tx.rollback();
-            throw new HibernateException("Error en create DAO", he);
-        } finally {
-            sesion.close();
-        }
-        return (Integer) id;
-    }
-
-    @Override
-    public void update(Genero entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
-        try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = sesion.beginTransaction();
-            sesion.update(entity);
-            tx.commit();
-        } catch (HibernateException he) {
-            tx.rollback();
-            throw new HibernateException("Error en update DAO", he);
-        } finally {
-            sesion.close();
-        }
-    }
-
-    @Override
-    public void delete(Genero entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
-        try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            tx = sesion.beginTransaction();
-            sesion.delete(entity);
-            tx.commit();
-        } catch (HibernateException he) {
-            tx.rollback();
-            throw new HibernateException("Error en delete DAO", he);
-        } finally {
-            sesion.close();
-        }
-    }
-
-    @Override
-    public Genero read(Genero entity) throws HibernateException {
-        try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            entity = (Genero) sesion.get(Genero.class, entity.getId());
+            entity = (Genero) sesion.get(Genero.class, id);
             if(entity != null){
                 Hibernate.initialize(entity.getPeliculas());
             }
@@ -111,41 +62,4 @@ public class GeneroDao implements GeneroDaoInterface {
         return lista;
     }
 
-    @Override
-    public int count() throws HibernateException {
-        int cantidad;
-        try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            Criteria criteria = sesion.createCriteria(Genero.class);
-            criteria.setProjection(Projections.rowCount());
-            cantidad = (Integer) criteria.list().get(0);
-        } catch (HibernateException he) {
-            throw new HibernateException("Error en countAll DAO", he);
-        } finally {
-            sesion.close();
-        }
-        return cantidad;
-    }
-
-    @Override
-    public int getPages(int pageSize) throws HibernateException {
-        return (int) Math.ceil(this.count() / pageSize);
-    }
-
-    @Override
-    public List<Genero> getPage(int pageSize, int pageNumber) throws HibernateException {
-        List<Genero> clientes;
-        sesion = HibernateUtil.getSessionFactory().openSession();
-        try {           
-            Criteria criteria = sesion.createCriteria(Genero.class);
-            criteria.setFirstResult((pageNumber - 1) * pageSize);
-            criteria.setMaxResults(pageSize);
-            clientes = (List<Genero>) criteria.list();
-        } catch (HibernateException he) {
-            throw new HibernateException("Error en getPage DAO", he);           
-        } finally {
-            sesion.close();
-        }
-        return clientes;
-    }
 }

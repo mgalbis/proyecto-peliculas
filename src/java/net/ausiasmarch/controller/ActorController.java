@@ -53,9 +53,7 @@ public class ActorController {
     
     @RequestMapping(value = "{id}/single.json")
     public ModelAndView genero(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        Actor actor = new Actor();
-        actor.setId(id);
-        actor = dao.read(actor);
+        Actor actor = dao.read(id);
            
         String data = ActorJsonData.toJson(actor);
        

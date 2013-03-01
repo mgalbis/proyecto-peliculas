@@ -52,9 +52,7 @@ public class PeliculaController {
 
     @RequestMapping(value = "{id}/single.json")
     public ModelAndView pelicula(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        Pelicula pelicula = new Pelicula();
-        pelicula.setId(id);
-        pelicula = dao.read(pelicula);
+        Pelicula pelicula = dao.read(id);
         String data = PeliculaJsonData.toJson(pelicula);
 
         return new ModelAndView("singleJson", "data", data);

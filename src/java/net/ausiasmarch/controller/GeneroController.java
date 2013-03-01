@@ -56,9 +56,7 @@ public class GeneroController {
     
     @RequestMapping(value = "{id}/single.json")
     public ModelAndView genero(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        Genero genero = new Genero();
-        genero.setId(id);
-        genero = dao.read(genero);
+        Genero genero = dao.read(id);
            
         String data = GeneroJsonData.toJson(genero);
 

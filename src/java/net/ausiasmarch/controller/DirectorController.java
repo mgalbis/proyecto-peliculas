@@ -57,9 +57,7 @@ public class DirectorController {
     
     @RequestMapping(value = "{id}/single.json")
     public ModelAndView director(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        Director director = new Director();
-        director.setId(id);
-        director = dao.read(director);
+        Director director = dao.read(id);
            
         String data = DirectorJsonData.toJson(director);
         

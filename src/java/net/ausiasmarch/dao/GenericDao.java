@@ -23,7 +23,7 @@ public interface GenericDao<T> {
 
     public void delete(T entity) throws HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
 
-    public T read(T entity) throws HibernateException;
+    public T read(Integer id) throws HibernateException;
     
     public List<T> readAll() throws HibernateException;
     
