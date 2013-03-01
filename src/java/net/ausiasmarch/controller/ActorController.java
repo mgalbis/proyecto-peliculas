@@ -35,14 +35,14 @@ public class ActorController {
     @Autowired
     ActorDao dao;
     
-    @RequestMapping({"index.html"})
+    @RequestMapping({""})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
         ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Actores");
         return mod;
     }
     
-    @RequestMapping({"list.json"})
+    @RequestMapping({"all/json"})
     public ModelAndView generos(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         
         List<Actor> actores = dao.readAll();
@@ -51,7 +51,7 @@ public class ActorController {
         return new ModelAndView("listJson", "data", data);
     }
     
-    @RequestMapping(value = "{id}/single.json")
+    @RequestMapping(value = "{id}/json")
     public ModelAndView genero(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Actor actor = dao.read(id);
            
@@ -60,12 +60,12 @@ public class ActorController {
         return new ModelAndView("singleJson", "data", data);
     }
     
-    @RequestMapping(value = "form.json")
+    @RequestMapping(value = "form/json")
     public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
         return new ModelAndView("singleJson", "data",  ActorJsonForm.toJson(new Actor()));
     }
     
-    @RequestMapping(value = "{id}/form.html")
+    @RequestMapping(value = "{id}/form")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("id", id);
@@ -73,7 +73,7 @@ public class ActorController {
         return model;
     }
     
-    @RequestMapping(value = "form.html")
+    @RequestMapping(value = "new/form")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("table", "Actores");
@@ -81,7 +81,7 @@ public class ActorController {
         return model;
     }
     
-    @RequestMapping(value = "{type}/modalList.html")
+    @RequestMapping(value = "{type}/modalList")
     public ModelAndView modalList(@PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("list");
         model.addObject("table", "actores");
@@ -89,7 +89,7 @@ public class ActorController {
         return model;
     }
     
-    @RequestMapping(value = "{id}/view.html")
+    @RequestMapping(value = "{id}/view")
     public ModelAndView view(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "view.jsp");
         model.addObject("id", id);
@@ -97,10 +97,10 @@ public class ActorController {
         return model;
     }
 
-    @RequestMapping({"save.html"})
-    public void save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    @RequestMapping({"{form}/save"})
+    public void save(@PathVariable String form, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
-        Actor actor = ActorJsonData.fromJson(request.getParameter("form"));
+        Actor actor = ActorJsonData.fromJson(form);
         
         if (actor.getId() == null) {
             dao.create(actor);
@@ -109,7 +109,7 @@ public class ActorController {
         }
     }
 
-    @RequestMapping({"{id}/delete.html"})
+    @RequestMapping({"{id}/delete"})
     public void delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
             Actor actor = new Actor();

@@ -16,10 +16,10 @@
                 });
   
                 $('.ver').click(function(){
-                    window.location = table+'/'+$(this).attr('id')+'/view.html';
+                    window.location = table+'/'+$(this).attr('id')+'/view';
                 });
                 $('.editar').click(function(){
-                    window.location = table+'/'+$(this).attr('id')+'/form.html';
+                    window.location = table+'/'+$(this).attr('id')+'/form';
                 });
                 $('.borrar').click(function(){
                     confirmDelete(table, $(this).attr('id'));

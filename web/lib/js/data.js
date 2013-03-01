@@ -51,9 +51,8 @@ function getPages(table, limit) {
  */
 function getAll(table) {
     return $.ajax({
-        url : table+'/list.json',
+        url : table+'/all/json',
         type : 'GET',
-        dataType : 'json',
         error : function(jqXHR, status, error) {
             alert('Error al procesar la solicitud: '+error);
         }
@@ -66,9 +65,8 @@ function getAll(table) {
 function get(table, id) {
     if(id == 0) return false;
     return $.ajax({
-        url : table+'/'+id+'/single.json',
+        url : table+'/'+id+'/json',
         type : 'GET',
-        dataType : 'json',
         error : function(jqXHR, status, error) {
             alert('Error al procesar la solicitud: '+error);
         }
@@ -78,9 +76,8 @@ function get(table, id) {
 
 function getFormJ(table) {
     return $.ajax({
-        url : table+'/form.json',
+        url : table+'/form/json',
         type : 'GET',
-        dataType : 'json',
         error : function(jqXHR, status, error) {
             alert('Error al procesar la solicitud: '+error);
         }
@@ -90,13 +87,12 @@ function getFormJ(table) {
 
 function eliminar(tabla, id){
      $.ajax({
-        url : tabla+'/'+id+'/delete.html',
+        url : tabla+'/'+id+'/delete',
         type : 'GET',
         success: function(d){
             location.reload();
         },
         error : function(jqXHR, status, error) {
-            location.reload();
         }
         
     })
@@ -104,15 +100,13 @@ function eliminar(tabla, id){
 
 function guardar(tabla, objeto){
     return $.ajax({
-        url : tabla+'/save.html',
-        data : 'form='+objeto,
+        url : tabla+'/'+objeto+'/save',
         type : 'POST',
         dataType : 'json', 
         success: function(){
-           window.location = tabla+'/index.html';
+           window.location = tabla;
         },
         error : function(jqXHR, status, error) {
-            window.location = tabla+'/index.html';
         }
         
     })
@@ -121,7 +115,7 @@ function guardar(tabla, objeto){
 function getModalList(table, type){
     
     return $.ajax({
-        url : table+'/'+type+'/modalList.html',
+        url : table+'/'+type+'/modalList',
         type : 'POST',
         dataType : 'text', 
         error : function(jqXHR, status, error) {

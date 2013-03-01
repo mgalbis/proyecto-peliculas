@@ -37,14 +37,14 @@ public class DirectorController {
     DirectorDao dao;
  
     
-    @RequestMapping({"index.html"})
+    @RequestMapping({""})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
         ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Directores");
         return mod;
     }
     
-    @RequestMapping({"list.json"})
+    @RequestMapping({"all/json"})
     public ModelAndView directores(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView mod = new ModelAndView("listJson");
         
@@ -55,7 +55,7 @@ public class DirectorController {
         return mod;
     }
     
-    @RequestMapping(value = "{id}/single.json")
+    @RequestMapping(value = "{id}/json")
     public ModelAndView director(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Director director = dao.read(id);
            
@@ -64,12 +64,12 @@ public class DirectorController {
         return new ModelAndView("singleJson", "data", data);
     }
     
-    @RequestMapping(value = "form.json")
+    @RequestMapping(value = "form/json")
     public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
         return new ModelAndView("singleJson", "data",  DirectorJsonForm.toJson(new Director()));
     }
     
-    @RequestMapping(value = "{id}/form.html")
+    @RequestMapping(value = "{id}/form")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("id", id);
@@ -77,14 +77,14 @@ public class DirectorController {
         return model;
     }
     
-    @RequestMapping(value = "form.html")
+    @RequestMapping(value = "new/form")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("table", "Directores");
         return model;
     }
     
-    @RequestMapping(value = "{type}/modalList.html")
+    @RequestMapping(value = "{type}/modalList")
     public ModelAndView modalList(@PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("list");
         model.addObject("table", "directores");
@@ -92,7 +92,7 @@ public class DirectorController {
         return model;
     }
     
-    @RequestMapping(value = "{id}/view.html")
+    @RequestMapping(value = "{id}/view")
     public ModelAndView view(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "view.jsp");
         model.addObject("id", id);
@@ -100,10 +100,10 @@ public class DirectorController {
         return model;
     }
     
-    @RequestMapping({"save.html"})
-    public void save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    @RequestMapping({"{form}/save"})
+    public void save(@PathVariable String form, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
-        Director director = DirectorJsonData.fromJson(request.getParameter("form"));
+        Director director = DirectorJsonData.fromJson(form);
         
         if (director.getId() == null) {
             dao.create(director);
@@ -112,7 +112,7 @@ public class DirectorController {
         }
     }
     
-    @RequestMapping({"{id}/delete.html"})
+    @RequestMapping({"{id}/delete"})
     public void delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
             Director director = new Director();

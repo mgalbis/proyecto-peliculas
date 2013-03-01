@@ -38,14 +38,14 @@ public class GeneroController {
     GeneroDao dao;
  
     
-    @RequestMapping({"index.html"})
+    @RequestMapping({""})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
         ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Géneros");
         return mod;
     }
     
-    @RequestMapping({"list.json"})
+    @RequestMapping({"all/json"})
     public ModelAndView generos(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         
         List<Genero> generos = dao.readAll();
@@ -54,7 +54,7 @@ public class GeneroController {
         return new ModelAndView("listJson", "data", data);
     }
     
-    @RequestMapping(value = "{id}/single.json")
+    @RequestMapping(value = "{id}/json")
     public ModelAndView genero(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Genero genero = dao.read(id);
            
@@ -63,20 +63,20 @@ public class GeneroController {
         return new ModelAndView("singleJson", "data", data);
     }
     
-    @RequestMapping(value = "form.json")
+    @RequestMapping(value = "form/json")
     public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
         return new ModelAndView("singleJson", "data",  GeneroJsonForm.toJson(new Genero()));
     }
     
     
-    @RequestMapping(value = "form.html")
+    @RequestMapping(value = "new/form")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("table", "Géneros");
         return model;
     }
     
-    @RequestMapping(value = "{id}/form.html")
+    @RequestMapping(value = "{id}/form")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("id", id);
@@ -85,7 +85,7 @@ public class GeneroController {
     }
     
     
-    @RequestMapping(value = "{type}/modalList.html")
+    @RequestMapping(value = "{type}/modalList")
     public ModelAndView modalList(@PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("list");
         model.addObject("table", "generos");
@@ -93,7 +93,7 @@ public class GeneroController {
         return model;
     }
     
-    @RequestMapping(value = "{id}/view.html")
+    @RequestMapping(value = "{id}/view")
     public ModelAndView view(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "view.jsp");
         model.addObject("id", id);
@@ -101,10 +101,10 @@ public class GeneroController {
         return model;
     }
     
-    @RequestMapping({"save.html"})
-    public void save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    @RequestMapping({"{form}/save"})
+    public void save(@PathVariable String form, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         
-        Genero genero = GeneroJsonData.fromJson(request.getParameter("form"));
+        Genero genero = GeneroJsonData.fromJson(form);
         
         if(genero.getId() == null){
             dao.create(genero);
@@ -114,7 +114,7 @@ public class GeneroController {
         
     }
     
-    @RequestMapping({"{id}/delete.html"})
+    @RequestMapping({"{id}/delete"})
     public void delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
             Genero genero = new Genero();

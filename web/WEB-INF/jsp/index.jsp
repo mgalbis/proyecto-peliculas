@@ -38,28 +38,28 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Películas</a>
                             <ul class="dropdown-menu">
-                                <li><a href="peliculas/index.html">Ver películas</a></li>
+                                <li><a href="peliculas">Ver películas</a></li>
                                 <li><a href="peliculas/form.html">Nueva película</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actores</a>
                             <ul class="dropdown-menu">
-                                <li><a href="actores/index.html">Ver actores</a></li>
+                                <li><a href="actores">Ver actores</a></li>
                                 <li><a href="actores/form.html">Nuevo actor</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Directores</a>
                             <ul class="dropdown-menu">
-                                <li><a href="directores/index.html">Ver directores</a></li>
+                                <li><a href="directores">Ver directores</a></li>
                                 <li><a href="directores/form.html">Nuevo director</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Géneros</a>
                             <ul class="dropdown-menu">
-                                <li><a href="generos/index.html">Ver géneros</a></li>
+                                <li><a href="generos">Ver géneros</a></li>
                                 <li><a href="generos/form.html">Nuevo género</a></li>
                             </ul>
                         </li>

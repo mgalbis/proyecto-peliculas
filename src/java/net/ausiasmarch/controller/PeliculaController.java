@@ -34,14 +34,14 @@ public class PeliculaController {
     @Autowired
     PeliculaDao dao;
 
-    @RequestMapping({"index.html"})
+    @RequestMapping({""})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
         mod.addObject("table", "Películas");
         return mod;
     }
 
-    @RequestMapping({"list.json"})
+    @RequestMapping({"all/json"})
     public ModelAndView peliculas(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
         List<Pelicula> peliculas = dao.readAll();
@@ -50,7 +50,7 @@ public class PeliculaController {
         return new ModelAndView("listJson", "data", data);
     }
 
-    @RequestMapping(value = "{id}/single.json")
+    @RequestMapping(value = "{id}/json")
     public ModelAndView pelicula(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Pelicula pelicula = dao.read(id);
         String data = PeliculaJsonData.toJson(pelicula);
@@ -58,12 +58,12 @@ public class PeliculaController {
         return new ModelAndView("singleJson", "data", data);
     }
     
-    @RequestMapping(value = "form.json")
+    @RequestMapping(value = "form/json")
     public ModelAndView formJson(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
         return new ModelAndView("singleJson", "data",  PeliculaJsonForm.toJson(new Pelicula()));
     }
 
-    @RequestMapping(value = "{id}/form.html")
+    @RequestMapping(value = "{id}/form")
     public ModelAndView form(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("id", id);
@@ -71,14 +71,14 @@ public class PeliculaController {
         return model;
     }
     
-    @RequestMapping(value = "form.html")
+    @RequestMapping(value = "new/form")
     public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "form.jsp");
         model.addObject("table", "Películas");
         return model;
     }
     
-    @RequestMapping(value = "{type}/modalList.html")
+    @RequestMapping(value = "{type}/modalList")
     public ModelAndView modalList(@PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("list");
         model.addObject("table", "peliculas");
@@ -86,7 +86,7 @@ public class PeliculaController {
         return model;
     }
 
-    @RequestMapping(value = "{id}/view.html")
+    @RequestMapping(value = "{id}/view")
     public ModelAndView view(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         ModelAndView model = new ModelAndView("index", "contenido", "view.jsp");
         model.addObject("id", id);
@@ -94,10 +94,10 @@ public class PeliculaController {
         return model;
     }
 
-    @RequestMapping({"save.html"})
-    public void save(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+    @RequestMapping({"{form}/save"})
+    public void save(@PathVariable String form, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
-        Pelicula pelicula = PeliculaJsonData.fromJson(request.getParameter("form"));
+        Pelicula pelicula = PeliculaJsonData.fromJson(form);
         
         if (pelicula.getId() == null) {
             dao.create(pelicula);
@@ -106,7 +106,7 @@ public class PeliculaController {
         }
     }
 
-    @RequestMapping({"{id}/delete.html"})
+    @RequestMapping({"{id}/delete"})
     public void delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, HibernateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
             Pelicula pelicula = new Pelicula();
