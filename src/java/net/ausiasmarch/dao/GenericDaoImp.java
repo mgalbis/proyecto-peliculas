@@ -101,9 +101,7 @@ public abstract class GenericDaoImp<T extends Serializable> implements GenericDa
         List<T> lista = null;
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
-            lista = sesion.createQuery("from Pelicula").list();
-     
-            sesion.flush();
+            lista = sesion.createQuery("from ").list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
         } finally {

@@ -11,6 +11,7 @@ function getPage(tabla, limit, pagactual){
     return $.ajax({
         url : tabla+'/'+limit+'/'+pagactual+'/json',
         type : 'GET',
+        async: false,
         error : function(jqXHR, status, error) {
             alert('Error al procesar la solicitud: '+error);
         }
@@ -39,6 +40,7 @@ function getPages(table, limit) {
         url : table+'/pages/'+limit,
         type : 'GET',
         dataType : 'json',
+        async: false,
         error : function(jqXHR, status, error) {
             alert('Error al procesar la solicitud: '+error);
         }

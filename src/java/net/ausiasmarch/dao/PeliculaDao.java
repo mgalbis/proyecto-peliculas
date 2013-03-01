@@ -42,13 +42,13 @@ public class PeliculaDao extends GenericDaoImp<Pelicula> {
         try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             lista = sesion.createQuery("from Pelicula").list();
-            
+
             for (Pelicula p : lista) {
                 Hibernate.initialize(p.getActores());
                 Hibernate.initialize(p.getGenero());
                 Hibernate.initialize(p.getDirector());
             }
-            
+
             sesion.flush();
         } catch (HibernateException he) {
             throw new HibernateException("Error en readAll DAO", he);
@@ -57,7 +57,7 @@ public class PeliculaDao extends GenericDaoImp<Pelicula> {
         }
         return lista;
     }
-    
+
     @Override
     public List<Pelicula> getPage(int pageSize, int pageNumber) throws HibernateException {
         List<Pelicula> lista;
@@ -67,7 +67,7 @@ public class PeliculaDao extends GenericDaoImp<Pelicula> {
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
             lista = (List<Pelicula>) criteria.list();
-            
+
             for (Pelicula p : lista) {
                 Hibernate.initialize(p.getActores());
                 Hibernate.initialize(p.getGenero());
@@ -76,9 +76,10 @@ public class PeliculaDao extends GenericDaoImp<Pelicula> {
         } catch (HibernateException he) {
             throw new HibernateException("Error en getPage DAO", he);
         } finally {
-            sesion.close();
+            if(sesion.isOpen()){
+                sesion.close();
+            }
         }
         return lista;
     }
-
 }
