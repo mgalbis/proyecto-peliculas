@@ -4,20 +4,11 @@
  */
 package net.ausiasmarch.dao;
 
-import java.io.Serializable;
 import java.util.List;
-import javax.persistence.RollbackException;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.SystemException;
 import net.ausiasmarch.pojo.Actor;
 import net.ausiasmarch.pojo.HibernateUtil;
-import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Projections;
 
 /**
  *
