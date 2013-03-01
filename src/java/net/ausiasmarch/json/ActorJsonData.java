@@ -117,7 +117,7 @@ public class ActorJsonData implements JsonSerializer<Actor>, JsonDeserializer<Ac
 
                                 
                             }
-                            se.add(actor);
+                            se.add(pelicula);
                         }
 
                         actor.setPeliculas(se);
