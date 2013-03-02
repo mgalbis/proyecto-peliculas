@@ -82,8 +82,8 @@
                 }
             
                 //tras cargar la paginación le agregamos evento a 'a'
-                $('.pagination li:not(.active, .disabled) a').click(function(){ 
-                    pagina(limit, parseInt($(this).html())) 
+                $('.pagination li:not(.active) a, .pagination li:not(.disabled) a').click(function(){ 
+                    pagina(table, limit, parseInt($(this).html())) 
                 });
             }
             done--;

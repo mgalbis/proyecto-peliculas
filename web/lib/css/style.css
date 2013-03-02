@@ -113,6 +113,10 @@ textarea { resize:vertical }
     margin-left: 5px;
 }
 
+.pagination li:not(.active) a, .pagination li:not(.disabled) a{
+    cursor: pointer
+}
+
 ul button, .simple, .multiple { position: absolute; top: 0; margin-left: 2px; height: 30px; }
 .controls { position: relative }
 #search {
