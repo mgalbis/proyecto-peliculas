@@ -54,6 +54,25 @@ public class GeneroController {
         return new ModelAndView("listJson", "data", data);
     }
     
+    @RequestMapping({"{limit}/{page}/json"})
+    public ModelAndView getPage(@PathVariable Integer limit, @PathVariable Integer page, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        List<Genero> generos = dao.getPage(limit, page);
+        String data = GeneroJsonData.toJson(generos);
+
+        return new ModelAndView("listJson", "data", data);
+    }
+    
+    @RequestMapping({"pages/{limit}"})
+    public ModelAndView getPages(@PathVariable Integer limit, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        int pages = dao.getPages(limit);
+        
+        String data = "{\"pages\":"+pages+"}";
+
+        return new ModelAndView("singleJson", "data", data);
+    }
+    
     @RequestMapping(value = "{id}/json")
     public ModelAndView genero(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Genero genero = dao.read(id);

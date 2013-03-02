@@ -130,7 +130,13 @@ public abstract class GenericDaoImp<T extends Serializable> implements GenericDa
 
     @Override
     public int getPages(int pageSize) throws HibernateException {
-        return (int) Math.ceil(this.count() / pageSize) + 1;
+        double count = (double) this.count();
+        double limit = (double) pageSize;
+        
+//        System.out.println(count/limit);
+//        System.out.println(this.count()/pageSize);
+
+        return (int) Math.ceil(count/limit);
     }
 
     @Override
