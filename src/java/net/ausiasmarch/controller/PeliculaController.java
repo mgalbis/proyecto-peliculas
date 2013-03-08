@@ -73,9 +73,7 @@ public class PeliculaController {
         
         int pages = dao.getPages(limit, search);
         
-        String data = "{\"pages\":"+pages+"}";
-
-        return new ModelAndView("singleJson", "data", data);
+        return new ModelAndView("singleJson", "data", "{\"pages\":"+pages+"}");
     }
     
     /**

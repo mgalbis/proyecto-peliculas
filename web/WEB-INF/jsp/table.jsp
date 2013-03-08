@@ -1,9 +1,9 @@
 
 <h1><%=request.getAttribute("table")%></h1>
 
-<div class="form-inline" id="buscador">
-    <input type="text" class="input-medium" value="" /><button class="btn">Buscar</button>
-</div>
+<form class="form-inline" id="buscador">
+    <input type="text" class="input-medium" value="" /><button type="submit" class="btn">Buscar</button>
+</form>
 
 <div id="datos"></div>
 <div class="pie table pagination">
@@ -16,7 +16,8 @@
         pagina(table, 10, 1, search);
         
         //boton filtro
-        $('#buscador .btn').click(function(){
+        $('#buscador').submit(function(e){
+            e.preventDefault();
             search = $('#buscador input[type="text"]').val() == '' ? null : $('#buscador input[type="text"]').val();
             pagina(table, 10, 1, search);
         })
