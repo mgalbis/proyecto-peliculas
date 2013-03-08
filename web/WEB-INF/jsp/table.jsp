@@ -1,19 +1,30 @@
 
 <h1><%=request.getAttribute("table")%></h1>
+
+<div class="form-inline" id="buscador">
+    <input type="text" class="input-medium" value="" /><button class="btn">Buscar</button>
+</div>
+
 <div id="datos"></div>
 <div class="pie table pagination">
     <ul></ul>
 </div>
-<script>
+<script>  
     $(document).ready(function() {      
         var table = stripVowelAccent($('h1').text().toLowerCase());
-       
-        pagina(table, 10, 1);
+        var search = null;
+        pagina(table, 10, 1, search);
+        
+        //boton filtro
+        $('#buscador .btn').click(function(){
+            search = $('#buscador input[type="text"]').val() == '' ? null : $('#buscador input[type="text"]').val();
+            pagina(table, 10, 1, search);
+        })
     });
     
-    function pagina(table, limit, pagactual){
+    function pagina(table, limit, pagactual, search){
         done++;
-        $.when(getPage(table, limit, pagactual)).done(function(d){
+        $.when(getPage(table, limit, pagactual, search)).done(function(d){
                 
             $('#datos').Table({
                 data: d['list'],
@@ -36,7 +47,7 @@
         });
         
         done++;
-        $.when(getPages(table, limit)).done(function(data){
+        $.when(getPages(table, limit, search)).done(function(data){
 
             var pag = $('.pagination').find('ul');
             pag.empty();
@@ -83,7 +94,7 @@
             
                 //tras cargar la paginación le agregamos evento a 'a'
                 $('.pagination li:not(.active) a, .pagination li:not(.disabled) a').click(function(){ 
-                    pagina(table, limit, parseInt($(this).html())) 
+                    pagina(table, limit, parseInt($(this).html()), search) 
                 });
             }
             done--;

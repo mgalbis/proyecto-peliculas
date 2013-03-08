@@ -10,6 +10,9 @@ import net.ausiasmarch.pojo.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -53,13 +56,21 @@ public class GeneroDao extends GenericDaoImp<Genero> {
     }
 
     @Override
-    public List<Genero> getPage(int pageSize, int pageNumber) throws HibernateException {
+    public List<Genero> getPage(int pageSize, int pageNumber, String param) throws HibernateException {
         List<Genero> lista;
         sesion = HibernateUtil.getSessionFactory().openSession();
         try {
             Criteria criteria = sesion.createCriteria(Genero.class);
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
+            
+            if(param != null){
+                Criterion id = Restrictions.eq("id", param);
+                Criterion nombre = Restrictions.like("nombre", "%"+param+"%");
+                
+                criteria.add(nombre);
+            }
+            
             lista = (List<Genero>) criteria.list();
             
             for(Genero d : lista){

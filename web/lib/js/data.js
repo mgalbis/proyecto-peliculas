@@ -7,9 +7,9 @@
 /*
  * Devuelve un array con los registros de la página
  */
-function getPage(tabla, limit, pagactual){
+function getPage(tabla, limit, pagactual, search){
     return $.ajax({
-        url : tabla+'/'+limit+'/'+pagactual+'/json',
+        url : tabla+'/'+limit+'/'+pagactual+'/'+search+'/json',
         type : 'GET',
         async: false,
         error : function(jqXHR, status, error) {
@@ -35,9 +35,9 @@ function getPageId(table, limit, id){
 /*
  * Devuelve el número de páginas
  */
-function getPages(table, limit) {
+function getPages(table, limit, search) {
     return $.ajax({
-        url : table+'/pages/'+limit,
+        url : table+'/pages/'+limit+'/'+search,
         type : 'GET',
         dataType : 'json',
         async: false,

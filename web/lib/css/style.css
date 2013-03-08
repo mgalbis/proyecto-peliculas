@@ -117,6 +117,9 @@ textarea { resize:vertical }
     cursor: pointer
 }
 
+#buscador { float: right; margin-top: -45px }
+#buscador .btn { margin-left: 5px }
+
 ul button, .simple, .multiple { position: absolute; top: 0; margin-left: 2px; height: 30px; }
 .controls { position: relative }
 #search {
@@ -127,6 +130,8 @@ ul button, .simple, .multiple { position: absolute; top: 0; margin-left: 2px; he
 #search input[type="text"] {
     display: inline-block;
 }
+
+
 
 .form-signin {
     max-width: 300px;

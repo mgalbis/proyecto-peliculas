@@ -10,6 +10,9 @@ import net.ausiasmarch.pojo.Pelicula;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -59,15 +62,26 @@ public class PeliculaDao extends GenericDaoImp<Pelicula> {
     }
 
     @Override
-    public List<Pelicula> getPage(int pageSize, int pageNumber) throws HibernateException {
+    public List<Pelicula> getPage(int pageSize, int pageNumber, String param) throws HibernateException {
         List<Pelicula> lista;
         sesion = HibernateUtil.getSessionFactory().openSession();
         try {
             Criteria criteria = sesion.createCriteria(Pelicula.class);
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
+            
+            if(param != null){
+                Criterion id = Restrictions.eq("id", param);
+                Criterion titulo = Restrictions.like("titulo", "%"+param+"%");
+                Criterion VO = Restrictions.like("vo", "%"+param+"%");
+                
+                LogicalExpression expression = Restrictions.or(titulo, VO);
+                criteria.add(expression);
+            }
+            
             lista = (List<Pelicula>) criteria.list();
 
+            //inicializa las listas
             for (Pelicula p : lista) {
                 Hibernate.initialize(p.getActores());
                 Hibernate.initialize(p.getGenero());

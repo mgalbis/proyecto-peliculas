@@ -4,6 +4,7 @@
  */
 package net.ausiasmarch.dao;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import net.ausiasmarch.pojo.Actor;
 import net.ausiasmarch.pojo.HibernateUtil;
@@ -11,6 +12,9 @@ import net.ausiasmarch.pojo.Pelicula;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -54,13 +58,46 @@ public class ActorDao extends GenericDaoImp<Actor> {
     }
     
     @Override
-    public List<Actor> getPage(int pageSize, int pageNumber) throws HibernateException {
+    public int count(String param) throws HibernateException {
+        int cantidad;
+        
+        try {
+            sesion = HibernateUtil.getSessionFactory().openSession();
+            Criteria criteria = sesion.createCriteria(Actor.class);
+            
+            if(param != null){
+                Criterion id = Restrictions.eq("id", param);
+                Criterion nombre = Restrictions.like("nombre", "%"+param+"%");
+                
+                criteria.add(nombre);
+            }
+            
+            criteria.setProjection(Projections.rowCount());
+            cantidad = (Integer) criteria.list().get(0);
+        } catch (HibernateException he) {
+            throw new HibernateException("Error en countAll DAO", he);
+        } finally {
+            sesion.close();
+        }
+        return cantidad;
+    }
+    
+    @Override
+    public List<Actor> getPage(int pageSize, int pageNumber, String param) throws HibernateException {
         List<Actor> lista;
         sesion = HibernateUtil.getSessionFactory().openSession();
         try {
             Criteria criteria = sesion.createCriteria(Actor.class);
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
+            
+            if(param != null){
+                Criterion id = Restrictions.eq("id", param);
+                Criterion nombre = Restrictions.like("nombre", "%"+param+"%");
+                
+                criteria.add(nombre);
+            }
+            
             lista = (List<Actor>) criteria.list();
             
             for(Actor d : lista){

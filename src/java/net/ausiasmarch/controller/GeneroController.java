@@ -37,7 +37,6 @@ public class GeneroController {
     @Autowired
     GeneroDao dao;
  
-    
     @RequestMapping({""})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {      
         ModelAndView mod = new ModelAndView("index", "contenido", "table.jsp");
@@ -54,23 +53,22 @@ public class GeneroController {
         return new ModelAndView("listJson", "data", data);
     }
     
-    @RequestMapping({"{limit}/{page}/json"})
-    public ModelAndView getPage(@PathVariable Integer limit, @PathVariable Integer page, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-
-        List<Genero> generos = dao.getPage(limit, page);
+    @RequestMapping({"{limit}/{page}/{search}/json"})
+    public ModelAndView getPage(@PathVariable Integer limit, @PathVariable Integer page, @PathVariable String search, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        search = search.equals("null") ? null : search;
+        
+        List<Genero> generos = dao.getPage(limit, page, search);
         String data = GeneroJsonData.toJson(generos);
 
         return new ModelAndView("listJson", "data", data);
     }
     
-    @RequestMapping({"pages/{limit}"})
-    public ModelAndView getPages(@PathVariable Integer limit, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-
-        int pages = dao.getPages(limit);
+    @RequestMapping({"pages/{limit}/{search}"})
+    public ModelAndView getPages(@PathVariable Integer limit, @PathVariable String search, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        search = search.equals("null") ? null : search;
         
-        String data = "{\"pages\":"+pages+"}";
-
-        return new ModelAndView("singleJson", "data", data);
+        int pages = dao.getPages(limit, search);
+        return new ModelAndView("singleJson", "data", "{\"pages\":"+pages+"}");
     }
     
     @RequestMapping(value = "{id}/json")

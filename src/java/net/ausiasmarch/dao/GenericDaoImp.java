@@ -17,7 +17,9 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -111,7 +113,7 @@ public abstract class GenericDaoImp<T extends Serializable> implements GenericDa
     }
 
     @Override
-    public int count() throws HibernateException {
+    public int count(String param) throws HibernateException {
         int cantidad;
         
         Class<T> tipo = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -129,18 +131,12 @@ public abstract class GenericDaoImp<T extends Serializable> implements GenericDa
     }
 
     @Override
-    public int getPages(int pageSize) throws HibernateException {
-        double count = (double) this.count();
-        double limit = (double) pageSize;
-        
-//        System.out.println(count/limit);
-//        System.out.println(this.count()/pageSize);
-
-        return (int) Math.ceil(count/limit);
+    public int getPages(int pageSize, String param) throws HibernateException {
+        return (int) Math.ceil((double) this.count(param)/(double) pageSize);
     }
 
     @Override
-    public List<T> getPage(int pageSize, int pageNumber) throws HibernateException {
+    public List<T> getPage(int pageSize, int pageNumber, String param) throws HibernateException {
         List<T> clientes;
         sesion = HibernateUtil.getSessionFactory().openSession();
         
@@ -149,6 +145,8 @@ public abstract class GenericDaoImp<T extends Serializable> implements GenericDa
             Criteria criteria = sesion.createCriteria(tipo);
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
+
+            
             clientes = (List<T>) criteria.list();
         } catch (HibernateException he) {
             throw new HibernateException("Error en getPage DAO", he);

@@ -27,9 +27,9 @@ public interface GenericDao<T> {
     
     public List<T> readAll() throws HibernateException;
     
-    public int count() throws HibernateException;
+    public int count(String param) throws HibernateException;
     
-    public int getPages(int pageSize) throws HibernateException;
+    public int getPages(int pageSize, String param) throws HibernateException;
     
-    public List<T> getPage(int pageSize, int pageNumber) throws HibernateException;
+    public List<T> getPage(int pageSize, int pageNumber, String param) throws HibernateException;
 }

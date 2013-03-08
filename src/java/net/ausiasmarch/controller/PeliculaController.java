@@ -57,19 +57,21 @@ public class PeliculaController {
         return new ModelAndView("listJson", "data", data);
     }
 
-    @RequestMapping({"{limit}/{page}/json"})
-    public ModelAndView getPage(@PathVariable Integer limit, @PathVariable Integer page, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-
-        List<Pelicula> peliculas = dao.getPage(limit, page);
+    @RequestMapping({"{limit}/{page}/{search}/json"})
+    public ModelAndView getPage(@PathVariable Integer limit, @PathVariable Integer page, @PathVariable String search, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        search = search.equals("null") ? null : search;
+        
+        List<Pelicula> peliculas = dao.getPage(limit, page, search);
         String data = PeliculaJsonData.toJson(peliculas);
 
         return new ModelAndView("listJson", "data", data);
     }
     
-    @RequestMapping({"pages/{limit}"})
-    public ModelAndView getPages(@PathVariable Integer limit, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-
-        int pages = dao.getPages(limit);
+    @RequestMapping({"pages/{limit}/{search}"})
+    public ModelAndView getPages(@PathVariable Integer limit, @PathVariable String search, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        search = search.equals("null") ? null : search;
+        
+        int pages = dao.getPages(limit, search);
         
         String data = "{\"pages\":"+pages+"}";
 
