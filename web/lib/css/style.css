@@ -17,6 +17,7 @@ p { text-align: justify }
 
 #contenido {
     width: 85%;
+    min-height: 400px;
     margin: 25px auto 45px auto;
     position: relative;
 }
@@ -86,6 +87,7 @@ ul.input-xlarge li:hover{
 }
 
 .modal ul li { position: relative; border-bottom: 1px solid #ccc; margin-right: 50px }
+.modal ul li:last-child { border-bottom: 0 }
 
 .modal ul i{
     position: absolute;
@@ -113,8 +115,18 @@ textarea { resize:vertical }
     margin-left: 5px;
 }
 
+.pagination {
+    margin-left: 35px;
+}
 .pagination li:not(.active) a, .pagination li:not(.disabled) a{
-    cursor: pointer
+    cursor: pointer;
+}
+
+#datos { min-height: 460px }
+
+#list { 
+    min-height: 210px;
+    margin-left: 20px;
 }
 
 #buscador { float: right; margin-top: -45px }
@@ -186,6 +198,7 @@ form input {
 }
 
 /* TABLES */
+
 
 th.sorted a, th.sortable a {
     display: block;

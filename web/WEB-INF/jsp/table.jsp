@@ -6,7 +6,7 @@
 </form>
 
 <div id="datos"></div>
-<div class="pie table pagination">
+<div class="pie pagination">
     <ul></ul>
 </div>
 <script>  

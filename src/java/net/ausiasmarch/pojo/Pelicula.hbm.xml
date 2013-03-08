@@ -47,7 +47,7 @@
         <comment>Fecha de estreno</comment>
       </column>
     </property>
-    <set inverse="false" name="actores" table="interpreta">
+    <set inverse="true" name="actores" table="interpreta">
       <key>
         <column name="id_pelicula" not-null="true">
           <comment>Película</comment>
