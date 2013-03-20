@@ -1,8 +1,6 @@
 package net.ausiasmarch.pojo;
 // Generated 14-feb-2013 15:47:47 by Hibernate Tools 3.2.1.GA
 
-
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,19 +47,6 @@ public class Director  implements java.io.Serializable, GenericPojo {
     public void setPeliculas(Set peliculas) {
         this.peliculas = peliculas;
     }
-
-    @Override
-    public String getComment(String column) {
-        HashMap h = new HashMap();
-        h.put("id", "Id");
-        h.put("nombre", "Nombre");
-        h.put("peliculas", "Películas");
-
-        return (String) h.get(column);
-    }
-
-
-
 
 }
 
