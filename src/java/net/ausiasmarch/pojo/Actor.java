@@ -49,15 +49,6 @@ public class Actor  implements java.io.Serializable, GenericPojo {
     public void setPeliculas(Set peliculas) {
         this.peliculas = peliculas;
     }
-    
-    public String getComment(String s){
-        HashMap h = new HashMap();
-        h.put("id", "Id");
-        h.put("nombre", "Nombre");
-        h.put("peliculas", "Películas");
-
-        return (String) h.get(s);
-    }
 
 }
 
