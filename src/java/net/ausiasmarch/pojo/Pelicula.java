@@ -3,7 +3,6 @@ package net.ausiasmarch.pojo;
 
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +34,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
         this.duracion = duracion;
         this.fecha = fecha;
     }
+    
     public Pelicula(Director director, Genero genero, String titulo, String vo, String descripcion, Integer calificacion, int duracion, Date fecha, Set actors) {
        this.director = director;
        this.genero = genero;
@@ -56,6 +56,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setId(Integer id) {
         this.id = id;
     }
+    
     public Director getDirector() {
         return this.director;
     }
@@ -63,6 +64,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setDirector(Director director) {
         this.director = director;
     }
+    
     public Genero getGenero() {
         return this.genero;
     }
@@ -70,6 +72,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setGenero(Genero genero) {
         this.genero = genero;
     }
+    
     public String getTitulo() {
         return this.titulo;
     }
@@ -84,6 +87,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setVo(String vo) {
         this.vo = vo;
     }
+    
     public String getDescripcion() {
         return this.descripcion;
     }
@@ -91,6 +95,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
     public Integer getCalificacion() {
         return this.calificacion;
     }
@@ -98,6 +103,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setCalificacion(Integer calificacion) {
         this.calificacion = calificacion;
     }
+    
     public int getDuracion() {
         return this.duracion;
     }
@@ -105,6 +111,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setDuracion(int duracion) {
         this.duracion = duracion;
     }
+    
     public Date getFecha() {
         return this.fecha;
     }
@@ -112,6 +119,7 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+    
     public Set getActores() {
         return this.actores;
     }
@@ -119,24 +127,6 @@ public class Pelicula  implements java.io.Serializable, GenericPojo {
     public void setActores(Set actores) {
         this.actores = actores;
     }
-
-    @Override
-    public String getComment(String column) {
-        HashMap h = new HashMap();
-        h.put("id", "Id");
-        h.put("titulo", "Título");
-        h.put("vo", "VO");
-        h.put("descripcion","Descripción");
-        h.put("calificacion","Calificación");
-        h.put("duracion","Duración");
-        h.put("fecha","Fecha");
-        h.put("actors","Actores");
-
-        return (String) h.get(column);
-    }
-
-
-
 
 }
 
