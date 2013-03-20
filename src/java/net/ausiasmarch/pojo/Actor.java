@@ -2,7 +2,6 @@ package net.ausiasmarch.pojo;
 // Generated 14-feb-2013 15:47:47 by Hibernate Tools 3.2.1.GA
 
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
