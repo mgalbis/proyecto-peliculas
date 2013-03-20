@@ -11,5 +11,4 @@ package net.ausiasmarch.pojo;
 public interface GenericPojo<Object> {
     public Integer getId();
     public void setId(Integer id);
-    public String getComment(String column);
 }
