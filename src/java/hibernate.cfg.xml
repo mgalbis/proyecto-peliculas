@@ -16,6 +16,5 @@
     <mapping resource="net/ausiasmarch/pojo/Usuario.hbm.xml"/>
     <mapping resource="net/ausiasmarch/pojo/Director.hbm.xml"/>
     <mapping resource="net/ausiasmarch/pojo/Pelicula.hbm.xml"/>
-    <mapping resource="net/ausiasmarch/pojo/Interpreta.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
