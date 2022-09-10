@@ -1,4 +1,4 @@
-ProyectoPeliculas
+Proyecto Peliculas
 =================
 
 Proyecto de la 2ª Evaluación de 2º DAW. CIPFP Ausiàs March. 
